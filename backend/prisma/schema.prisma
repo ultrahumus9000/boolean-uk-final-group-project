@@ -70,6 +70,7 @@ model House {
   hostId   Int
   price    Int
   review   Review[]
+  pictures Picture[]
 }
 
 model Review {
@@ -93,4 +94,11 @@ model Reservation {
   id        Int     @id @default(autoincrement())
   booking   Booking @relation(fields: [bookingId], references: [id])
   bookingId Int
+}
+
+model Picture {
+  id      Int   @id @default(autoincrement())
+  house   House @relation(fields: [houseId], references: [id])
+  houseId Int
+  // content String
 }
