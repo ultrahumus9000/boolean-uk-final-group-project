@@ -65,6 +65,7 @@ model House {
   price       Int
   reviews     Review[]
   pictures    Picture[]
+  bookings    Booking[]
 }
 
 model Review {
@@ -83,6 +84,8 @@ model Booking {
   guestId      Int
   start        DateTime     @db.Date
   end          DateTime     @db.Date
+  house        House        @relation(fields: [houseId], references: [id])
+  houseId      Int
 }
 
 model Picture {
@@ -95,7 +98,6 @@ model Picture {
 
 //1 fetch all houses include host avatar and username, review with guest avatar and guest usename
 //houses={everything in the house except host id, all reviews wiyh each guest avatar and guest username}[]
-
 // after sign in
 //2 auth route to authenticate who the user is
 //or create new user
@@ -108,9 +110,9 @@ model Picture {
 //9 add booking route for guest
 //10 create house list for host
 //11 cancel booking route for guest
+//17 cancel booking route for host
 //12 edit house info for host
 //13 cancel listing for host
 //14 edit infomation for host
 //15 edit infomation for guest
-
 //16 add review route for user
