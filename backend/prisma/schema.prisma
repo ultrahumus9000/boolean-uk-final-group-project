@@ -19,86 +19,76 @@ model User {
   firstName    String
   lastName     String
   email        String        @unique
-  basicRole    Role?         @default(Guest)
-  advancedRole Role?         @default(Host)
+  guestRole    String?       @default("guest")
+  hostRole     String?       @default("host")
   avatar       String
-  guest        GuestProfile?
-  host         HostProfile?
-}
-
-enum Role {
-  Guest
-  Host
+  guestProfile GuestProfile?
+  hostProfile  HostProfile?
 }
 
 model GuestProfile {
-  id       Int        @id @default(autoincrement())
-  user     User       @relation(fields: [userId], references: [id])
-  userId   Int
-  bio      String?
-  wishlist WishList[]
-  review   Review[]
-  Booking  Booking[]
+  id        Int        @id @default(autoincrement())
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  bio       String?
+  wishlists WishList[]
+  reviews   Review[]
+  bookings  Booking[]
 }
 
 model HostProfile {
   id     Int     @id @default(autoincrement())
-  user   User    @relation(fields: [userId], references: [id])
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
   bio    String?
-
-  house House[]
+  houses House[]
 }
 
 model WishList {
-  id      Int          @id @default(autoincrement())
-  guest   GuestProfile @relation(fields: [guestId], references: [id])
-  guestId Int
-  house   House        @relation(fields: [houseId], references: [id])
-  houseId Int
+  id           Int          @id @default(autoincrement())
+  guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  guestId      Int
+  house        House        @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houseId      Int
 }
 
 model House {
-  id       Int         @id @default(autoincrement())
-  name     String
-  bedrooms Int
-  guests   Int
-  facility String[]
-  city     String
-  wishList WishList[]
-  host     HostProfile @relation(fields: [hostId], references: [id])
-  hostId   Int
-  price    Int
-  review   Review[]
-  pictures Picture[]
+  id          Int         @id @default(autoincrement())
+  name        String
+  bedrooms    Int
+  maxGuests   Int
+  facility    String[]
+  city        String
+  wishList    WishList[]
+  hostProfile HostProfile @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  hostId      Int
+  price       Int
+  reviews     Review[]
+  pictures    Picture[]
 }
 
 model Review {
-  id      Int          @id @default(autoincrement())
-  content String
-  house   House        @relation(fields: [houseId], references: [id])
-  houseId Int
-  guest   GuestProfile @relation(fields: [guestId], references: [id])
-  guestId Int
+  id           Int          @id @default(autoincrement())
+  content      String
+  house        House        @relation(fields: [houseId], references: [id], onDelete: Cascade)
+  houseId      Int
+  guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  guestId      Int
 }
 
 model Booking {
-  id          Int           @id @default(autoincrement())
-  total       Int           @default(0)
-  guest       GuestProfile  @relation(fields: [guestId], references: [id])
-  guestId     Int
-  reservation Reservation[]
-}
-
-model Reservation {
-  id        Int     @id @default(autoincrement())
-  booking   Booking @relation(fields: [bookingId], references: [id])
-  bookingId Int
+  id           Int          @id @default(autoincrement())
+  total        Int          @default(0)
+  guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  guestId      Int
+  start        DateTime     @db.Date
+  end          DateTime     @db.Date
 }
 
 model Picture {
-  id      Int   @id @default(autoincrement())
-  house   House @relation(fields: [houseId], references: [id])
+  id      Int    @id @default(autoincrement())
+  house   House  @relation(fields: [houseId], references: [id], onDelete: Cascade)
   houseId Int
-  // content String
+  src     String
+  alt     String
 }
