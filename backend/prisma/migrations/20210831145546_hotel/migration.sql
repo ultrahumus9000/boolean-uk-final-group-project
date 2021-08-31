@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "Role" AS ENUM ('Guest', 'Host');
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
@@ -9,8 +6,8 @@ CREATE TABLE "User" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "basicRole" "Role" DEFAULT E'Guest',
-    "advancedRole" "Role" DEFAULT E'Host',
+    "guestRole" TEXT DEFAULT E'guest',
+    "hostRole" TEXT DEFAULT E'host',
     "avatar" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
@@ -48,7 +45,7 @@ CREATE TABLE "House" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "bedrooms" INTEGER NOT NULL,
-    "guests" INTEGER NOT NULL,
+    "maxGuests" INTEGER NOT NULL,
     "facility" TEXT[],
     "city" TEXT NOT NULL,
     "hostId" INTEGER NOT NULL,
@@ -72,14 +69,18 @@ CREATE TABLE "Booking" (
     "id" SERIAL NOT NULL,
     "total" INTEGER NOT NULL DEFAULT 0,
     "guestId" INTEGER NOT NULL,
+    "start" DATE NOT NULL,
+    "end" DATE NOT NULL,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Reservation" (
+CREATE TABLE "Picture" (
     "id" SERIAL NOT NULL,
-    "bookingId" INTEGER NOT NULL,
+    "houseId" INTEGER NOT NULL,
+    "src" TEXT NOT NULL,
+    "alt" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -97,28 +98,28 @@ CREATE UNIQUE INDEX "GuestProfile_userId_unique" ON "GuestProfile"("userId");
 CREATE UNIQUE INDEX "HostProfile_userId_unique" ON "HostProfile"("userId");
 
 -- AddForeignKey
-ALTER TABLE "GuestProfile" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "GuestProfile" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "HostProfile" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "HostProfile" ADD FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WishList" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "WishList" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WishList" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "WishList" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "House" ADD FOREIGN KEY ("hostId") REFERENCES "HostProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "House" ADD FOREIGN KEY ("hostId") REFERENCES "HostProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Review" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Review" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Reservation" ADD FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Picture" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE CASCADE ON UPDATE CASCADE;

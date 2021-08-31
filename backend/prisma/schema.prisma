@@ -92,3 +92,25 @@ model Picture {
   src     String
   alt     String
 }
+
+//1 fetch all houses include host avatar and username, review with guest avatar and guest usename
+//houses={everything in the house except host id, all reviews wiyh each guest avatar and guest username}[]
+
+// after sign in
+//2 auth route to authenticate who the user is
+//or create new user
+//3 create new user route
+//4 search route could be searching address/date/guests/bedrooms
+//5 check guest information (guest profile page)
+//6 check host information (host profile page)
+//7 guest dash board fetch all bookings
+//8 host dash board fetch all bookings
+//9 add booking route for guest
+//10 create house list for host
+//11 cancel booking route for guest
+//12 edit house info for host
+//13 cancel listing for host
+//14 edit infomation for host
+//15 edit infomation for guest
+
+//16 add review route for user
