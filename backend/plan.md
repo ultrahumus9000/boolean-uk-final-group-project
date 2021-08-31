@@ -70,50 +70,76 @@ slider from library
 - preview view
 - edit button toggles to edit view with delete button
 
-STRETCHES
+### STRETCHES
 
-### (wishlist goal) a guest can see all his wishlist pages
+- (wishlist goal) a guest can see all his wishlist pages
+- testing
+- approve booking
+- - see house on map
 
-### testing
+--------------------------------------------------------------------
 
-### approve booking
+###### USER STORIES ######
 
-### A guest should be able to:
+# - Anyone can:
+### Nav bar:
+- Create guest account
+- Create Host account
+- view all houses
+- search houses by location
+- search by number of rooms
+- search by number of guests
+- search by date availability
+### Home page:
+- view house listings
+- see availability but directed to log in if attempt made to submit
+- see price per night
 
-log in as a guest
-log in as a host
-Create guest profile
 
-view all houses
-search houses by location
-search by number of rooms/guests
-search by date availability
-(search by type of house)
+# -  A guest can:
+### Nav bar:
+- log in as a guest
+- log in as a host
+- Create guest account
+- Create Host account
+- Switch to Host view/functionality 
 
-click on house listing page to see all info on house
-house listing should have date/guest form
-book house for certain date
-click on host to see host profile, see more info on host
-add house to wishlist
-view reviews of other guests
-see house on map
+### Home page:
+- view all houses
+- search houses by location
+- search by number of rooms/guests
+- search by date availability
+- click on house card
 
-have and view own profile page
-profile shows all past/future bookings
-ability to add review to past bookings
-ability to cancel/change booking
+### House Listing Page:
+- click on house listing page to see all info on house
+- pick dates from calendar
+- see which dates are unavailable on that house
+- click on host to see host profile, see more info on host
+- view reviews of other guests
+- see price per night
 
-send email to host
+### Guest Dashboard Page:
+- view own profile page
+- edit own profile page
+- see all past/future bookings
+- add review to past bookings
+- cancel/change booking
+- send email to host on booking
 
-### A host should be able to:
+# - A host can:
+### Nav bar:
+- log in as a guest
+- log in as a host
+- Create guest account
+- Create Host account
+- Switch to Guest view/functionality 
 
-log in as a guest
-log in as a host
-create host profile
-create listing
-preview listing, edit, remove.
-see all bookings (calendar)
-(cancel booking)
-see all own listings
-email guest
-(approve booking)
+### Host Dashboard Page:
+- see a Host dashboard
+- create new listing. (Photos, bio, price, location, beds, guests)
+- preview listing (same page as normal house listing), see edit/remove buttons.
+- see all bookings (calendar view?)
+- cancel a booking
+- see all own listings
+- email guest on booking
