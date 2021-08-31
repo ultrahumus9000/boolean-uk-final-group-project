@@ -6,8 +6,8 @@ CREATE TABLE "User" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "guestRole" TEXT DEFAULT E'guest',
-    "hostRole" TEXT DEFAULT E'host',
+    "guestRole" TEXT,
+    "hostRole" TEXT,
     "avatar" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
@@ -71,6 +71,7 @@ CREATE TABLE "Booking" (
     "guestId" INTEGER NOT NULL,
     "start" DATE NOT NULL,
     "end" DATE NOT NULL,
+    "houseId" INTEGER NOT NULL,
 
     PRIMARY KEY ("id")
 );
@@ -120,6 +121,9 @@ ALTER TABLE "Review" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id")
 
 -- AddForeignKey
 ALTER TABLE "Booking" ADD FOREIGN KEY ("guestId") REFERENCES "GuestProfile"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Booking" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Picture" ADD FOREIGN KEY ("houseId") REFERENCES "House"("id") ON DELETE CASCADE ON UPDATE CASCADE;

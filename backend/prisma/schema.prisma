@@ -19,8 +19,8 @@ model User {
   firstName    String
   lastName     String
   email        String        @unique
-  guestRole    String?       @default("guest")
-  hostRole     String?       @default("host")
+  guestRole    String?
+  hostRole     String?
   avatar       String
   guestProfile GuestProfile?
   hostProfile  HostProfile?
