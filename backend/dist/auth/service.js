@@ -17,13 +17,11 @@ const bcrypt_1 = require("bcrypt");
 const { user } = database_1.default;
 function findUserWithValidation(loginUser) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("loginUser", loginUser);
         const foundUser = yield user.findUnique({
             where: {
                 username: loginUser.username,
             },
         });
-        console.log("foundUser", foundUser);
         if (!foundUser) {
             if (!foundUser)
                 throw new Error("Username incorrect");

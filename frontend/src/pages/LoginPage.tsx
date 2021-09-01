@@ -10,10 +10,7 @@ export default function LoginPage() {
   const currentUser = useStore((store) => store.currentUser);
   const setCurrentUser = useStore((store) => store.setCurrentUser);
 
-  console.log(currentUser);
-
   function loginUser(userCreds) {
-    console.log(userCreds);
     fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
@@ -40,7 +37,6 @@ export default function LoginPage() {
     const loginData = {
       username: event.target.username.value,
       password: event.target.password.value,
-      role: event.target.role.value,
     };
 
     loginUser(loginData);
@@ -53,15 +49,6 @@ export default function LoginPage() {
         <form className="login-form" onSubmit={handleSubmit}>
           <input name="username" type="text" placeholder="username"></input>
           <input name="password" type="text" placeholder="password"></input>
-
-          <label htmlFor="role">
-            Host
-            <input type="radio" name="role" value="host"></input>
-          </label>
-          <label htmlFor="role">
-            Guest
-            <input type="radio" name="role" value="guest"></input>
-          </label>
           <button type="submit"> Submit</button>
           <p>
             {" "}

@@ -24,15 +24,15 @@ function login(req, res) {
                 id: loginUser.id,
                 username: loginUser.username,
             });
-            console.log("created token", token);
             res.cookie("token", token, { httpOnly: true });
+            const loggedRole = loginUser.guestRole ? "guest" : "host";
             const loggedUser = {
                 username: loginUser.username,
                 firstName: loginUser.firstName,
                 lastName: loginUser.lastName,
                 email: loginUser.email,
                 avatar: loginUser.avatar,
-                role: userCredtial.role,
+                role: loggedRole,
             };
             res.json(loggedUser);
         }
