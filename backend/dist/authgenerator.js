@@ -13,6 +13,7 @@ function createToken(payload) {
 }
 exports.createToken = createToken;
 function validateToken(token) {
+    console.log(jsonwebtoken_1.default.verify(token, JWT_SECRET));
     return jsonwebtoken_1.default.verify(token, JWT_SECRET);
 }
 exports.validateToken = validateToken;

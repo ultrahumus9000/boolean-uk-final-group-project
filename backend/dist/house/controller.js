@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllHouses = void 0;
+exports.deleteHouseById = exports.getAllHouses = void 0;
 const database_1 = __importDefault(require("../database"));
 const { house } = database_1.default;
 function getAllHouses(req, res) {
@@ -79,16 +79,20 @@ function getAllHouses(req, res) {
     });
 }
 exports.getAllHouses = getAllHouses;
-//   id          Int         @id @default(autoincrement())
-//   name        String
-//   bedrooms    Int
-//   maxGuests   Int
-//   facility    String[]
-//   city        String
-//   wishList    WishList[]
-//   hostProfile HostProfile @relation(fields: [hostId], references: [id], onDelete: Cascade)
-//   hostId      Int
-//   price       Int
-//   reviews     Review[]
-//   pictures    Picture[]
-//   bookings    Booking[]
+function deleteHouseById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const houseId = Number(req.params.id);
+        try {
+            yield house.delete({
+                where: {
+                    id: houseId,
+                },
+            });
+            res.json("this house of listing is deleted ");
+        }
+        catch (error) {
+            res.json(error);
+        }
+    });
+}
+exports.deleteHouseById = deleteHouseById;

@@ -8,7 +8,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-function name(req, res) {
-    return __awaiter(this, void 0, void 0, function* () { });
+const database_1 = __importDefault(require("../database"));
+const { review } = database_1.default;
+function createNewReview(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        //req.body only need content and houseId
+        const newReview = req.body;
+        try {
+            const newReviewResult = yield review.create({
+                data: {
+                    content: newReview.content,
+                    houseId: newReview.houseId,
+                    guestId: id,
+                },
+            });
+            res.json(newReviewResult);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    });
 }
+exports.default = createNewReview;
