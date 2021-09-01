@@ -16,7 +16,14 @@ async function login(req: Request, res: Response) {
 
     res.cookie("token", token, { httpOnly: true });
 
-    res.json(loginUser.username);
+    const loggedUser = {
+      username: loginUser.username,
+      firstName: loginUser.firstName,
+      lastName: loginUser.lastName,
+      email: loginUser.email,
+      avatar: loginUser.avatar,
+    };
+    res.json(loggedUser);
   } catch (error) {
     res.status(401).json(error);
   }
