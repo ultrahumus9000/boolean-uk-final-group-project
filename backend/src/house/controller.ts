@@ -73,17 +73,18 @@ async function getAllHouses(req: Request, res: Response) {
   }
 }
 
-export { getAllHouses };
-//   id          Int         @id @default(autoincrement())
-//   name        String
-//   bedrooms    Int
-//   maxGuests   Int
-//   facility    String[]
-//   city        String
-//   wishList    WishList[]
-//   hostProfile HostProfile @relation(fields: [hostId], references: [id], onDelete: Cascade)
-//   hostId      Int
-//   price       Int
-//   reviews     Review[]
-//   pictures    Picture[]
-//   bookings    Booking[]
+async function deleteHouseById(req: Request, res: Response) {
+  const houseId = Number(req.params.id);
+  try {
+    await house.delete({
+      where: {
+        id: houseId,
+      },
+    });
+    res.json("this house of listing is deleted ");
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+export { getAllHouses, deleteHouseById };

@@ -5,7 +5,11 @@ import { JwtPayload } from "jsonwebtoken";
 declare global {
   namespace Express {
     interface Request {
-      currentUser: string | JwtPayload;
+      currentUser:
+        | { id: number; username: string }
+        | JwtPayload
+        | undefined
+        | string;
     }
   }
 }

@@ -10,6 +10,7 @@ function createToken(payload: Jwt.JwtPayload) {
 }
 
 function validateToken(token: string) {
+  console.log(Jwt.verify(token, JWT_SECRET));
   return Jwt.verify(token, JWT_SECRET);
 }
 
