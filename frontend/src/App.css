@@ -15,18 +15,21 @@ a:hover {
 
 h1 {
   font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 h2 {
   font-size: 1.4rem;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 h3 {
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+}
+.h3span {
+  font-size: 1rem;
+  font-weight: 100;
 }
 
 p {
@@ -66,7 +69,6 @@ p {
   display: grid;
   grid-template-rows: 50px 1fr;
   place-content: bottom;
-  text-align: center;
   padding: 20px;
   background-color: rgb(250, 250, 250);
   height: 636px;
@@ -76,6 +78,7 @@ p {
 
 .nav {
   border: 1px solid var(--body-text);
+  text-align: center;
 }
 
 .main {
@@ -98,8 +101,12 @@ p {
   height: 150px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 5px;
+  padding: 10px;
 }
 .house-card:active {
+  background-color: var(--grey);
+}
+.house-card:hover {
   border: 1px solid var(--orange-hl);
 }
 
