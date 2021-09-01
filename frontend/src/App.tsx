@@ -1,17 +1,14 @@
-import React, { useState } from "react"
-import { Route, Switch } from "react-router-dom"
-import "./App.css"
-import Nav from "./components/Nav"
-import HomePage from "./pages/HomePage"
-import GuestDashPage from "./pages/GuestDashPage"
-import HostDashPage from "./pages/HostDashPage"
-import HouseListingPage from "./pages/HouseListingPage"
-import WrongTurn from "./pages/WrongTurn"
-
-// import flatpickr from "flatpickr";
-{
-  /* <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css"> */
-}
+import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import "./App.css";
+import Nav from "./components/Nav";
+import HomePage from "./pages/HomePage";
+import GuestDashPage from "./pages/GuestDashPage";
+import HostDashPage from "./pages/HostDashPage";
+import HouseListingPage from "./pages/HouseListingPage";
+import WrongTurn from "./pages/WrongTurn";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/SignUp";
 
 function App() {
   return (
@@ -22,6 +19,12 @@ function App() {
           <Switch>
             <Route path="/" exact>
               <HomePage />
+            </Route>
+            <Route path="/login" exact>
+              <LoginPage />
+            </Route>
+            <Route path="/signup" exact>
+              <RegisterPage />
             </Route>
             <Route path="/:id" exact>
               <HouseListingPage />
@@ -39,7 +42,7 @@ function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

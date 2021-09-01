@@ -20,10 +20,10 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // house routes has to be put before token check so that everyone can view houses
 app.use("/houses", houseRouter);
 
-app.use(tokenMiddleware);
-
 //check token
 app.use(authRouter);
+
+app.use(tokenMiddleware);
 
 // general routes
 app.use("/users", userRouter);

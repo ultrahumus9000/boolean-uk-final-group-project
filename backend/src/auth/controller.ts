@@ -14,6 +14,8 @@ async function login(req: Request, res: Response) {
       username: loginUser.username,
     });
 
+    console.log("created token", token);
+
     res.cookie("token", token, { httpOnly: true });
 
     const loggedUser = {
@@ -22,6 +24,7 @@ async function login(req: Request, res: Response) {
       lastName: loginUser.lastName,
       email: loginUser.email,
       avatar: loginUser.avatar,
+      role: userCredtial.role,
     };
     res.json(loggedUser);
   } catch (error) {

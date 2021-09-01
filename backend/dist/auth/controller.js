@@ -24,6 +24,7 @@ function login(req, res) {
                 id: loginUser.id,
                 username: loginUser.username,
             });
+            console.log("created token", token);
             res.cookie("token", token, { httpOnly: true });
             const loggedUser = {
                 username: loginUser.username,
@@ -31,6 +32,7 @@ function login(req, res) {
                 lastName: loginUser.lastName,
                 email: loginUser.email,
                 avatar: loginUser.avatar,
+                role: userCredtial.role,
             };
             res.json(loggedUser);
         }

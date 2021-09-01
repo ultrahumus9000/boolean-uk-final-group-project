@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const authgenerator_1 = require("./authgenerator");
 exports.default = (req, res, next) => {
     const { token } = req.cookies;
+    console.log("token", token);
     const userData = token && (0, authgenerator_1.validateToken)(token);
+    console.log("userData", userData);
     if (userData) {
         req.currentUser = userData;
         next();
