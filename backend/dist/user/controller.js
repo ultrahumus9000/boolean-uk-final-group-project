@@ -40,9 +40,3 @@ function createNewUser(req, res) {
     });
 }
 exports.default = createNewUser;
-// user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-// userId    Int
-// bio       String?
-// wishlists WishList[]
-// reviews   Review[]
-// bookings  Booking[]
