@@ -58,8 +58,20 @@ function getAllHouses(req, res) {
                     },
                 },
             });
+            const firstModifiedData = rawData.map((house) => {
+                let hostUsername = house.hostProfile.user.username;
+                let filteredReviews = house.reviews.map((review) => {
+                    let modifedReview = {
+                        content: review.content,
+                        guestUsername: review.guestProfile.user.username,
+                    };
+                    return modifedReview;
+                });
+                let modifiedHouse = Object.assign(Object.assign({}, house), { hostProfile: hostUsername, reviews: filteredReviews });
+                return modifiedHouse;
+            });
             //housesWithHostAndReviews
-            res.json(rawData);
+            res.json(firstModifiedData);
         }
         catch (error) {
             res.json(error);

@@ -17,8 +17,8 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use(middleware_1.default);
 app.use("/houses", router_3.default);
+app.use(middleware_1.default);
 //check token
 app.use(router_2.default);
 // general routes
