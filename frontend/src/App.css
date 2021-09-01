@@ -40,7 +40,7 @@ p {
   --black: #0d0d0d;
   --body-text: #2a2a2a;
   --grey: #eff0f3;
-  --offwhite:#fffffe;
+  --offwhite: #fffffe;
 }
 
 .App {
@@ -110,11 +110,11 @@ p {
   text-align: center;
 }
 
-.profile-avatar{
+.profile-avatar {
   width: 200px;
   object-fit: cover;
   overflow: hidden;
-  border-radius: 50%
+  border-radius: 50%;
 }
 
 @media screen and (max-width: 416px) {
