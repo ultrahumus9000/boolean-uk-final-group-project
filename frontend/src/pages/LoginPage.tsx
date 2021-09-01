@@ -28,7 +28,7 @@ export default function LoginPage() {
       .then((userFromServer) => {
         console.log(userFromServer);
         setCurrentUser(userFromServer);
-        // history.push("/");
+        history.push("/");
       });
   }
 
