@@ -12,11 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-
-exports.getFilteredHouses = exports.getAllHouses = void 0;
-
 exports.deleteHouseById = exports.getAllHouses = void 0;
-
 const database_1 = __importDefault(require("../database"));
 const { house } = database_1.default;
 // `http://localhost:4000/houses/filterBy?location=${location}&checkIn=${checkIn}checkOut=${checkOut}&maxGuests=${maxGuests}`
@@ -45,7 +41,6 @@ function getFilteredHouses(req, res) {
         }
     });
 }
-exports.getFilteredHouses = getFilteredHouses;
 function getAllHouses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -89,9 +84,9 @@ function getAllHouses(req, res) {
                     },
                 },
             });
-            const firstModifiedData = rawData.map(house => {
+            const firstModifiedData = rawData.map((house) => {
                 let hostUsername = house.hostProfile.user.username;
-                let filteredReviews = house.reviews.map(review => {
+                let filteredReviews = house.reviews.map((review) => {
                     let modifedReview = {
                         content: review.content,
                         guestUsername: review.guestProfile.user.username,
