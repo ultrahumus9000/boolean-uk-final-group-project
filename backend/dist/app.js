@@ -8,6 +8,8 @@ const router_2 = __importDefault(require("./auth/router"));
 const middleware_1 = __importDefault(require("./middleware"));
 const router_3 = __importDefault(require("./house/router"));
 const router_4 = __importDefault(require("./review/router"));
+const router_5 = __importDefault(require("./guest/router"));
+const router_6 = __importDefault(require("./host/router"));
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -26,6 +28,8 @@ app.use(middleware_1.default);
 // general routes
 app.use("/users", router_1.default);
 app.use("/reviews", router_4.default);
+app.use("/guests", router_5.default);
+app.use("/hosts", router_6.default);
 app.all("*", (req, res) => {
     res.status(400).json("No Routes");
 });
