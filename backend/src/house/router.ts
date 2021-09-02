@@ -1,9 +1,15 @@
-import { Router } from "express";
-import { getAllHouses, deleteHouseById } from "./controller";
 
-const houseRouter = Router();
+import { Router } from "express"
+import { getAllHouses, getFilteredHouses,deleteHouseById } from "./controller"
 
-houseRouter.get("/", getAllHouses);
+const houseRouter = Router()
+
+
+houseRouter.get("/", getAllHouses)
+houseRouter.get("/filterBy", getFilteredHouses)
+
+
 houseRouter.delete("/:id", deleteHouseById);
 
-export default houseRouter;
+
+export default houseRouter
