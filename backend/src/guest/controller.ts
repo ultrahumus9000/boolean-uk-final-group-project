@@ -3,7 +3,7 @@ import db from "../database";
 
 import { User } from "@prisma/client";
 
-const { user, guestProfile } = db;
+const { user } = db;
 
 async function getGuestProfile(req: Request, res: Response) {
   const { username } = req.body;
