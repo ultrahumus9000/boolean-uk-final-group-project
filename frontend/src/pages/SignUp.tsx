@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Button, TextField } from "@material-ui/core";
 
 const initialFormState = {
   email: "",
@@ -33,22 +34,29 @@ export default function RegisterPage() {
     });
   }
   return (
-    <main className="main-div">
-      <div className="login container">
-        <h1> Login</h1>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <input name="firstName" type="text" placeholder="First name"></input>
-          <input name="lastName" type="text" placeholder="Last name"></input>
-          <input name="email" type="text" placeholder="email"></input>
-          <input name="username" type="text" placeholder="Username"></input>
-          <input name="password" type="text" placeholder="Password"></input>
-          <input name="avatar" type="text" placeholder="Avatar"></input>
-          <textarea rows={4} cols={50} name="bio" placeholder="Bio"></textarea>
-          <input type="radio" id="guest" name="radio" value="guest"></input>
-          <label htmlFor="guest"> Guest</label>
-          <input type="radio" id="host" name="radio" value="host"></input>
-          <label htmlFor="host"> Host</label>
-          <button type="submit"> Submit</button>
+    <main className="main-register-div">
+      <div className="signup-container">
+        <h1 className="signup-title"> Register</h1>
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <TextField className="input" variant="outlined" name="firstName" type="text" placeholder="First name"></TextField>
+          <TextField className="input" variant="outlined" name="lastName" type="text" placeholder="Last name"></TextField>
+          <TextField className="input" variant="outlined" name="email" type="text" placeholder="Email"></TextField>
+          <TextField className="input" variant="outlined" name="username" type="text" placeholder="Username"></TextField>
+          <TextField className="input" variant="outlined" name="password" type="text" placeholder="Password"></TextField>
+          <TextField className="input" variant="outlined" name="avatar" type="text" placeholder="Avatar"></TextField>
+          <TextField className="input" variant="outlined" multiline
+            rows={4} name="bio" placeholder="Tell us a bit about yourself..."></TextField>
+          <div className="radio-buttons">
+            <div className="radio">
+              <input type="radio" id="guest" name="radio" value="guest"></input>
+              <label htmlFor="guest"> Guest</label>
+            </div>
+            <div className="radio">
+              <input type="radio" id="host" name="radio" value="host"></input>
+              <label htmlFor="host"> Host</label>
+            </div>
+          </div>
+          <Button className="signup-button" color="secondary" variant="contained" type="submit"> Submit</Button>
         </form>
       </div>
     </main>
