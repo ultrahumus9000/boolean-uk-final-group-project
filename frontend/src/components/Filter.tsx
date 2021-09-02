@@ -29,7 +29,7 @@ export default function Filter() {
       maxGuests
     )
     fetch(
-      `http://localhost:4000/houses/filterBy?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
+      `http://localhost:4000/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
     )
       .then(resp => resp.json())
       .then(console.log)

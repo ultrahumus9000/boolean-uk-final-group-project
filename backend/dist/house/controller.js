@@ -14,90 +14,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteHouseById = exports.getAllHouses = void 0;
 const database_1 = __importDefault(require("../database"));
-const { house } = database_1.default;
-// `http://localhost:4000/houses/filterBy?location=${location}&checkIn=${checkIn}checkOut=${checkOut}&maxGuests=${maxGuests}`
-// const { city, checkIn, checkOut, maxGuests } = filterOptions
-function getFilteredHouses(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let { city, checkIn, checkOut, maxGuests } = req.query;
-        try {
-            const filteredHouses = yield house.findMany({
-                where: {
-                    maxGuests: { gte: parseInt(maxGuests) },
-                    city: { contains: city },
-                    bookings: {
-                        some: {
-                            start: new Date(checkIn).toISOString(),
-                            end: new Date(checkOut).toISOString(),
-                        },
-                    },
-                },
-            });
-            console.log("req.query is:", req.query);
-            res.json({ filteredHouses });
-        }
-        catch (error) {
-            res.json(error);
-        }
-    });
-}
+const service_1 = require("./service");
+const { house, review, user, guestProfile } = database_1.default;
 function getAllHouses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const rawData = yield house.findMany({
-                select: {
-                    id: true,
-                    name: true,
-                    bedrooms: true,
-                    maxGuests: true,
-                    facility: true,
-                    city: true,
-                    hostProfile: {
-                        select: {
-                            user: {
-                                select: {
-                                    username: true,
+            if (Object.keys(req.query).length) {
+                const rawData = yield (0, service_1.getFilteredHouses)(req.query);
+                const houses = yield (0, service_1.modifiedHouses)(rawData);
+                res.json(houses);
+            }
+            else {
+                const rawData = yield house.findMany({
+                    select: {
+                        id: true,
+                        name: true,
+                        bedrooms: true,
+                        maxGuests: true,
+                        facility: true,
+                        city: true,
+                        hostProfile: {
+                            select: {
+                                user: {
+                                    select: {
+                                        username: true,
+                                    },
                                 },
                             },
                         },
-                    },
-                    price: true,
-                    reviews: {
-                        select: {
-                            content: true,
-                            guestProfile: {
-                                select: {
-                                    user: {
-                                        select: {
-                                            username: true,
+                        price: true,
+                        reviews: {
+                            select: {
+                                content: true,
+                                guestProfile: {
+                                    select: {
+                                        user: {
+                                            select: {
+                                                username: true,
+                                            },
                                         },
                                     },
                                 },
                             },
                         },
-                    },
-                    pictures: {
-                        select: {
-                            src: true,
-                            alt: true,
+                        pictures: {
+                            select: {
+                                src: true,
+                                alt: true,
+                            },
                         },
                     },
-                },
-            });
-            const firstModifiedData = rawData.map((house) => {
-                let hostUsername = house.hostProfile.user.username;
-                let filteredReviews = house.reviews.map((review) => {
-                    let modifedReview = {
-                        content: review.content,
-                        guestUsername: review.guestProfile.user.username,
-                    };
-                    return modifedReview;
                 });
-                let modifiedHouse = Object.assign(Object.assign({}, house), { hostProfile: hostUsername, reviews: filteredReviews });
-                return modifiedHouse;
-            });
-            //housesWithHostAndReviews
-            res.json(firstModifiedData);
+                const houses = yield (0, service_1.modifiedHouses)(rawData);
+                console.log("rawData", rawData);
+                console.log("houses", houses);
+                res.json(houses);
+            }
         }
         catch (error) {
             res.json(error);
