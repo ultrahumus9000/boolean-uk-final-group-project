@@ -16,10 +16,9 @@ declare global {
 
 export default (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
-  console.log("token", token);
+
   const userData = token && validateToken(token);
 
-  console.log("userData", userData);
   if (userData) {
     req.currentUser = userData;
     next();
