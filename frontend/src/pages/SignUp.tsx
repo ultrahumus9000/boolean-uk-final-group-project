@@ -1,29 +1,43 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button, TextField } from "@material-ui/core";
 
-const initialFormState = {
-  email: "",
-  username: "",
-  password: "",
+type SignUpUser = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  avatar: string;
+  bio: string;
+  guestRole?: string;
+  hostRole?: string;
 };
 
 export default function RegisterPage() {
-  function handleSubmit(event) {
-    const { username, password } = event.target;
+  const history = useHistory();
 
+  function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
 
-    const loginData = {
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      email: event.target.email.value,
-      username: event.target.username.value,
-      password: event.target.password.value,
-      avatar: event.target.avatar.value,
-      bio: event.target.bio.value,
-      role: event.target.radio.value,
+    const form = event.target as HTMLFormElement;
+
+    let loginData: SignUpUser = {
+      firstName: form.firstName.value,
+      lastName: form.lastName.value,
+      email: form.email.value,
+      username: form.username.value,
+      password: form.password.value,
+      avatar: form.avatar.value,
+      bio: form.bio.value,
     };
+    if (form.radio.value === "guest") {
+      loginData = { ...loginData, guestRole: "guest" };
+    } else {
+      loginData = { ...loginData, hostRole: "host" };
+    }
+
     fetch("http://localhost:4000/users", {
       method: "POST",
       headers: {
@@ -31,6 +45,9 @@ export default function RegisterPage() {
       },
       body: JSON.stringify(loginData),
       credentials: "include",
+    }).then(() => {
+      form.reset();
+      history.push("/");
     });
   }
   return (

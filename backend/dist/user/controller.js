@@ -18,24 +18,30 @@ const { hostProfile, guestProfile } = database_1.default;
 function createNewUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const newUser = req.body;
-        const modifiedUser = yield (0, service_1.default)(newUser);
-        if (newUser.guestProfile) {
-            const result = yield guestProfile.create({
-                data: {
-                    bio: newUser.bio,
-                    userId: modifiedUser.id,
-                },
-            });
-            res.json(result);
+        try {
+            const modifiedUser = yield (0, service_1.default)(newUser);
+            if (newUser.guestProfile) {
+                const result = yield guestProfile.create({
+                    data: {
+                        bio: newUser.bio,
+                        userId: modifiedUser.id,
+                    },
+                });
+                res.json(result);
+            }
+            else {
+                const result = yield hostProfile.create({
+                    data: {
+                        bio: newUser.bio,
+                        userId: modifiedUser.id,
+                    },
+                });
+                res.json(result);
+            }
         }
-        else {
-            const result = yield hostProfile.create({
-                data: {
-                    bio: newUser.bio,
-                    userId: modifiedUser.id,
-                },
-            });
-            res.json(result);
+        catch (error) {
+            console.log(error);
+            res.json(error);
         }
     });
 }
