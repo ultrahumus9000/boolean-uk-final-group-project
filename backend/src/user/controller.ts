@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import db from "../database";
-import { createToken } from "../authgenerator";
+
 import createNewUserWithHash from "./service";
 
 const { hostProfile, guestProfile } = db;
