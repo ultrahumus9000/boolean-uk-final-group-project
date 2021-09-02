@@ -1,57 +1,59 @@
-import { Request, Response } from "express"
-import db from "../database"
+import { Request, Response } from "express";
+import db from "../database";
 
-const { house } = db
+const { house } = db;
 
 export type Query = {
-  city?: string
-  checkIn: string
-  checkOut: string
-  maxGuests: string
-}
+  city?: string;
+  checkIn: string;
+  checkOut: string;
+  maxGuests: string;
+};
 
 type Picture = {
-  src: string
-  alt: string
-}
+  src: string;
+  alt: string;
+};
 
 type Review = {
-  content: string
+  content: string;
   guestProfile: {
     user: {
-      username: string
-    }
-  }
-}
+      username: string;
+      avatar: string;
+    };
+  };
+};
 
 type User = {
-  username: string
-  firstName: string
-  lastName: string
-  email: string
-  avatar: string
-  role: string
-}
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  role: string;
+};
 
 type HouseType = {
-  id: number
-  name: string
-  bedrooms: number
-  maxGuests: number
-  facility: string[]
-  city: string
+  id: number;
+  name: string;
+  bedrooms: number;
+  maxGuests: number;
+  facility: string[];
+  city: string;
   hostProfile: {
     user: {
-      username: string
-    }
-  }
-  price: number
-  pictures: Picture[]
-  reviews: Review[]
-}
+      username: string;
+      avatar: string;
+    };
+  };
+  price: number;
+  pictures: Picture[];
+  reviews: Review[];
+};
 
 async function getFilteredHouses(query: Query) {
-  let { city, checkIn, checkOut, maxGuests } = query
+  let { city, checkIn, checkOut, maxGuests } = query;
 
   try {
     const filteredHouses = await house.findMany({
@@ -77,6 +79,7 @@ async function getFilteredHouses(query: Query) {
             user: {
               select: {
                 username: true,
+                avatar: true,
               },
             },
           },
@@ -91,6 +94,7 @@ async function getFilteredHouses(query: Query) {
                 user: {
                   select: {
                     username: true,
+                    avatar: true,
                   },
                 },
               },
@@ -104,34 +108,37 @@ async function getFilteredHouses(query: Query) {
           },
         },
       },
-    })
+    });
 
-    return filteredHouses
+    return filteredHouses;
   } catch (error) {
-    throw new Error()
+    throw new Error();
   }
 }
 
 async function modifiedHouses(data: HouseType[]) {
-  const firstModifiedData = data.map(house => {
-    let hostUsername = house.hostProfile.user.username
+  const firstModifiedData = data.map((house) => {
+    let hostUsername = house.hostProfile.user.username;
+    let hostAvatarLink = house.hostProfile.user.avatar;
 
-    let filteredReviews = house.reviews.map(review => {
-      let modifedReview = {
+    let filteredReviews = house.reviews.map((review) => {
+      const modifedReview = {
         content: review.content,
         guestUsername: review.guestProfile.user.username,
-      }
-      return modifedReview
-    })
+        guestAvatar: review.guestProfile.user.avatar,
+      };
+      return modifedReview;
+    });
 
     let modifiedHouse = {
       ...house,
       hostProfile: hostUsername,
+      hostAvatar: hostAvatarLink,
       reviews: filteredReviews,
-    }
-    return modifiedHouse
-  })
-  return firstModifiedData
+    };
+    return modifiedHouse;
+  });
+  return firstModifiedData;
 }
 
-export { getFilteredHouses, modifiedHouses }
+export { getFilteredHouses, modifiedHouses };

@@ -42,6 +42,7 @@ function getFilteredHouses(query) {
                             user: {
                                 select: {
                                     username: true,
+                                    avatar: true,
                                 },
                             },
                         },
@@ -55,6 +56,7 @@ function getFilteredHouses(query) {
                                     user: {
                                         select: {
                                             username: true,
+                                            avatar: true,
                                         },
                                     },
                                 },
@@ -79,16 +81,18 @@ function getFilteredHouses(query) {
 exports.getFilteredHouses = getFilteredHouses;
 function modifiedHouses(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        const firstModifiedData = data.map(house => {
+        const firstModifiedData = data.map((house) => {
             let hostUsername = house.hostProfile.user.username;
-            let filteredReviews = house.reviews.map(review => {
-                let modifedReview = {
+            let hostAvatarLink = house.hostProfile.user.avatar;
+            let filteredReviews = house.reviews.map((review) => {
+                const modifedReview = {
                     content: review.content,
                     guestUsername: review.guestProfile.user.username,
+                    guestAvatar: review.guestProfile.user.avatar,
                 };
                 return modifedReview;
             });
-            let modifiedHouse = Object.assign(Object.assign({}, house), { hostProfile: hostUsername, reviews: filteredReviews });
+            let modifiedHouse = Object.assign(Object.assign({}, house), { hostProfile: hostUsername, hostAvatar: hostAvatarLink, reviews: filteredReviews });
             return modifiedHouse;
         });
         return firstModifiedData;
