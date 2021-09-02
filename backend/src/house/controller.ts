@@ -1,13 +1,13 @@
-import { Request, Response } from "express"
-import db from "../database"
+import { Request, Response } from "express";
+import db from "../database";
 
-const { house } = db
+const { house } = db;
 
 // `http://localhost:4000/houses/filterBy?location=${location}&checkIn=${checkIn}checkOut=${checkOut}&maxGuests=${maxGuests}`
 // const { city, checkIn, checkOut, maxGuests } = filterOptions
 
 async function getFilteredHouses(req: Request, res: Response) {
-  let { city, checkIn, checkOut, maxGuests } = req.query
+  let { city, checkIn, checkOut, maxGuests } = req.query;
 
   try {
     const filteredHouses = await house.findMany({
@@ -21,12 +21,12 @@ async function getFilteredHouses(req: Request, res: Response) {
           },
         },
       },
-    })
+    });
 
-    console.log("req.query is:", req.query)
-    res.json({ filteredHouses })
+    console.log("req.query is:", req.query);
+    res.json({ filteredHouses });
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 }
 
@@ -72,49 +72,33 @@ async function getAllHouses(req: Request, res: Response) {
           },
         },
       },
-    })
+    });
 
-    const firstModifiedData = rawData.map(house => {
-      let hostUsername = house.hostProfile.user.username
+    const firstModifiedData = rawData.map((house) => {
+      let hostUsername = house.hostProfile.user.username;
 
-      let filteredReviews = house.reviews.map(review => {
+      let filteredReviews = house.reviews.map((review) => {
         let modifedReview = {
           content: review.content,
           guestUsername: review.guestProfile.user.username,
-        }
-        return modifedReview
-      })
+        };
+        return modifedReview;
+      });
 
       let modifiedHouse = {
         ...house,
         hostProfile: hostUsername,
         reviews: filteredReviews,
-      }
-      return modifiedHouse
-    })
+      };
+      return modifiedHouse;
+    });
 
     //housesWithHostAndReviews
-    res.json(firstModifiedData)
+    res.json(firstModifiedData);
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 }
-
-
-export { getAllHouses, getFilteredHouses }
-//   id          Int         @id @default(autoincrement())
-//   name        String
-//   bedrooms    Int
-//   maxGuests   Int
-//   facility    String[]
-//   city        String
-//   wishList    WishList[]
-//   hostProfile HostProfile @relation(fields: [hostId], references: [id], onDelete: Cascade)
-//   hostId      Int
-//   price       Int
-//   reviews     Review[]
-//   pictures    Picture[]
-//   bookings    Booking[]
 
 async function deleteHouseById(req: Request, res: Response) {
   const houseId = Number(req.params.id);
@@ -131,4 +115,3 @@ async function deleteHouseById(req: Request, res: Response) {
 }
 
 export { getAllHouses, deleteHouseById };
-

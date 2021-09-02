@@ -7,14 +7,13 @@ export default function HomePage() {
   const housesArray = useStore((store) => store.houses);
   const fetchAllHouses = useStore((store) => store.fetchAllHouses);
 
-
+  useEffect(() => {
     fetchAllHouses();
   }, [housesArray.length]);
-
   return (
     <div className="main">
       <Filter />
-      {/* <div className="houses-section">
+      <div className="houses-section">
         {housesArray.map((house) => (
           <HouseCard
             key={house.id}
@@ -24,7 +23,7 @@ export default function HomePage() {
             price={house.price}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

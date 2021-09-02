@@ -38,14 +38,56 @@ export default function RegisterPage() {
       <div className="signup-container">
         <h1 className="signup-title"> Register</h1>
         <form className="signup-form" onSubmit={handleSubmit}>
-          <TextField className="input" variant="outlined" name="firstName" type="text" placeholder="First name"></TextField>
-          <TextField className="input" variant="outlined" name="lastName" type="text" placeholder="Last name"></TextField>
-          <TextField className="input" variant="outlined" name="email" type="text" placeholder="Email"></TextField>
-          <TextField className="input" variant="outlined" name="username" type="text" placeholder="Username"></TextField>
-          <TextField className="input" variant="outlined" name="password" type="text" placeholder="Password"></TextField>
-          <TextField className="input" variant="outlined" name="avatar" type="text" placeholder="Avatar"></TextField>
-          <TextField className="input" variant="outlined" multiline
-            rows={4} name="bio" placeholder="Tell us a bit about yourself..."></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="firstName"
+            type="text"
+            placeholder="First name"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="lastName"
+            type="text"
+            placeholder="Last name"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="email"
+            type="text"
+            placeholder="Email"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="username"
+            type="text"
+            placeholder="Username"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="password"
+            type="text"
+            placeholder="Password"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            name="avatar"
+            type="text"
+            placeholder="Avatar"
+          ></TextField>
+          <TextField
+            className="input"
+            variant="outlined"
+            multiline
+            rows={4}
+            name="bio"
+            placeholder="Tell us a bit about yourself..."
+          ></TextField>
           <div className="radio-buttons">
             <div className="radio">
               <input type="radio" id="guest" name="radio" value="guest"></input>
@@ -56,7 +98,15 @@ export default function RegisterPage() {
               <label htmlFor="host"> Host</label>
             </div>
           </div>
-          <Button className="signup-button" color="secondary" variant="contained" type="submit"> Submit</Button>
+          <Button
+            className="signup-button"
+            color="secondary"
+            variant="contained"
+            type="submit"
+          >
+            {" "}
+            Submit
+          </Button>
         </form>
       </div>
     </main>
