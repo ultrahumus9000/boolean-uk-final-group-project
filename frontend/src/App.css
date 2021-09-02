@@ -57,7 +57,7 @@ p {
   display: grid;
   place-content: center;
   background: rgb(233, 233, 233);
-  border: 1px solid #d8dfe2;
+  border: 1px solid #707d83;
   height: 736px;
   width: 414px;
   border-radius: 40px;
@@ -69,7 +69,7 @@ p {
   display: grid;
   grid-template-rows: 50px 1fr;
   place-content: bottom;
-  padding: 20px;
+  /* padding: 20px; */
   background-color: rgb(250, 250, 250);
   height: 636px;
   width: 404px;
@@ -77,8 +77,11 @@ p {
 }
 
 .nav {
-  border: 1px solid var(--body-text);
-  text-align: center;
+  border-bottom: 1px solid var(--body-text);
+color: var(--orange-hl);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 .main {
@@ -128,4 +131,70 @@ p {
   .App {
     padding: 0%;
   }
+}
+
+/* LOGIN UP PAGE */
+
+.login-form{
+  display:grid;
+  place-items:center;
+  grid-gap: 20px;
+}
+
+.login-container{
+  display:grid;
+  place-items:center;
+  width:350px;
+}
+
+.login-container h1{
+  margin-bottom: 40px;
+  font-size: 26px;
+}
+
+.main-div{
+  display:grid;
+  place-items:center;
+}
+
+.input{
+  width: 300px;
+}
+
+/* SIGNUP PAGE */
+
+.signup-container{
+  display:grid;
+  place-items:center;
+}
+
+.signup-form{
+  display:grid;
+  place-items:center;
+  grid-gap:10px;
+}
+
+.signup-title{
+  margin: 20px;
+}
+
+.signup-button{
+  width: 150px
+}
+
+.radio-buttons label{
+  font-size: 14px;
+}
+
+.radio-buttons{
+  display:grid;
+  justify-content: center;
+  grid-template-columns: 100px 100px;
+  margin: 10px;
+}
+
+.radio{
+  display:grid;
+  grid-auto-flow: column;
+  place-items:center;
 }
