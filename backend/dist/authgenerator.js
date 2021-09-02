@@ -9,6 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const JWT_SECRET = process.env.JWT;
 function createToken(payload) {
+    console.log(jsonwebtoken_1.default.sign(payload, JWT_SECRET));
     return jsonwebtoken_1.default.sign(payload, JWT_SECRET);
 }
 exports.createToken = createToken;

@@ -100,6 +100,7 @@ async function getAllHouses(req: Request, res: Response) {
   }
 }
 
+
 export { getAllHouses, getFilteredHouses }
 //   id          Int         @id @default(autoincrement())
 //   name        String
@@ -114,3 +115,20 @@ export { getAllHouses, getFilteredHouses }
 //   reviews     Review[]
 //   pictures    Picture[]
 //   bookings    Booking[]
+
+async function deleteHouseById(req: Request, res: Response) {
+  const houseId = Number(req.params.id);
+  try {
+    await house.delete({
+      where: {
+        id: houseId,
+      },
+    });
+    res.json("this house of listing is deleted ");
+  } catch (error) {
+    res.json(error);
+  }
+}
+
+export { getAllHouses, deleteHouseById };
+
