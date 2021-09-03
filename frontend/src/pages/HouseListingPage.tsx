@@ -15,13 +15,28 @@ import Jacuzzi from "../assets/Jacuzzi.svg";
 import Kitchen from "../assets/Kitchen.svg";
 import Parking from "../assets/Parking.svg";
 import Shower from "../assets/Shower.svg";
-import Swimmingpool from "../assets/Swimmingpool.svg";
+import Swimingpool from "../assets/Swimingpool.svg";
 import TV from "../assets/TV.svg";
 import Spa from "../assets/Spa.svg";
 import Wifi from "../assets/Wifi.svg";
 
 type HouseIdType = {
   houseId: string;
+};
+
+const imageObj = {
+  Balcony: Balcony,
+  Bathtub: Bathtub,
+  Bidet: Bidet,
+  Garden: Garden,
+  Jacuzzi: Jacuzzi,
+  Kitchen: Kitchen,
+  Parking: Parking,
+  Shower: Shower,
+  Swimingpool: Swimingpool,
+  TV: TV,
+  Spa: Spa,
+  Wifi: Wifi,
 };
 
 export default function HouseListingPage() {
@@ -80,18 +95,16 @@ export default function HouseListingPage() {
         {house.facility.map((facility) => {
           return (
             <p className="facility" key={facility}>
-              <img className="facility-icon" src={Parking} />
+              <img className="facility-icon" src={imageObj[facility]} />
               <span>{facility}</span>
             </p>
           );
         })}
       </section>
-
       <button className="book-btn" onClick={() => {}}>
         Book Today
       </button>
       <p>Check our reviews</p>
-
       <section className="review-section"></section>
     </div>
   );
