@@ -60,8 +60,10 @@ export default function HouseListingPage() {
 
   function bookAction() {
     if (currentUser.username !== "") {
+      console.log(currentUser);
     } else {
-      history.push("/");
+      console.log(currentUser);
+      history.push("/login");
     }
   }
 
@@ -103,7 +105,7 @@ export default function HouseListingPage() {
       <p>Check our reviews</p>
       <section className="review-section">
         {house.reviews.map((review) => {
-          return <SingleReview review={review} />;
+          return <SingleReview review={review} key={review.guestUsername} />;
         })}
       </section>
     </div>
