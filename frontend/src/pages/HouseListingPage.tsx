@@ -109,9 +109,13 @@ export default function HouseListingPage() {
         {house.reviews.map((review) => {
           return (
             <>
-              <p>{review.content}</p>
-              <img className="host-profile" src={review.guestAvatar} />
-              <span>{review.guestUsername} </span>
+              <section className="single-review">
+                <span>{review.content}</span>
+                <div className="guest-div">
+                  <img className="host-profile" src={review.guestAvatar} />
+                  <span>{review.guestUsername} </span>
+                </div>
+              </section>
             </>
           );
         })}
