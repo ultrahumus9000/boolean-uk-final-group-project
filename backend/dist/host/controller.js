@@ -8,7 +8,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-function name(req, res) {
-    return __awaiter(this, void 0, void 0, function* () { });
+exports.getHostProfile = void 0;
+const database_1 = __importDefault(require("../database"));
+const { user } = database_1.default;
+function getHostProfile(req, res) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function* () {
+        const { username } = req.body;
+        try {
+            const host = yield user.findUnique({
+                where: {
+                    username,
+                },
+                include: {
+                    hostProfile: {
+                        select: {
+                            bio: true,
+                        },
+                    },
+                },
+            });
+            const modifiedGuest = Object.assign(Object.assign({}, host), { bio: (_a = host === null || host === void 0 ? void 0 : host.hostProfile) === null || _a === void 0 ? void 0 : _a.bio });
+            delete modifiedGuest.hostProfile;
+            res.json(modifiedGuest);
+        }
+        catch (error) {
+            res.json(error);
+        }
+    });
 }
+exports.getHostProfile = getHostProfile;

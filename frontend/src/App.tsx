@@ -9,6 +9,7 @@ import HouseListingPage from "./pages/HouseListingPage";
 import WrongTurn from "./pages/WrongTurn";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/SignUp";
+import GuestProfilePage from "./pages/GuestProfilePage"
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             <Route path="/signup" exact>
               <RegisterPage />
             </Route>
-            <Route path="/:id" exact>
+            <Route path="/house/:houseId" exact>
               <HouseListingPage />
             </Route>
             <Route path="/guest/dashboard" exact>
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route path="/host/dashboard" exact>
               <HostDashPage />
+            </Route>
+            <Route path="/guest/profile" exact>
+              <GuestProfilePage />
             </Route>
             <Route path="*">
               <WrongTurn />

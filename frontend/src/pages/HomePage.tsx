@@ -12,6 +12,12 @@ export default function HomePage() {
     // keep [] empty pls
   }, [])
 
+
+
+  if (housesArray.length === 0) {
+    return <h1> we are loading for you </h1>;
+  }
+
   return (
     <div className="main">
       <Filter />

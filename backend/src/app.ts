@@ -1,10 +1,14 @@
-import userRouter from "./user/router"
-import authRouter from "./auth/router"
-import tokenMiddleware from "./middleware"
-import houseRouter from "./house/router"
-import reviewRouter from "./review/router"
+
+import userRouter from "./user/router";
+import authRouter from "./auth/router";
+import tokenMiddleware from "./middleware";
+import houseRouter from "./house/router";
+import reviewRouter from "./review/router";
+import guestRouter from "./guest/router";
+import hostRouter from "./host/router";
 import bookingRouter from "./booking/router"
-var express = require("express")
+var express = require("express");
+
 
 var cookieParser = require("cookie-parser")
 var logger = require("morgan")
@@ -30,6 +34,10 @@ app.use(tokenMiddleware)
 // general routes
 app.use("/users", userRouter)
 app.use("/reviews", reviewRouter)
+
+app.use("/guests", guestRouter);
+
+app.use("/hosts", hostRouter);
 
 app.all(
   "*",

@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteHouseById = exports.getAllHouses = void 0;
+exports.getOneHouse = exports.deleteHouseById = exports.getAllHouses = void 0;
 const database_1 = __importDefault(require("../database"));
 const service_1 = require("./service");
-const { house, review, user, guestProfile } = database_1.default;
+const { house } = database_1.default;
 function getAllHouses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -38,6 +38,7 @@ function getAllHouses(req, res) {
                                 user: {
                                     select: {
                                         username: true,
+                                        avatar: true,
                                     },
                                 },
                             },
@@ -51,6 +52,7 @@ function getAllHouses(req, res) {
                                         user: {
                                             select: {
                                                 username: true,
+                                                avatar: true,
                                             },
                                         },
                                     },
@@ -66,8 +68,7 @@ function getAllHouses(req, res) {
                     },
                 });
                 const houses = yield (0, service_1.modifiedHouses)(rawData);
-                // console.log("rawData", rawData)
-                // console.log("houses", houses)
+
                 res.json(houses);
             }
         }
@@ -94,3 +95,63 @@ function deleteHouseById(req, res) {
     });
 }
 exports.deleteHouseById = deleteHouseById;
+function getOneHouse(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const houseId = Number(req.params.id);
+        try {
+            const targetHouse = yield house.findUnique({
+                where: {
+                    id: houseId,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    bedrooms: true,
+                    maxGuests: true,
+                    facility: true,
+                    city: true,
+                    hostProfile: {
+                        select: {
+                            user: {
+                                select: {
+                                    username: true,
+                                    avatar: true,
+                                },
+                            },
+                        },
+                    },
+                    price: true,
+                    reviews: {
+                        select: {
+                            content: true,
+                            guestProfile: {
+                                select: {
+                                    user: {
+                                        select: {
+                                            username: true,
+                                            avatar: true,
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    pictures: {
+                        select: {
+                            src: true,
+                            alt: true,
+                        },
+                    },
+                },
+            });
+            if (targetHouse === null || targetHouse === void 0 ? void 0 : targetHouse.pictures.length) {
+                const modifiedHouse = yield (0, service_1.modifiedHouses)([targetHouse]);
+                res.json(modifiedHouse[0]);
+            }
+        }
+        catch (error) {
+            res.json(error);
+        }
+    });
+}
+exports.getOneHouse = getOneHouse;
