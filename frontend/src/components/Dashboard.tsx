@@ -22,6 +22,8 @@ export default function Dashboard() {
       const userBookings = bookings.find(booking =>
          booking.guestProfile.username = currentUser.username
       )
+   } else {
+
    }
    console.log(userBookings)
 
