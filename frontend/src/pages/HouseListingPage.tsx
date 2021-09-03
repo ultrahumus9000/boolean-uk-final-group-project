@@ -5,7 +5,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper";
 import "swiper/css";
 import "swiper/css/bundle";
+
+import address from "../assets/address.svg";
 import Balcony from "../assets/Balcony.svg";
+import Bathtub from "../assets/Bathtub.svg";
+import Bidet from "../assets/Bidet.svg";
+import Garden from "../assets/Garden.svg";
+import Jacuzzi from "../assets/Jacuzzi.svg";
+import Kitchen from "../assets/Kitchen.svg";
+import Parking from "../assets/Parking.svg";
+import Shower from "../assets/Shower.svg";
+import Swimmingpool from "../assets/Swimmingpool.svg";
+import TV from "../assets/TV.svg";
+import Spa from "../assets/Spa.svg";
+import Wifi from "../assets/Wifi.svg";
 
 type HouseIdType = {
   houseId: string;
@@ -31,7 +44,7 @@ export default function HouseListingPage() {
         <h2>{house.name}</h2>
         <section className="basic-section">
           <div className="address-div">
-            <img className="facility-icon" src={Balcony} />
+            <img className="facility-icon" src={address} />
             <span>{house.city}</span>
             <span>£{house.price}</span>
           </div>
@@ -67,10 +80,7 @@ export default function HouseListingPage() {
         {house.facility.map((facility) => {
           return (
             <p className="facility" key={facility}>
-              <img
-                className="facility-icon"
-                src="https://images.pexels.com/photos/1028379/pexels-photo-1028379.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              />
+              <img className="facility-icon" src={Parking} />
               <span>{facility}</span>
             </p>
           );
@@ -78,15 +88,11 @@ export default function HouseListingPage() {
       </section>
 
       <button className="book-btn" onClick={() => {}}>
-        {" "}
         Book Today
       </button>
-      <p>
-        Check our reviews
-        <button className="review-btn">Click to see more</button>
-      </p>
+      <p>Check our reviews</p>
 
-      <section></section>
+      <section className="review-section"></section>
     </div>
   );
 }

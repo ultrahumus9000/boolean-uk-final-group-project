@@ -9,8 +9,8 @@ import HouseListingPage from "./pages/HouseListingPage";
 import WrongTurn from "./pages/WrongTurn";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/SignUp";
-import GuestProfilePage from "./pages/GuestProfilePage"
-import BottomNav from "./components/BottomNav"
+import GuestProfilePage from "./pages/GuestProfilePage";
+import BottomNav from "./components/BottomNav";
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
       <div className="phone">
         <div className="screen">
           <Nav />
+
           <Switch>
             <Route path="/" exact>
               <HomePage />
