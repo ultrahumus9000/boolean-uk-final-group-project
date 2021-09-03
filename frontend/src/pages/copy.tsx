@@ -57,10 +57,11 @@ export default function HouseListingPage() {
 
       <section className="pictures-section">
         <Swiper
+          modules={[Navigation, Pagination]}
           spaceBetween={0}
           slidesPerView={1}
           navigation
-          pagination
+          pagination={{ clickable: true }}
           onSwiper={(swiper) => console.log(swiper)}
           onSlideChange={(swiper) => {
             console.log(swiper);
@@ -75,7 +76,6 @@ export default function HouseListingPage() {
           })}
         </Swiper>
       </section>
-
       <p> Provided Facilities</p>
       <section className="facility-section">
         {house.facility.map((facility) => {

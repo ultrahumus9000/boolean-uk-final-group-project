@@ -39,12 +39,14 @@ type Store = {
   houses: House[];
   house: House;
   currentUser: User;
+  reviewDisplay: boolean;
+  setReviewDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
 };
 
-const useStore = create<Store>((set) => ({
+const useStore = create<Store>((set, get) => ({
   houses: [],
   house: {
     id: 0,
@@ -66,6 +68,10 @@ const useStore = create<Store>((set) => ({
     email: "",
     avatar: "",
     role: "",
+  },
+  reviewDisplay: false,
+  setReviewDisplay: () => {
+    set({ reviewDisplay: !get().reviewDisplay });
   },
   setCurrentUser: (userFromServer) => {
     set({

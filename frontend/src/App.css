@@ -208,8 +208,6 @@ p {
 
 /* house-listing-page */
 .house-card {
-  /* display: grid;
-  justify-content: center; */
   width: 400px;
 }
 .pictures-section {
@@ -233,4 +231,52 @@ p {
   height: 100%;
   object-fit: cover;
   border: 2px solid black;
+}
+.facility-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+.facility-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 120px));
+  gap: 5px;
+  padding: 2px;
+  justify-content: center;
+}
+.facility-section p {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  padding: 2px;
+}
+.house-card span,
+.house-card p {
+  font-size: 1.2rem;
+}
+.basic-section {
+  display: grid;
+  grid-template:
+    "address host" 1fr
+    "house host" 1fr/
+    1fr 1fr;
+}
+.address-div,
+.house-basic-div,
+.host-div {
+  display: grid;
+  align-items: center;
+}
+.address-div {
+  grid-template-columns: 40px 1fr 1fr;
+  grid-area: address;
+}
+.host-div {
+  grid-template-columns: 60px 1fr;
+  grid-area: host;
+}
+.house-basic-div {
+  grid-template-columns: 2fr 3fr;
+  grid-area: house;
 }
