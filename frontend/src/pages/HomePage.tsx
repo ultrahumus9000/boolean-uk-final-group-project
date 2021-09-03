@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
-import useStore from "../store";
-import Filter from "../components/Filter";
-import HouseCard from "../components/HouseCard";
+import React, { useEffect } from "react"
+import useStore from "../store"
+import Filter from "../components/Filter"
+import HouseCard from "../components/HouseCard"
 
 export default function HomePage() {
-  const housesArray = useStore((store) => store.houses);
-  const fetchAllHouses = useStore((store) => store.fetchAllHouses);
+  const housesArray = useStore(store => store.houses)
+  const fetchAllHouses = useStore(store => store.fetchAllHouses)
 
   useEffect(() => {
-    fetchAllHouses();
-  }, [housesArray.length]);
+    fetchAllHouses()
+    // keep [] empty pls
+  }, [])
+
+
 
   if (housesArray.length === 0) {
     return <h1> we are loading for you </h1>;
@@ -19,7 +22,7 @@ export default function HomePage() {
     <div className="main">
       <Filter />
       <div className="houses-section">
-        {housesArray.map((house) => (
+        {housesArray.map(house => (
           <HouseCard
             key={house.id}
             image={house.pictures[0]}
@@ -30,5 +33,5 @@ export default function HomePage() {
         ))}
       </div>
     </div>
-  );
+  )
 }

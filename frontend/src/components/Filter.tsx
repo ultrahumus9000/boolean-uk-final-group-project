@@ -1,7 +1,11 @@
 // import React, { useState } from "react"
 import * as React from "react"
 import { useState } from "react"
+import useStore from "../store"
+
 export default function Filter() {
+  const filterHouses = useStore(store => store.filterHouses)
+
   const [filterOptions, setFilterOptions] = useState({
     city: "",
     checkIn: "",
@@ -11,35 +15,8 @@ export default function Filter() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    filterHouses()
-    console.log("submit clicked")
-  }
-
-  function filterHouses() {
-    let { city, checkIn, checkOut, maxGuests } = filterOptions
-    console.log("data filter", filterOptions)
-    const cityFilter = city !== "" ? `city=${city}&` : ""
-    checkIn = checkIn !== "" ? checkIn : new Date().toString()
-    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toString()
-    console.log(
-      "data filter if empty strings",
-      city,
-      checkIn,
-      checkOut,
-      maxGuests
-    )
-    fetch(
-      `http://localhost:4000/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
-    )
-      .then(resp => resp.json())
-      .then(console.log)
-      // .then(allHouses => {
-      //   set({ houses: allHouses })
-      //   console.log("All houses fetch", allHouses)
-      // })
-      .catch(error => {
-        console.error("Unable to fetch all houses", error)
-      })
+    filterHouses(filterOptions)
+    console.log("submit clicked", filterOptions)
   }
 
   function handleChange(e) {

@@ -56,9 +56,11 @@ async function getAllHouses(req: Request, res: Response) {
         },
       });
 
+
       const houses = await modifiedHouses(rawData);
 
       res.json(houses);
+
     }
   } catch (error) {
     res.json(error);
