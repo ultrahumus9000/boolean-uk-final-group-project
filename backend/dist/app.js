@@ -26,9 +26,9 @@ app.use("/houses", router_3.default);
 app.use("/bookings", router_7.default); // here until ready to move down.
 //check token
 app.use(router_2.default);
-app.use(middleware_1.default);
 // general routes
 app.use("/users", router_1.default);
+app.use(middleware_1.default);
 app.use("/reviews", router_4.default);
 app.use("/guests", router_5.default);
 app.use("/hosts", router_6.default);

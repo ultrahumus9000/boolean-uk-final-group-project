@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import useStore from "../store";
 import Filter from "../components/Filter";
 import HouseCard from "../components/HouseCard";
