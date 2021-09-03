@@ -273,7 +273,9 @@ p {
 /* house-listing-page */
 .house-card {
   width: 400px;
+  overflow: hidden;
 }
+
 .pictures-section {
   display: grid;
   justify-items: center;
@@ -360,21 +362,23 @@ p {
   transition: 0.2s;
   margin-bottom: 8px;
 }
-.book-btn:hover,
-.review-btn:active,
-.review-btn:hover {
+.book-btn:hover {
   filter: brightness(1.2);
   transform: scale(1.01);
 }
-.review-btn {
-  background-color: #ff8e3c;
-  border: none;
-  padding: 5px;
-  color: #eff0f3;
-  border-radius: 5px;
-  margin-left: 10px;
-}
 
+.review-section .single-review {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border: 2px solid var(--grey);
+}
+.guest-div {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  overflow: hidden;
+}
 /* GUEST PROFILE */
 
 .profile-container {

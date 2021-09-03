@@ -16,7 +16,7 @@ type Picture = {
   alt: string;
 };
 
-type Review = {
+export type Review = {
   content: string;
   guestUsername: string;
   guestAvatar: string;

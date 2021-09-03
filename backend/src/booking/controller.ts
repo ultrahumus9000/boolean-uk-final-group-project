@@ -1,21 +1,21 @@
 // import { User } from "@prisma/client"
-import { Request, Response } from "express"
-import db from "../database"
+import { Request, Response } from "express";
+import db from "../database";
 
-const { booking } = db
+const { booking } = db;
 
 type Booking = {
-  total: number
-  guestId: number
-  start: string
-  end: string
-  houseId: number
-}
+  total: number;
+  guestId: number;
+  start: string;
+  end: string;
+  houseId: number;
+};
 
 async function createBooking(req: Request, res: Response) {
   //   const { id } = req.currentUser as User
-  const { total, guestId, start, end, houseId } = req.body as Booking
-  console.log("req.body", req.body)
+  const { total, guestId, start, end, houseId } = req.body as Booking;
+  console.log("req.body", req.body);
 
   try {
     const newBooking = await booking.create({
@@ -26,12 +26,12 @@ async function createBooking(req: Request, res: Response) {
         end: end,
         houseId: houseId,
       },
-    })
-    res.json(newBooking)
-    console.log("newBooking", newBooking)
+    });
+    res.json(newBooking);
+    console.log("newBooking", newBooking);
   } catch (error) {
-    res.json(error)
-    console.log("error:", error)
+    res.json(error);
+    console.log("error:", error);
   }
 }
 
@@ -46,6 +46,7 @@ async function getAllBookings(req: Request, res: Response) {
             user: {
               select: {
                 username: true,
+                avatar: true,
               },
             },
           },
@@ -66,12 +67,29 @@ async function getAllBookings(req: Request, res: Response) {
           },
         },
       },
-    })
-    res.json(foundBookings)
-    console.log("foundBookings", foundBookings)
+    });
+
+    const modifiedBookings = foundBookings.map((booking) => {
+      const modifiedBooking = {
+        ...booking,
+        guestProfile: {
+          name: booking.guestProfile.user.username,
+          avatar: booking.guestProfile.user.avatar,
+        },
+        house: {
+          houseId: booking.house.id,
+          city: booking.house.city,
+          name: booking.house.name,
+        },
+      };
+      return modifiedBooking;
+    });
+
+    res.json(modifiedBookings);
+    console.log("foundBookings", foundBookings);
   } catch (error) {
-    res.json({ message: "error" })
+    res.json({ message: "error" });
   }
 }
 
-export { createBooking, getAllBookings }
+export { createBooking, getAllBookings };
