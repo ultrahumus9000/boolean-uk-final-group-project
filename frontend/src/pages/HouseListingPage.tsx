@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import useStore, { House } from "../store";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper";
-
 import "swiper/css";
 import "swiper/css/bundle";
+import Balcony from "../assets/Balcony.svg";
 
 type HouseIdType = {
   houseId: string;
@@ -16,8 +16,6 @@ export default function HouseListingPage() {
   const realHouseId = Number(houseId.houseId);
   const house = useStore((store) => store.house);
   const fetchOneHouse = useStore((store) => store.fetchOneHouse);
-  const reviewDisplay = useStore((store) => store.reviewDisplay);
-  const setReviewDisplay = useStore((store) => store.setReviewDisplay);
 
   useEffect(() => {
     fetchOneHouse(realHouseId);
@@ -27,20 +25,13 @@ export default function HouseListingPage() {
     return <h1>we are loading for you</h1>;
   }
 
-  function toggleReviewDisplay() {
-    setReviewDisplay;
-  }
-
   return (
     <div className="house-card">
       <section className="house-bio">
         <h2>{house.name}</h2>
         <section className="basic-section">
           <div className="address-div">
-            <img
-              className="facility-icon"
-              src="https://images.pexels.com/photos/3227634/pexels-photo-3227634.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-            />
+            <img className="facility-icon" src={Balcony} />
             <span>{house.city}</span>
             <span>£{house.price}</span>
           </div>
