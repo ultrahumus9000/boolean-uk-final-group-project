@@ -3,6 +3,7 @@ import create from "zustand";
 let baseUrl = "http://localhost:4000";
 
 type User = {
+
   username: string;
   firstName: string;
   lastName: string;
@@ -22,7 +23,16 @@ type Review = {
   guestAvatar: string;
 };
 
-export type House = {
+
+
+type Options = {
+  city: string
+  checkIn: string
+  checkOut: string
+  maxGuests: number
+}
+
+export type House ={
   id: number;
   name: string;
   bedrooms: number;
@@ -35,6 +45,7 @@ export type House = {
   pictures: Picture[];
   reviews: Review[];
 };
+        
 type Store = {
   houses: House[];
   house: House;
@@ -44,7 +55,10 @@ type Store = {
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
+  filterHouses: (arg: Options) => void
+
 };
+
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -99,6 +113,25 @@ const useStore = create<Store>((set, get) => ({
         console.error("Unable to fetch all houses", error);
       });
   },
-}));
+
+  filterHouses: filterOptions => {
+    let { city, checkIn, checkOut, maxGuests } = filterOptions
+    console.log("data filter", filterOptions)
+    const cityFilter = city !== "" ? `city=${city}&` : ""
+    checkIn = checkIn !== "" ? checkIn : new Date().toISOString()
+    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString()
+    fetch(
+      `${baseUrl}/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
+    )
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
+        console.log("All houses fetch", allHouses)
+      })
+      .catch(error => {
+        throw error
+      })
+  },
+}))
 
 export default useStore;

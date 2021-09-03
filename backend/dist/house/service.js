@@ -22,7 +22,7 @@ function getFilteredHouses(query) {
             const filteredHouses = yield house.findMany({
                 where: {
                     maxGuests: { gte: parseInt(maxGuests) },
-                    city: { contains: city },
+                    city: { contains: city, mode: "insensitive" },
                     //   bookings: {
                     //     some: {
                     //       start: new Date(checkIn).toISOString(),
