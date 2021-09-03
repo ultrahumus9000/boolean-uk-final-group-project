@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useStore, { House } from "../store";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
+import { Navigation, Pagination, Scrollbar } from "swiper";
 
 import "swiper/css";
 import "swiper/css/bundle";
@@ -57,14 +57,11 @@ export default function HouseListingPage() {
 
       <section className="pictures-section">
         <Swiper
+          modules={[Navigation, Pagination, Scrollbar]}
           spaceBetween={0}
           slidesPerView={1}
           navigation
           pagination
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={(swiper) => {
-            console.log(swiper);
-          }}
         >
           {house.pictures.map((picture) => {
             return (
