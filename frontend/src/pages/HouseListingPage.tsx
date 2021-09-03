@@ -86,7 +86,10 @@ export default function HouseListingPage() {
         })}
       </section>
 
-      <button className="book-btn"> Book Today</button>
+      <button className="book-btn" onClick={() => {}}>
+        {" "}
+        Book Today
+      </button>
       <p>
         Check our reviews
         <button className="review-btn">Click to see more</button>
