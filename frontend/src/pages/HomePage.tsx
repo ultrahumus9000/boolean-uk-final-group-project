@@ -26,6 +26,7 @@ export default function HomePage() {
             name={house.name}
             city={house.city}
             price={house.price}
+            houseId={house.id}
           />
         ))}
       </div>

@@ -21,6 +21,7 @@ import TV from "../assets/TV.svg";
 import Spa from "../assets/Spa.svg";
 import Wifi from "../assets/Wifi.svg";
 import SingleReview from "../components/Review";
+import HouseBasicInfo from "../components/HouseBasicInfo";
 
 type HouseIdType = {
   houseId: string;
@@ -66,28 +67,12 @@ export default function HouseListingPage() {
 
   return (
     <div className="house-card">
-      <section className="house-bio">
-        <h2>{house.name}</h2>
-        <section className="basic-section">
-          <div className="address-div">
-            <img className="facility-icon" src={address} />
-            <span>{house.city}</span>
-            <span>£{house.price}</span>
-          </div>
-          <div className="house-basic-div">
-            <span>Guests: {house.maxGuests}</span>
-            <span>Bedrooms: {house.bedrooms}</span>
-          </div>
-          <div className="host-div">
-            <img src={house.hostAvatar} className="host-profile" />
-            <span>{house.hostProfile}</span>
-          </div>
-        </section>
-      </section>
+      <HouseBasicInfo house={house} />
+
       <section className="pictures-section">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar]}
-          spaceBetween={0}
+          spaceBetween={-0.5}
           slidesPerView={1}
           navigation
           pagination
