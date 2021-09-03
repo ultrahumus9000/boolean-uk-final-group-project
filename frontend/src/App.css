@@ -78,7 +78,7 @@ p {
 
 .nav {
   border-bottom: 1px solid var(--body-text);
-color: var(--orange-hl);
+  color: var(--orange-hl);
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -142,66 +142,171 @@ color: var(--orange-hl);
 
 /* LOGIN UP PAGE */
 
-.login-form{
-  display:grid;
-  place-items:center;
+.login-form {
+  display: grid;
+  place-items: center;
   grid-gap: 20px;
 }
 
-.login-container{
-  display:grid;
-  place-items:center;
-  width:350px;
+.login-container {
+  display: grid;
+  place-items: center;
+  width: 350px;
 }
 
-.login-container h1{
+.login-container h1 {
   margin-bottom: 40px;
   font-size: 26px;
 }
 
-.main-div{
-  display:grid;
-  place-items:center;
+.main-div {
+  display: grid;
+  place-items: center;
 }
 
-.input{
+.input {
   width: 300px;
 }
 
 /* SIGNUP PAGE */
 
-.signup-container{
-  display:grid;
-  place-items:center;
+.signup-container {
+  display: grid;
+  place-items: center;
 }
 
-.signup-form{
-  display:grid;
-  place-items:center;
-  grid-gap:10px;
+.signup-form {
+  display: grid;
+  place-items: center;
+  grid-gap: 10px;
 }
 
-.signup-title{
+.signup-title {
   margin: 20px;
 }
 
-.signup-button{
-  width: 150px
+.signup-button {
+  width: 150px;
 }
 
-.radio-buttons label{
+.radio-buttons label {
   font-size: 14px;
 }
 
-.radio-buttons{
-  display:grid;
+.radio-buttons {
+  display: grid;
   justify-content: center;
   grid-template-columns: 100px 100px;
   margin: 10px;
 }
 
-.radio{
-  display:grid;
+.radio {
+  display: grid;
   grid-auto-flow: column;
-  place-items:center;
+  place-items: center;
+}
+
+/* house-listing-page */
+.house-card {
+  width: 400px;
+}
+.pictures-section {
+  display: grid;
+  justify-items: center;
+  height: 300px;
+}
+.swiper {
+  width: 380px;
+  height: 300px;
+}
+.host-profile {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  border: 2px solid teal;
+}
+.pictures-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.facility-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50px;
+}
+.facility-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(70px, 120px));
+  gap: 5px;
+  padding: 2px;
+  justify-content: center;
+}
+.facility-section p {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  padding: 2px;
+}
+.house-card span,
+.house-card p {
+  font-size: 1.2rem;
+}
+.basic-section {
+  display: grid;
+  grid-template:
+    "address host" 1fr
+    "house host" 1fr/
+    1fr 1fr;
+}
+.address-div,
+.house-basic-div,
+.host-div {
+  display: grid;
+  align-items: center;
+}
+.address-div {
+  grid-template-columns: 40px 1fr 1fr;
+  grid-area: address;
+}
+.host-div {
+  grid-template-columns: 60px 1fr;
+  grid-area: host;
+}
+.house-basic-div {
+  grid-template-columns: 2fr 3fr;
+  grid-area: house;
+}
+.facility-p {
+  padding: 10px;
+  background-color: #ffab6e;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+}
+.book-btn {
+  width: 100%;
+  background-color: slateblue;
+  color: #eff0f3;
+  border-radius: 2px;
+  padding: 5px 20px;
+  border: none;
+  font-size: 1.2rem;
+  transition: 0.2s;
+  margin-bottom: 8px;
+}
+.book-btn:hover,
+.review-btn:active,
+.review-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.01);
+}
+.review-btn {
+  background-color: #ff8e3c;
+  border: none;
+  padding: 5px;
+  color: #eff0f3;
+  border-radius: 5px;
+  margin-left: 10px;
 }

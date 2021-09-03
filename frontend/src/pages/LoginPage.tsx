@@ -8,7 +8,6 @@ import useStore from "../store";
 export default function LoginPage() {
   const history = useHistory();
 
-  const currentUser = useStore((store) => store.currentUser);
   const setCurrentUser = useStore((store) => store.setCurrentUser);
 
   function loginUser(userCreds) {
@@ -24,7 +23,6 @@ export default function LoginPage() {
         return res.json();
       })
       .then((userFromServer) => {
-        console.log(userFromServer);
         setCurrentUser(userFromServer);
         history.push("/");
       });

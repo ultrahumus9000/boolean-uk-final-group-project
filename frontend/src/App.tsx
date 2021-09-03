@@ -26,7 +26,7 @@ function App() {
             <Route path="/signup" exact>
               <RegisterPage />
             </Route>
-            <Route path="/:id" exact>
+            <Route path="/house/:houseId" exact>
               <HouseListingPage />
             </Route>
             <Route path="/guest/dashboard" exact>

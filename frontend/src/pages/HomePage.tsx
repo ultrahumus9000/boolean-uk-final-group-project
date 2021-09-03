@@ -10,6 +10,11 @@ export default function HomePage() {
   useEffect(() => {
     fetchAllHouses();
   }, [housesArray.length]);
+
+  if (housesArray.length === 0) {
+    return <h1> we are loading for you </h1>;
+  }
+
   return (
     <div className="main">
       <Filter />

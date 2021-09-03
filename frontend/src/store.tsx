@@ -1,86 +1,66 @@
-import create from "zustand"
+import create from "zustand";
 
-let baseUrl = "http://localhost:4000"
+let baseUrl = "http://localhost:4000";
 
 type User = {
-  username: string
-  firstName: string
-  lastName: string
-  email: string
-  avatar: string
-  role: string
-}
-
-// {
-//   "id": 1,
-//   "name": "Assistant Avon teal Swiss",
-//   "bedrooms": 2,
-//   "maxGuests": 4,
-//   "facility": [
-//     "Wifi",
-//     "Jacuzzi",
-//     "Parking",
-//     "Kitchen"
-//   ],
-//   "city": "Salina",
-//   "hostProfile": "Aliya.Schulist63anet",
-//   "price": 87,
-//   "reviews": [],
-//   "pictures": [
-//     {
-//       "src": "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "whole house"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "bedroom"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/892618/pexels-photo-892618.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "living room"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/3288104/pexels-photo-3288104.png?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "bathroom"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/2208891/pexels-photo-2208891.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "kitchen"
-//     }
-//   ]
-// },
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  role: string;
+};
 
 type Picture = {
-  src: string
-  alt: string
-}
+  src: string;
+  alt: string;
+};
 
 type Review = {
-  content: string
-  guestUsername: string
-}
+  content: string;
+  guestUsername: string;
+  guestAvatar: string;
+};
 
 export type House = {
-  id: number
-  name: string
-  bedrooms: number
-  maxGuests: number
-  facility: string[]
-  city: string
-  hostProfile: string
-  price: 87
-  pictures: Picture[]
-  reviews: Review[]
-}
+  id: number;
+  name: string;
+  bedrooms: number;
+  maxGuests: number;
+  facility: string[];
+  city: string;
+  hostProfile: string;
+  hostAvatar: string;
+  price: number;
+  pictures: Picture[];
+  reviews: Review[];
+};
 type Store = {
-  houses: House[]
-  currentUser: User
-  setCurrentUser: (arg: User) => void
-  fetchAllHouses: () => void
-}
+  houses: House[];
+  house: House;
+  currentUser: User;
+  reviewDisplay: boolean;
+  setReviewDisplay: () => void;
+  setCurrentUser: (arg: User) => void;
+  fetchAllHouses: () => void;
+  fetchOneHouse: (arg: number) => void;
+};
 
-const useStore = create<Store>(set => ({
+const useStore = create<Store>((set, get) => ({
   houses: [],
+  house: {
+    id: 0,
+    name: "",
+    bedrooms: 0,
+    maxGuests: 0,
+    facility: [],
+    city: "",
+    hostProfile: "",
+    hostAvatar: "",
+    price: 0,
+    pictures: [],
+    reviews: [],
+  },
   currentUser: {
     username: "",
     firstName: "",
@@ -89,21 +69,36 @@ const useStore = create<Store>(set => ({
     avatar: "",
     role: "",
   },
-  setCurrentUser: userFromServer => {
+  reviewDisplay: false,
+  setReviewDisplay: () => {
+    set({ reviewDisplay: !get().reviewDisplay });
+  },
+  setCurrentUser: (userFromServer) => {
     set({
       currentUser: userFromServer,
-    })
+    });
   },
   fetchAllHouses: () => {
     fetch(`${baseUrl}/houses`)
-      .then(resp => resp.json())
-      .then(allHouses => {
-        set({ houses: allHouses })
+      .then((resp) => resp.json())
+      .then((allHouses) => {
+        set({ houses: allHouses });
       })
-      .catch(error => {
-        console.error("Unable to fetch all houses", error)
-      })
+      .catch((error) => {
+        console.error("Unable to fetch all houses", error);
+      });
   },
-}))
+  fetchOneHouse: (houseId) => {
+    fetch(`${baseUrl}/houses/${houseId}`)
+      .then((resp) => resp.json())
+      .then((houseFromServer) => {
+        console.log(houseFromServer);
+        set({ house: houseFromServer });
+      })
+      .catch((error) => {
+        console.error("Unable to fetch all houses", error);
+      });
+  },
+}));
 
-export default useStore
+export default useStore;
