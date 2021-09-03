@@ -77,7 +77,7 @@ function getAllBookings(req, res) {
             console.log("foundBookings", foundBookings);
         }
         catch (error) {
-            res.json(error);
+            res.json({ message: "error" });
         }
     });
 }

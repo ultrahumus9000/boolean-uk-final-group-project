@@ -70,7 +70,7 @@ async function getAllBookings(req: Request, res: Response) {
     res.json(foundBookings)
     console.log("foundBookings", foundBookings)
   } catch (error) {
-    res.json(error)
+    res.json({ message: "error" })
   }
 }
 
