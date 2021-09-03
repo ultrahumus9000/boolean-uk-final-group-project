@@ -54,7 +54,6 @@ export default function HouseListingPage() {
           </div>
         </section>
       </section>
-
       <section className="pictures-section">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar]}
@@ -72,8 +71,7 @@ export default function HouseListingPage() {
           })}
         </Swiper>
       </section>
-
-      <p> Provided Facilities</p>
+      <p className="facility-p"> Provided Facilities</p>
       <section className="facility-section">
         {house.facility.map((facility) => {
           return (
@@ -87,6 +85,14 @@ export default function HouseListingPage() {
           );
         })}
       </section>
+
+      <button className="book-btn"> Book Today</button>
+      <p>
+        Check our reviews
+        <button className="review-btn">Click to see more</button>
+      </p>
+
+      <section></section>
     </div>
   );
 }

@@ -230,7 +230,6 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border: 2px solid black;
 }
 .facility-icon {
   width: 30px;
@@ -279,4 +278,35 @@ p {
 .house-basic-div {
   grid-template-columns: 2fr 3fr;
   grid-area: house;
+}
+.facility-p {
+  padding: 10px;
+  background-color: #ffab6e;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+}
+.book-btn {
+  width: 100%;
+  background-color: slateblue;
+  color: #eff0f3;
+  border-radius: 2px;
+  padding: 5px 20px;
+  border: none;
+  font-size: 1.2rem;
+  transition: 0.2s;
+  margin-bottom: 10px;
+}
+.book-btn:hover,
+.review-btn:active,
+.review-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.01);
+}
+.review-btn {
+  background-color: #ff8e3c;
+  border: none;
+  padding: 5px;
+  color: #eff0f3;
+  border-radius: 5px;
+  margin-left: 10px;
 }
