@@ -10,6 +10,7 @@ import WrongTurn from "./pages/WrongTurn";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/SignUp";
 import GuestProfilePage from "./pages/GuestProfilePage"
+import BottomNav from "./components/BottomNav"
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               <WrongTurn />
             </Route>
           </Switch>
+          <BottomNav />
         </div>
       </div>
     </div>
