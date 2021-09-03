@@ -55,8 +55,8 @@ async function getAllHouses(req: Request, res: Response) {
       })
 
       const houses = await modifiedHouses(rawData)
-      console.log("rawData", rawData)
-      console.log("houses", houses)
+      // console.log("rawData", rawData)
+      // console.log("houses", houses)
       res.json(houses)
     }
   } catch (error) {

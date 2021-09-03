@@ -11,45 +11,6 @@ type User = {
   role: string
 }
 
-// {
-//   "id": 1,
-//   "name": "Assistant Avon teal Swiss",
-//   "bedrooms": 2,
-//   "maxGuests": 4,
-//   "facility": [
-//     "Wifi",
-//     "Jacuzzi",
-//     "Parking",
-//     "Kitchen"
-//   ],
-//   "city": "Salina",
-//   "hostProfile": "Aliya.Schulist63anet",
-//   "price": 87,
-//   "reviews": [],
-//   "pictures": [
-//     {
-//       "src": "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "whole house"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "bedroom"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/892618/pexels-photo-892618.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "living room"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/3288104/pexels-photo-3288104.png?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "bathroom"
-//     },
-//     {
-//       "src": "https://images.pexels.com/photos/2208891/pexels-photo-2208891.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-//       "alt": "kitchen"
-//     }
-//   ]
-// },
-
 type Picture = {
   src: string
   alt: string
@@ -68,15 +29,24 @@ export type House = {
   facility: string[]
   city: string
   hostProfile: string
-  price: 87
+  price: number
   pictures: Picture[]
   reviews: Review[]
 }
+
+type Options = {
+  city: string
+  checkIn: string
+  checkOut: string
+  maxGuests: number
+}
+
 type Store = {
   houses: House[]
   currentUser: User
   setCurrentUser: (arg: User) => void
   fetchAllHouses: () => void
+  filterHouses: (arg: Options) => void
 }
 
 const useStore = create<Store>(set => ({
@@ -102,6 +72,24 @@ const useStore = create<Store>(set => ({
       })
       .catch(error => {
         console.error("Unable to fetch all houses", error)
+      })
+  },
+  filterHouses: filterOptions => {
+    let { city, checkIn, checkOut, maxGuests } = filterOptions
+    console.log("data filter", filterOptions)
+    const cityFilter = city !== "" ? `city=${city}&` : ""
+    checkIn = checkIn !== "" ? checkIn : new Date().toISOString()
+    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString()
+    fetch(
+      `${baseUrl}/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
+    )
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
+        console.log("All houses fetch", allHouses)
+      })
+      .catch(error => {
+        throw error
       })
   },
 }))

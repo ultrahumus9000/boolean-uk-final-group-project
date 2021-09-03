@@ -57,7 +57,7 @@ async function getFilteredHouses(query: Query) {
     const filteredHouses = await house.findMany({
       where: {
         maxGuests: { gte: parseInt(maxGuests) },
-        city: { contains: city },
+        city: { contains: city, mode: "insensitive" },
         //   bookings: {
         //     some: {
         //       start: new Date(checkIn).toISOString(),

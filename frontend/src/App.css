@@ -69,7 +69,7 @@ p {
   display: grid;
   grid-template-rows: 50px 1fr;
   place-content: bottom;
-  /* padding: 20px; */
+  padding: 10px;
   background-color: rgb(250, 250, 250);
   height: 636px;
   width: 404px;
@@ -78,7 +78,7 @@ p {
 
 .nav {
   border-bottom: 1px solid var(--body-text);
-color: var(--orange-hl);
+  color: var(--orange-hl);
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -142,66 +142,66 @@ color: var(--orange-hl);
 
 /* LOGIN UP PAGE */
 
-.login-form{
-  display:grid;
-  place-items:center;
+.login-form {
+  display: grid;
+  place-items: center;
   grid-gap: 20px;
 }
 
-.login-container{
-  display:grid;
-  place-items:center;
-  width:350px;
+.login-container {
+  display: grid;
+  place-items: center;
+  width: 350px;
 }
 
-.login-container h1{
+.login-container h1 {
   margin-bottom: 40px;
   font-size: 26px;
 }
 
-.main-div{
-  display:grid;
-  place-items:center;
+.main-div {
+  display: grid;
+  place-items: center;
 }
 
-.input{
+.input {
   width: 300px;
 }
 
 /* SIGNUP PAGE */
 
-.signup-container{
-  display:grid;
-  place-items:center;
+.signup-container {
+  display: grid;
+  place-items: center;
 }
 
-.signup-form{
-  display:grid;
-  place-items:center;
-  grid-gap:10px;
+.signup-form {
+  display: grid;
+  place-items: center;
+  grid-gap: 10px;
 }
 
-.signup-title{
+.signup-title {
   margin: 20px;
 }
 
-.signup-button{
-  width: 150px
+.signup-button {
+  width: 150px;
 }
 
-.radio-buttons label{
+.radio-buttons label {
   font-size: 14px;
 }
 
-.radio-buttons{
-  display:grid;
+.radio-buttons {
+  display: grid;
   justify-content: center;
   grid-template-columns: 100px 100px;
   margin: 10px;
 }
 
-.radio{
-  display:grid;
+.radio {
+  display: grid;
   grid-auto-flow: column;
-  place-items:center;
+  place-items: center;
 }
