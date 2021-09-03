@@ -67,41 +67,36 @@ p {
 
 .screen {
   display: grid;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 50px 1fr 50px;
   place-content: bottom;
   padding: 10px;
   background-color: rgb(250, 250, 250);
   height: 636px;
   width: 404px;
+}
+.main-content {
   overflow: scroll;
 }
-
 .nav {
-  position: sticky;
-  /* background-color:rgba(0, 0, 0, 0.1); */
-  background-color:pink;	
-    top: 0;
+  background-color: pink;
   border-bottom: 1px solid var(--body-text);
   color: var(--orange-hl);
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  z-index: 100;
 }
 
-.bottom-nav{
-  position: sticky;
-  bottom:0;
-  background:pink;
+.bottom-nav {
+  background: pink;
   height: 50px;
-  display:grid;
-  grid-template-columns:30% 30% 30%;
-  justify-content:space-between;
-  place-items:center;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  justify-content: space-between;
+  place-items: center;
 }
 
-.bottom-nav img{
-  width:30px;
+.bottom-nav img {
+  width: 30px;
 }
 
 .main {
@@ -163,49 +158,49 @@ p {
 /* DASHBOARD */
 /* DASHBOARDS  */
 
-.container{
-  width:90%;
+.container {
+  width: 90%;
 }
 
-.dashboard{
-  display:grid;
-  place-items:center;
+.dashboard {
+  display: grid;
+  place-items: center;
 }
 
-.profile{
+.profile {
   margin: 30px 15px;
-  display:grid;
-  place-items:center;
+  display: grid;
+  place-items: center;
   grid-gap: 20px;
 }
-.profile-avatar{
-  border-radius:50%;
-  width:100px;
+.profile-avatar {
+  border-radius: 50%;
+  width: 100px;
 }
 
-.go-profile{
+.go-profile {
   height: 50px;
   width: 200px;
-  font-size:16px;
+  font-size: 16px;
 }
 
-.stay-container{
-  display:grid;
+.stay-container {
+  display: grid;
   grid-template-columns: 30% 70%;
-  border:1px black solid;
+  border: 1px black solid;
   border-radius: 5px;
   padding: 5px;
   margin: 10px 0px;
 }
-.stay-title{
-  font-size:16px;
-  font-weight:bold;
+.stay-title {
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.contact-host{
-  display:grid;
-  float:right;
-  grid-template-columns: 100px 30px ;
+.contact-host {
+  display: grid;
+  float: right;
+  grid-template-columns: 100px 30px;
   place-items: center;
 }
 
@@ -273,7 +268,6 @@ p {
   display: grid;
   grid-auto-flow: column;
   place-items: center;
-
 }
 
 /* house-listing-page */
@@ -290,8 +284,8 @@ p {
   height: 300px;
 }
 .host-profile {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
   border-radius: 50px;
   border: 2px solid teal;
@@ -338,11 +332,11 @@ p {
   align-items: center;
 }
 .address-div {
-  grid-template-columns: 40px 1fr 1fr;
+  grid-template-columns: 30px 1fr 1fr;
   grid-area: address;
 }
 .host-div {
-  grid-template-columns: 60px 1fr;
+  grid-template-columns: 40px 1fr;
   grid-area: host;
 }
 .house-basic-div {
@@ -379,18 +373,17 @@ p {
   color: #eff0f3;
   border-radius: 5px;
   margin-left: 10px;
-
 }
 
 /* GUEST PROFILE */
 
-.profile-container{
-  display:grid;
-  place-items:center;
+.profile-container {
+  display: grid;
+  place-items: center;
   grid-gap: 15px;
   width: 90%;
 }
 
-.profile textarea{
-  font-size:16px;
+.profile textarea {
+  font-size: 16px;
 }

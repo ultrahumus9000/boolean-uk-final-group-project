@@ -18,33 +18,34 @@ function App() {
       <div className="phone">
         <div className="screen">
           <Nav />
-
-          <Switch>
-            <Route path="/" exact>
-              <HomePage />
-            </Route>
-            <Route path="/login" exact>
-              <LoginPage />
-            </Route>
-            <Route path="/signup" exact>
-              <RegisterPage />
-            </Route>
-            <Route path="/house/:houseId" exact>
-              <HouseListingPage />
-            </Route>
-            <Route path="/guest/dashboard" exact>
-              <GuestDashPage />
-            </Route>
-            <Route path="/host/dashboard" exact>
-              <HostDashPage />
-            </Route>
-            <Route path="/guest/profile" exact>
-              <GuestProfilePage />
-            </Route>
-            <Route path="*">
-              <WrongTurn />
-            </Route>
-          </Switch>
+          <div className="main-content">
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
+              <Route path="/login" exact>
+                <LoginPage />
+              </Route>
+              <Route path="/signup" exact>
+                <RegisterPage />
+              </Route>
+              <Route path="/house/:houseId" exact>
+                <HouseListingPage />
+              </Route>
+              <Route path="/guest/dashboard" exact>
+                <GuestDashPage />
+              </Route>
+              <Route path="/host/dashboard" exact>
+                <HostDashPage />
+              </Route>
+              <Route path="/guest/profile" exact>
+                <GuestProfilePage />
+              </Route>
+              <Route path="*">
+                <WrongTurn />
+              </Route>
+            </Switch>
+          </div>
           <BottomNav />
         </div>
       </div>
