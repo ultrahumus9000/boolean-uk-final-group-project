@@ -105,7 +105,17 @@ export default function HouseListingPage() {
         Book Today
       </button>
       <p>Check our reviews</p>
-      <section className="review-section"></section>
+      <section className="review-section">
+        {house.reviews.map((review) => {
+          return (
+            <>
+              <p>{review.content}</p>
+              <img className="host-profile" src={review.guestAvatar} />
+              <span>{review.guestUsername} </span>
+            </>
+          );
+        })}
+      </section>
     </div>
   );
 }
