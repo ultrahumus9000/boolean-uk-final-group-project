@@ -68,7 +68,6 @@ function getAllHouses(req, res) {
                     },
                 });
                 const houses = yield (0, service_1.modifiedHouses)(rawData);
-
                 res.json(houses);
             }
         }

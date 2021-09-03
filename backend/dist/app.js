@@ -8,12 +8,9 @@ const router_2 = __importDefault(require("./auth/router"));
 const middleware_1 = __importDefault(require("./middleware"));
 const router_3 = __importDefault(require("./house/router"));
 const router_4 = __importDefault(require("./review/router"));
-
 const router_5 = __importDefault(require("./guest/router"));
 const router_6 = __importDefault(require("./host/router"));
 const router_7 = __importDefault(require("./booking/router"));
-
-
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -26,7 +23,7 @@ app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // house routes has to be put before token check so that everyone can view houses
 app.use("/houses", router_3.default);
-app.use("/bookings", router_5.default); // here until ready to move down.
+app.use("/bookings", router_7.default); // here until ready to move down.
 //check token
 app.use(router_2.default);
 app.use(middleware_1.default);
