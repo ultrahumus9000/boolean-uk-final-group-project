@@ -21,8 +21,8 @@ async function createBooking(req: Request, res: Response) {
   const { id } = req.currentUser as User;
   const { total, start, end, houseId } = req.body as Booking;
 
-  const startDate = new Date(start);
-  const endDate = new Date(end);
+  let startDate = new Date(start);
+  let endDate = new Date(end);
 
   try {
     const guestInfo = await user.findUnique({
@@ -39,20 +39,60 @@ async function createBooking(req: Request, res: Response) {
       realGuestId = guestInfo?.guestProfile?.id;
     }
 
-    // need to check whether its allow the booking or not
-
-    const newBooking = await booking.create({
-      data: {
-        total: total,
-        guestId: realGuestId,
-        start: startDate.toISOString(),
-        end: endDate.toISOString(),
-        houseId: houseId,
+    const checkBookingStartDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: startDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: startDate.toISOString(),
+            },
+          },
+        ],
       },
     });
-    res.json(newBooking);
 
-    console.log("newBooking", newBooking);
+    const checkBookingEndDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: endDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: endDate.toISOString(),
+            },
+          },
+        ],
+      },
+    });
+
+    // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
+    //3 not within 07/09- 11/09 06/09-10/09
+
+    if (
+      checkBookingEndDate === undefined &&
+      checkBookingStartDate === undefined
+    ) {
+      const newBooking = await booking.create({
+        data: {
+          total: total,
+          guestId: realGuestId,
+          start: startDate.toISOString(),
+          end: endDate.toISOString(),
+          houseId: houseId,
+        },
+      });
+      res.json(newBooking);
+    } else {
+      throw new Error("you can not book this hotel");
+    }
   } catch (error) {
     if (error instanceof PrismaClientInitializationError) {
       if (error.errorCode === "P2002") {
@@ -187,9 +227,6 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
     res.json(firstFilterData);
   } catch (error) {
     const errorList = error as Error;
-    // if (errorList.) {
-
-    // }
     res.json(error);
     console.log("error:", error);
   }
