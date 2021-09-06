@@ -52,6 +52,7 @@ function getAllBookings(req, res) {
                             user: {
                                 select: {
                                     username: true,
+                                    avatar: true,
                                 },
                             },
                         },
@@ -73,7 +74,18 @@ function getAllBookings(req, res) {
                     },
                 },
             });
-            res.json(foundBookings);
+            const modifiedBookings = foundBookings.map((booking) => {
+                const modifiedBooking = Object.assign(Object.assign({}, booking), { guestProfile: {
+                        name: booking.guestProfile.user.username,
+                        avatar: booking.guestProfile.user.avatar,
+                    }, house: {
+                        houseId: booking.house.id,
+                        city: booking.house.city,
+                        name: booking.house.name,
+                    } });
+                return modifiedBooking;
+            });
+            res.json(modifiedBookings);
             console.log("foundBookings", foundBookings);
         }
         catch (error) {

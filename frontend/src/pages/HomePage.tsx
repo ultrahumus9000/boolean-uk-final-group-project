@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { SyntheticEvent, useEffect } from "react";
 import useStore from "../store";
 import Filter from "../components/Filter";
 import HouseCard from "../components/HouseCard";
@@ -26,6 +26,7 @@ export default function HomePage() {
             name={house.name}
             city={house.city}
             price={house.price}
+            houseId={house.id}
           />
         ))}
       </div>

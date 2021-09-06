@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useStore, { House } from "../store";
+import { useHistory } from "react-router";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper";
 import "swiper/css";
@@ -19,6 +20,8 @@ import Swimingpool from "../assets/Swimingpool.svg";
 import TV from "../assets/TV.svg";
 import Spa from "../assets/Spa.svg";
 import Wifi from "../assets/Wifi.svg";
+import SingleReview from "../components/Review";
+import HouseBasicInfo from "../components/HouseBasicInfo";
 
 type HouseIdType = {
   houseId: string;
@@ -40,10 +43,12 @@ const imageObj = {
 };
 
 export default function HouseListingPage() {
+  const history = useHistory();
   const houseId: HouseIdType = useParams();
   const realHouseId = Number(houseId.houseId);
   const house = useStore((store) => store.house);
   const fetchOneHouse = useStore((store) => store.fetchOneHouse);
+  const currentUser = useStore((store) => store.currentUser);
 
   useEffect(() => {
     fetchOneHouse(realHouseId);
@@ -53,30 +58,23 @@ export default function HouseListingPage() {
     return <h1>we are loading for you</h1>;
   }
 
+  function bookAction() {
+    if (currentUser.username !== "") {
+      console.log(currentUser);
+    } else {
+      console.log(currentUser);
+      history.push("/login");
+    }
+  }
+
   return (
     <div className="house-card">
-      <section className="house-bio">
-        <h2>{house.name}</h2>
-        <section className="basic-section">
-          <div className="address-div">
-            <img className="facility-icon" src={address} />
-            <span>{house.city}</span>
-            <span>£{house.price}</span>
-          </div>
-          <div className="house-basic-div">
-            <span>Guests: {house.maxGuests}</span>
-            <span>Bedrooms: {house.bedrooms}</span>
-          </div>
-          <div className="host-div">
-            <img src={house.hostAvatar} className="host-profile" />
-            <span>{house.hostProfile}</span>
-          </div>
-        </section>
-      </section>
+      <HouseBasicInfo house={house} />
+
       <section className="pictures-section">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar]}
-          spaceBetween={0}
+          spaceBetween={-0.5}
           slidesPerView={1}
           navigation
           pagination
@@ -101,19 +99,13 @@ export default function HouseListingPage() {
           );
         })}
       </section>
-      <button className="book-btn" onClick={() => {}}>
+      <button className="book-btn" onClick={bookAction}>
         Book Today
       </button>
       <p>Check our reviews</p>
       <section className="review-section">
         {house.reviews.map((review) => {
-          return (
-            <>
-              <p>{review.content}</p>
-              <img className="host-profile" src={review.guestAvatar} />
-              <span>{review.guestUsername} </span>
-            </>
-          );
+          return <SingleReview review={review} key={review.guestUsername} />;
         })}
       </section>
     </div>
