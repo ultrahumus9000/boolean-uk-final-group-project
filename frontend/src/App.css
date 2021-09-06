@@ -190,6 +190,10 @@ p {
   padding: 5px;
   margin: 10px 0px;
 }
+
+.stay-container img{
+  width: 80px;
+}
 .stay-title {
   font-size: 16px;
   font-weight: bold;

@@ -12,7 +12,7 @@ export default function FutureBookings() {
             </div>
             <div className="contact-host">
                <Button> Contact host</Button>
-               <p> X</p>
+               <p>X</p>
             </div>
          </div>
       </div>
