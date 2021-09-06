@@ -1,5 +1,9 @@
 // import { User } from "@prisma/client"
 import { User } from ".prisma/client";
+import {
+  PrismaClientInitializationError,
+  PrismaClientUnknownRequestError,
+} from "@prisma/client/runtime";
 import { Request, Response } from "express";
 import db from "../database";
 
@@ -34,6 +38,9 @@ async function createBooking(req: Request, res: Response) {
     if (guestInfo?.guestProfile) {
       realGuestId = guestInfo?.guestProfile?.id;
     }
+
+    // need to check whether its allow the booking or not
+
     const newBooking = await booking.create({
       data: {
         total: total,
@@ -44,13 +51,19 @@ async function createBooking(req: Request, res: Response) {
       },
     });
     res.json(newBooking);
+
     console.log("newBooking", newBooking);
   } catch (error) {
-    const errorList = error as Error;
-    res.json(error);
-    // if(errorList.code){
-
-    // }
+    if (error instanceof PrismaClientInitializationError) {
+      if (error.errorCode === "P2002") {
+        res.json("repeat data");
+      } else {
+        res.json(error.message);
+      }
+    } else {
+      const newError = error as Error;
+      res.json(newError.message);
+    }
 
     console.log("error:", error);
   }
@@ -115,6 +128,7 @@ async function getAllBookings(req: Request, res: Response) {
 
 async function getAllBookingsforGuest(req: Request, res: Response) {
   const { id } = req.currentUser as User;
+
   try {
     const guestInfo = await user.findUnique({
       where: {
@@ -130,19 +144,53 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
       realGuestId = guestInfo?.guestProfile?.id;
     }
 
-    const result = await booking.findMany({
+    const rawData = await booking.findMany({
       where: {
         guestId: realGuestId,
       },
+      select: {
+        start: true,
+        end: true,
+        total: true,
+        house: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            hostProfile: {
+              select: {
+                user: {
+                  select: {
+                    username: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     });
 
-    res.json(result);
+    const firstFilterData = rawData.map((booking) => {
+      const modifiedHouseInfo = {
+        id: booking.house.id,
+        city: booking.house.city,
+        name: booking.house.name,
+        hostname: booking.house.hostProfile.user.username,
+        hostAvatar: booking.house.hostProfile.user.avatar,
+      };
+      const newBooking = { ...booking, house: modifiedHouseInfo };
+      return newBooking;
+    });
+
+    res.json(firstFilterData);
   } catch (error) {
-    res.json(error);
-    // if(errorList.code){
+    const errorList = error as Error;
+    // if (errorList.) {
 
     // }
-
+    res.json(error);
     console.log("error:", error);
   }
 }
