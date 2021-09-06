@@ -52,8 +52,8 @@ export default function BookingForm({ house }) {
       .then((resp) => resp.json())
       .then((res) => {
         console.log(res);
-        // setBookingForm(initialBookingForm)
-        // history.push("/guest/dashboard")
+        // setBookingForm(initialBookingForm);
+        // history.push("/guest/dashboard");
       })
       .catch((error) => {
         console.error("Unable to make bookings", error);
@@ -63,10 +63,33 @@ export default function BookingForm({ house }) {
   function handleStart(event: SyntheticEvent) {
     const targetEvent = event.target as HTMLInputElement;
 
-    setBookingForm({
-      ...bookingForm,
-      start: targetEvent.value,
-    });
+    if (bookingForm.start !== "") {
+      var date1 = new Date(targetEvent.value);
+
+      var date2 = new Date(bookingForm.end);
+
+      var Difference_In_Time = date2.getTime() - date1.getTime();
+      // To calculate the no. of days between two dates
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+      const totalPrice = house.price * Difference_In_Days;
+
+      if (date1 > date2) {
+        alert("you cannot select early date");
+        return;
+      }
+
+      setBookingForm({
+        ...bookingForm,
+        start: targetEvent.value,
+        total: totalPrice,
+      });
+    } else {
+      setBookingForm({
+        ...bookingForm,
+        start: targetEvent.value,
+      });
+    }
   }
 
   function handleEndDate(event: SyntheticEvent) {
@@ -97,7 +120,6 @@ export default function BookingForm({ house }) {
   function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
     const targetEvent = event.target as HTMLFormElement;
-
     createBooking(bookingForm);
   }
 
