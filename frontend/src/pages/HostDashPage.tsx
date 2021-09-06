@@ -1,11 +1,17 @@
 import React from "react"
 import Profile from "../components/Profile"
+import Dashboard from "../components/Dashboard"
+import Listings from "../components/Listings"
 
-export default function HostDashPage(){
+export default function HostDashPage() {
    return (
-   <div>
-   <h1>(Host Dashboard)</h1>
-   <Profile/>
-   </div>
+      <div className="dashboard">
+         <div className="container">
+            <h1>(Host Dashboard)</h1>
+            <Dashboard />
+            <h2> Listings</h2>
+            <Listings />
+         </div>
+      </div>
    )
 }

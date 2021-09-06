@@ -9,6 +9,7 @@ export default function LoginPage() {
   const history = useHistory();
 
   const setCurrentUser = useStore((store) => store.setCurrentUser);
+  const currentUser = useStore((store) => store.currentUser);
 
   function loginUser(userCreds) {
     fetch("http://localhost:4000/login", {
@@ -25,8 +26,11 @@ export default function LoginPage() {
       .then((userFromServer) => {
         setCurrentUser(userFromServer);
         history.push("/");
+        console.log(currentUser.username)
       });
   }
+
+
 
   function handleSubmit(event) {
     const { username, password } = event.target;
