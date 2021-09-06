@@ -1,29 +1,26 @@
-import create from "zustand";
+import create from "zustand"
 
-let baseUrl = "http://localhost:4000";
+let baseUrl = "http://localhost:4000"
 
 type User = {
-
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string;
-  role: string;
-};
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  avatar: string
+  role: string
+}
 
 type Picture = {
-  src: string;
-  alt: string;
-};
+  src: string
+  alt: string
+}
 
 type Review = {
-  content: string;
-  guestUsername: string;
-  guestAvatar: string;
-};
-
-
+  content: string
+  guestUsername: string
+  guestAvatar: string
+}
 
 type Options = {
   city: string
@@ -32,33 +29,31 @@ type Options = {
   maxGuests: number
 }
 
-export type House ={
-  id: number;
-  name: string;
-  bedrooms: number;
-  maxGuests: number;
-  facility: string[];
-  city: string;
-  hostProfile: string;
-  hostAvatar: string;
-  price: number;
-  pictures: Picture[];
-  reviews: Review[];
-};
-        
+export type House = {
+  id: number
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  hostProfile: string
+  hostAvatar: string
+  price: number
+  pictures: Picture[]
+  reviews: Review[]
+}
+
 type Store = {
-  houses: House[];
-  house: House;
-  currentUser: User;
-  reviewDisplay: boolean;
-  setReviewDisplay: () => void;
-  setCurrentUser: (arg: User) => void;
-  fetchAllHouses: () => void;
-  fetchOneHouse: (arg: number) => void;
+  houses: House[]
+  house: House
+  currentUser: User
+  reviewDisplay: boolean
+  setReviewDisplay: () => void
+  setCurrentUser: (arg: User) => void
+  fetchAllHouses: () => void
+  fetchOneHouse: (arg: number) => void
   filterHouses: (arg: Options) => void
-
-};
-
+}
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -85,33 +80,33 @@ const useStore = create<Store>((set, get) => ({
   },
   reviewDisplay: false,
   setReviewDisplay: () => {
-    set({ reviewDisplay: !get().reviewDisplay });
+    set({ reviewDisplay: !get().reviewDisplay })
   },
-  setCurrentUser: (userFromServer) => {
+  setCurrentUser: userFromServer => {
     set({
       currentUser: userFromServer,
-    });
+    })
   },
   fetchAllHouses: () => {
     fetch(`${baseUrl}/houses`)
-      .then((resp) => resp.json())
-      .then((allHouses) => {
-        set({ houses: allHouses });
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
-  fetchOneHouse: (houseId) => {
+  fetchOneHouse: houseId => {
     fetch(`${baseUrl}/houses/${houseId}`)
-      .then((resp) => resp.json())
-      .then((houseFromServer) => {
-        console.log(houseFromServer);
-        set({ house: houseFromServer });
+      .then(resp => resp.json())
+      .then(houseFromServer => {
+        console.log(houseFromServer)
+        set({ house: houseFromServer })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
 
   filterHouses: filterOptions => {
@@ -134,4 +129,5 @@ const useStore = create<Store>((set, get) => ({
   },
 }))
 
-export default useStore;
+export default useStore
+//test
