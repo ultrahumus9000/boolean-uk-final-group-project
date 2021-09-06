@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useStore, { House } from "../store";
 import { useHistory } from "react-router";
@@ -22,6 +22,7 @@ import Spa from "../assets/Spa.svg";
 import Wifi from "../assets/Wifi.svg";
 import SingleReview from "../components/Review";
 import HouseBasicInfo from "../components/HouseBasicInfo";
+import BookingForm from "../components/BookingForm";
 
 type HouseIdType = {
   houseId: string;
@@ -49,7 +50,8 @@ export default function HouseListingPage() {
   const house = useStore((store) => store.house);
   const fetchOneHouse = useStore((store) => store.fetchOneHouse);
   const currentUser = useStore((store) => store.currentUser);
-
+  const bookingDisplay = useStore((store) => store.bookingDisplay);
+  const toggleBookingDisplay = useStore((store) => store.toggleDisplay);
   useEffect(() => {
     fetchOneHouse(realHouseId);
   }, [realHouseId]);
@@ -59,12 +61,14 @@ export default function HouseListingPage() {
   }
 
   function bookAction() {
-    if (currentUser.username !== "") {
-      console.log(currentUser);
-    } else {
-      console.log(currentUser);
-      history.push("/login");
-    }
+    // if (currentUser.username !== "") {
+    //   setBookingDisplay(true);
+    // } else {
+    //   console.log(currentUser);
+    //   history.push("/login");
+    // }
+
+    toggleBookingDisplay();
   }
 
   return (
@@ -99,9 +103,14 @@ export default function HouseListingPage() {
           );
         })}
       </section>
-      <button className="book-btn" onClick={bookAction}>
-        Book Today
-      </button>
+      {bookingDisplay ? (
+        <BookingForm house={house} />
+      ) : (
+        <button className="book-btn" onClick={bookAction}>
+          Book Today
+        </button>
+      )}
+
       <p>Check our reviews</p>
       <section className="review-section">
         {house.reviews.map((review) => {

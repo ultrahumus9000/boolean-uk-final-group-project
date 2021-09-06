@@ -391,3 +391,11 @@ p {
 .profile textarea {
   font-size: 16px;
 }
+/* booking form */
+.booking-form {
+  background-color: lavender;
+  padding: 10px;
+}
+.booking-form form {
+  display: grid;
+}

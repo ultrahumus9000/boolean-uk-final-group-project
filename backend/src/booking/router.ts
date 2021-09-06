@@ -1,10 +1,15 @@
-import { Router } from "express"
+import { Router } from "express";
 
-import { getAllBookings, createBooking } from "./controller"
+import {
+  getAllBookings,
+  createBooking,
+  getAllBookingsforGuest,
+} from "./controller";
 
-const bookingRouter = Router()
+const bookingRouter = Router();
 
-bookingRouter.get("/", getAllBookings)
-bookingRouter.post("/", createBooking)
+bookingRouter.get("/", getAllBookings);
+bookingRouter.get("/user", getAllBookingsforGuest);
+bookingRouter.post("/", createBooking);
 
-export default bookingRouter
+export default bookingRouter;
