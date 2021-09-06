@@ -70,8 +70,7 @@ function createBooking(req, res) {
             });
             // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
             //3 not within 07/09- 11/09 06/09-10/09
-            if (checkBookingEndDate === undefined &&
-                checkBookingStartDate === undefined) {
+            if (checkBookingEndDate === null && checkBookingStartDate === null) {
                 const newBooking = yield booking.create({
                     data: {
                         total: total,
@@ -199,17 +198,20 @@ function getAllBookingsforGuest(req, res) {
                                     },
                                 },
                             },
+                            pictures: true,
                         },
                     },
                 },
             });
             const firstFilterData = rawData.map((booking) => {
                 const modifiedHouseInfo = {
-                    id: booking.house.id,
+                    houseIdd: booking.house.id,
                     city: booking.house.city,
                     name: booking.house.name,
                     hostname: booking.house.hostProfile.user.username,
                     hostAvatar: booking.house.hostProfile.user.avatar,
+                    pictureSrc: booking.house.pictures[0].src,
+                    pictureAlt: booking.house.pictures[0].alt,
                 };
                 const newBooking = Object.assign(Object.assign({}, booking), { house: modifiedHouseInfo });
                 return newBooking;

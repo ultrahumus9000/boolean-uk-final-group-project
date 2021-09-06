@@ -18,11 +18,8 @@ export default function BookingForm({ house }) {
   };
 
   const [bookingForm, setBookingForm] = useState(initialBookingForm);
+  const toggleDisplay = useStore((store) => store.toggleDisplay);
   const history = useHistory();
-
-  console.log("house", house);
-
-  console.log("bookingForm", bookingForm);
 
   function calculateTotal() {
     var date1 = new Date(bookingForm.start);
@@ -51,9 +48,11 @@ export default function BookingForm({ house }) {
     })
       .then((resp) => resp.json())
       .then((res) => {
+        console.log(res);
         if (typeof res === "string") {
           alert("you cannot book it for now ");
         } else {
+          toggleDisplay();
           setBookingForm(initialBookingForm);
           history.push("/guest/dashboard");
         }

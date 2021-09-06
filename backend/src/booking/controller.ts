@@ -76,10 +76,7 @@ async function createBooking(req: Request, res: Response) {
     // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
     //3 not within 07/09- 11/09 06/09-10/09
 
-    if (
-      checkBookingEndDate === undefined &&
-      checkBookingStartDate === undefined
-    ) {
+    if (checkBookingEndDate === null && checkBookingStartDate === null) {
       const newBooking = await booking.create({
         data: {
           total: total,
@@ -207,6 +204,7 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
                 },
               },
             },
+            pictures: true,
           },
         },
       },
@@ -214,13 +212,18 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
 
     const firstFilterData = rawData.map((booking) => {
       const modifiedHouseInfo = {
-        id: booking.house.id,
+        houseIdd: booking.house.id,
         city: booking.house.city,
         name: booking.house.name,
         hostname: booking.house.hostProfile.user.username,
         hostAvatar: booking.house.hostProfile.user.avatar,
+        pictureSrc: booking.house.pictures[0].src,
+        pictureAlt: booking.house.pictures[0].alt,
       };
-      const newBooking = { ...booking, house: modifiedHouseInfo };
+      const newBooking = {
+        ...booking,
+        house: modifiedHouseInfo,
+      };
       return newBooking;
     });
 
