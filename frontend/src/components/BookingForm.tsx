@@ -51,9 +51,12 @@ export default function BookingForm({ house }) {
     })
       .then((resp) => resp.json())
       .then((res) => {
-        console.log(res);
-        // setBookingForm(initialBookingForm);
-        // history.push("/guest/dashboard");
+        if (typeof res === "string") {
+          alert("you cannot book it for now ");
+        } else {
+          setBookingForm(initialBookingForm);
+          history.push("/guest/dashboard");
+        }
       })
       .catch((error) => {
         console.error("Unable to make bookings", error);
@@ -102,7 +105,6 @@ export default function BookingForm({ house }) {
       alert("you cannot select early date");
       return;
     }
-
     // To calculate the time difference of two dates
     var Difference_In_Time = date2.getTime() - date1.getTime();
     // To calculate the no. of days between two dates

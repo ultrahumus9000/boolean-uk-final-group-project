@@ -36,7 +36,7 @@ function createBooking(req, res) {
             if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
                 realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
             }
-            const checkBooking = yield booking.findMany({
+            const checkBookingStartDate = yield booking.findFirst({
                 where: {
                     AND: [
                         {
@@ -46,28 +46,32 @@ function createBooking(req, res) {
                         },
                         {
                             end: {
-                                gte: endDate.toISOString(),
-                            },
-                        },
-                    ],
-                    OR: [
-                        {
-                            start: {
-                                lte: startDate.toISOString(),
-                            },
-                        },
-                        {
-                            end: {
-                                lte: endDate.toISOString(),
+                                gte: startDate.toISOString(),
                             },
                         },
                     ],
                 },
             });
-            if (checkBooking.length) {
-                throw new Error("you can not book this hotel");
-            }
-            else {
+            const checkBookingEndDate = yield booking.findFirst({
+                where: {
+                    AND: [
+                        {
+                            start: {
+                                lte: endDate.toISOString(),
+                            },
+                        },
+                        {
+                            end: {
+                                gte: endDate.toISOString(),
+                            },
+                        },
+                    ],
+                },
+            });
+            // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
+            //3 not within 07/09- 11/09 06/09-10/09
+            if (checkBookingEndDate === undefined &&
+                checkBookingStartDate === undefined) {
                 const newBooking = yield booking.create({
                     data: {
                         total: total,
@@ -79,17 +83,9 @@ function createBooking(req, res) {
                 });
                 res.json(newBooking);
             }
-            // const newBooking = await booking.create({
-            //   data: {
-            //     total: total,
-            //     guestId: realGuestId,
-            //     start: startDate.toISOString(),
-            //     end: endDate.toISOString(),
-            //     houseId: houseId,
-            //   },
-            // });
-            // res.json(newBooking);
-            console.log("checkBooking", checkBooking);
+            else {
+                throw new Error("you can not book this hotel");
+            }
         }
         catch (error) {
             if (error instanceof runtime_1.PrismaClientInitializationError) {
