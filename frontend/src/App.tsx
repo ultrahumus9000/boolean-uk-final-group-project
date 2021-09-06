@@ -11,8 +11,11 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/SignUp";
 import GuestProfilePage from "./pages/GuestProfilePage";
 import BottomNav from "./components/BottomNav";
+import useStore from "./store";
 
 function App() {
+  const currentUser = useStore((store) => store.currentUser);
+
   return (
     <div className="App">
       <div className="phone">
