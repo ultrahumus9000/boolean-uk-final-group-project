@@ -57,7 +57,7 @@ p {
   display: grid;
   place-content: center;
   background: rgb(233, 233, 233);
-  border: 1px solid #707d83;
+  border: 1px solid #97a0a5;
   height: 736px;
   width: 414px;
   border-radius: 40px;
@@ -84,12 +84,30 @@ p {
   padding: 10px;
 }
 
+.bottom-nav {
+  position: sticky;
+  bottom: 0;
+  background: pink;
+  height: 50px;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  justify-content: space-between;
+  place-items: center;
+}
+
+.bottom-nav img {
+  width: 30px;
+}
+
 .main {
   margin: 10px 0;
 }
 
 /* HOMEPAGE  */
 .filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   border-bottom: 1px solid var(--body-text);
   margin: 10px 0;
 }
@@ -204,13 +222,10 @@ p {
   display: grid;
   grid-auto-flow: column;
   place-items: center;
-
 }
 
 /* house-listing-page */
-.house-card {
-  width: 400px;
-}
+
 .pictures-section {
   display: grid;
   justify-items: center;
@@ -310,5 +325,4 @@ p {
   color: #eff0f3;
   border-radius: 5px;
   margin-left: 10px;
-
 }

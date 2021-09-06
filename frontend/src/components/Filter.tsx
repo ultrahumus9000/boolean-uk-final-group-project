@@ -1,17 +1,18 @@
 // import React, { useState } from "react"
 import * as React from "react"
-import { useState } from "react"
+import { useState, SyntheticEvent } from "react"
 import useStore from "../store"
 
 export default function Filter() {
   const filterHouses = useStore(store => store.filterHouses)
-
-  const [filterOptions, setFilterOptions] = useState({
+  const initialOptions = {
     city: "",
     checkIn: "",
     checkOut: "",
     maxGuests: 1,
-  })
+  }
+
+  const [filterOptions, setFilterOptions] = useState(initialOptions)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -27,6 +28,10 @@ export default function Filter() {
     })
   }
 
+  function clearForm() {
+    setFilterOptions(initialOptions)
+  }
+
   return (
     <form className="filter" onSubmit={handleSubmit}>
       <input
@@ -36,28 +41,40 @@ export default function Filter() {
         onChange={handleChange}
         value={filterOptions.city}
       />
-      <input
-        type="date"
-        name="checkIn"
-        value={filterOptions.checkIn}
-        min={filterOptions.checkIn}
-        onChange={handleChange}
-      />
-      <input
-        type="date"
-        name="checkOut"
-        value={filterOptions.checkOut}
-        max={"2024-01-01"}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        name="maxGuests"
-        value={filterOptions.maxGuests}
-        min="1"
-        onChange={handleChange}
-      />
-      <input type="submit" />
+      <label>
+        Guests
+        <input
+          type="number"
+          name="maxGuests"
+          value={filterOptions.maxGuests}
+          min="1"
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Check In
+        <input
+          id="checkInCal"
+          type="date"
+          name="checkIn"
+          value={filterOptions.checkIn}
+          min={filterOptions.checkIn}
+          onChange={handleChange}
+        />
+      </label>
+      <label>
+        Check Out
+        <input
+          type="date"
+          name="checkOut"
+          value={filterOptions.checkOut}
+          max={"2024-01-01"}
+          onChange={handleChange}
+        />
+      </label>
+
+      <input type="submit" value="Search" />
+      <button onClick={clearForm}>Reset</button>
     </form>
   )
 }

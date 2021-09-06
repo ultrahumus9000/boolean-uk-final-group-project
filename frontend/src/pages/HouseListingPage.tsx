@@ -1,38 +1,38 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useStore, { House } from "../store";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper";
+import React, { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import useStore, { House } from "../store"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, Scrollbar } from "swiper"
 
-import "swiper/css";
-import "swiper/css/bundle";
+import "swiper/css"
+import "swiper/css/bundle"
 
 type HouseIdType = {
-  houseId: string;
-};
+  houseId: string
+}
 
 export default function HouseListingPage() {
-  const houseId: HouseIdType = useParams();
-  const realHouseId = Number(houseId.houseId);
-  const house = useStore((store) => store.house);
-  const fetchOneHouse = useStore((store) => store.fetchOneHouse);
-  const reviewDisplay = useStore((store) => store.reviewDisplay);
-  const setReviewDisplay = useStore((store) => store.setReviewDisplay);
+  const houseId: HouseIdType = useParams()
+  const realHouseId = Number(houseId.houseId)
+  const house = useStore(store => store.house)
+  const fetchOneHouse = useStore(store => store.fetchOneHouse)
+  const reviewDisplay = useStore(store => store.reviewDisplay)
+  const setReviewDisplay = useStore(store => store.setReviewDisplay)
 
   useEffect(() => {
-    fetchOneHouse(realHouseId);
-  }, [realHouseId]);
+    fetchOneHouse(realHouseId)
+  }, [realHouseId])
 
   if (Object.keys(house).length === 0) {
-    return <h1>we are loading for you</h1>;
+    return <h1>we are loading for you</h1>
   }
 
   function toggleReviewDisplay() {
-    setReviewDisplay;
+    setReviewDisplay
   }
 
   return (
-    <div className="house-card">
+    <div>
       <section className="house-bio">
         <h2>{house.name}</h2>
         <section className="basic-section">
@@ -62,18 +62,18 @@ export default function HouseListingPage() {
           navigation
           pagination
         >
-          {house.pictures.map((picture) => {
+          {house.pictures.map(picture => {
             return (
               <SwiperSlide key={picture.alt}>
                 <img src={picture.src} alt={picture.alt} />
               </SwiperSlide>
-            );
+            )
           })}
         </Swiper>
       </section>
       <p className="facility-p"> Provided Facilities</p>
       <section className="facility-section">
-        {house.facility.map((facility) => {
+        {house.facility.map(facility => {
           return (
             <p className="facility" key={facility}>
               <img
@@ -82,7 +82,7 @@ export default function HouseListingPage() {
               />
               <span>{facility}</span>
             </p>
-          );
+          )
         })}
       </section>
 
@@ -97,5 +97,5 @@ export default function HouseListingPage() {
 
       <section></section>
     </div>
-  );
+  )
 }
