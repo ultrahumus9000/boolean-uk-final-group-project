@@ -12,21 +12,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllBookings = exports.createBooking = void 0;
+exports.getAllBookingsforGuest = exports.getAllBookings = exports.createBooking = void 0;
 const database_1 = __importDefault(require("../database"));
-const { booking } = database_1.default;
+const { booking, user } = database_1.default;
 function createBooking(req, res) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        //   const { id } = req.currentUser as User
-        const { total, guestId, start, end, houseId } = req.body;
-        console.log("req.body", req.body);
+        const { id } = req.currentUser;
+        const { total, start, end, houseId } = req.body;
+        const startDate = new Date(start);
+        const endDate = new Date(end);
         try {
+            const guestInfo = yield user.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    guestProfile: true,
+                },
+            });
+            let realGuestId = 0;
+            if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
+                realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
+            }
             const newBooking = yield booking.create({
                 data: {
                     total: total,
-                    guestId: guestId,
-                    start: start,
-                    end: end,
+                    guestId: realGuestId,
+                    start: startDate.toISOString(),
+                    end: endDate.toISOString(),
                     houseId: houseId,
                 },
             });
@@ -34,7 +48,10 @@ function createBooking(req, res) {
             console.log("newBooking", newBooking);
         }
         catch (error) {
+            const errorList = error;
             res.json(error);
+            // if(errorList.code){
+            // }
             console.log("error:", error);
         }
     });
@@ -94,3 +111,36 @@ function getAllBookings(req, res) {
     });
 }
 exports.getAllBookings = getAllBookings;
+function getAllBookingsforGuest(req, res) {
+    var _a;
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        try {
+            const guestInfo = yield user.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    guestProfile: true,
+                },
+            });
+            let realGuestId = 0;
+            if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
+                realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
+            }
+            const result = yield booking.findMany({
+                where: {
+                    guestId: realGuestId,
+                },
+            });
+            res.json(result);
+        }
+        catch (error) {
+            res.json(error);
+            // if(errorList.code){
+            // }
+            console.log("error:", error);
+        }
+    });
+}
+exports.getAllBookingsforGuest = getAllBookingsforGuest;

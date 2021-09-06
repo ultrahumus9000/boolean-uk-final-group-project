@@ -43,15 +43,20 @@ export type House = {
   reviews: Review[];
 };
 
+type Booking = {};
+
 type Store = {
   houses: House[];
   house: House;
   currentUser: User;
+  bookingDisplay: Boolean;
 
+  toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
+  // createBooking: (arg: BookingForm) => void;
 };
 
 const useStore = create<Store>((set, get) => ({
@@ -78,6 +83,11 @@ const useStore = create<Store>((set, get) => ({
     role: "",
   },
 
+  bookingDisplay: false,
+
+  toggleDisplay: () => {
+    set({ bookingDisplay: !get().bookingDisplay });
+  },
   setCurrentUser: (userFromServer) => {
     set({
       currentUser: userFromServer,

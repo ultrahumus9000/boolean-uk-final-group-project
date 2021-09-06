@@ -1,8 +1,9 @@
 // import { User } from "@prisma/client"
+import { User } from ".prisma/client";
 import { Request, Response } from "express";
 import db from "../database";
 
-const { booking } = db;
+const { booking, user } = db;
 
 type Booking = {
   total: number;
@@ -13,24 +14,44 @@ type Booking = {
 };
 
 async function createBooking(req: Request, res: Response) {
-  //   const { id } = req.currentUser as User
-  const { total, guestId, start, end, houseId } = req.body as Booking;
-  console.log("req.body", req.body);
+  const { id } = req.currentUser as User;
+  const { total, start, end, houseId } = req.body as Booking;
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
 
   try {
+    const guestInfo = await user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        guestProfile: true,
+      },
+    });
+
+    let realGuestId = 0;
+    if (guestInfo?.guestProfile) {
+      realGuestId = guestInfo?.guestProfile?.id;
+    }
     const newBooking = await booking.create({
       data: {
         total: total,
-        guestId: guestId,
-        start: start,
-        end: end,
+        guestId: realGuestId,
+        start: startDate.toISOString(),
+        end: endDate.toISOString(),
         houseId: houseId,
       },
     });
     res.json(newBooking);
     console.log("newBooking", newBooking);
   } catch (error) {
+    const errorList = error as Error;
     res.json(error);
+    // if(errorList.code){
+
+    // }
+
     console.log("error:", error);
   }
 }
@@ -92,4 +113,38 @@ async function getAllBookings(req: Request, res: Response) {
   }
 }
 
-export { createBooking, getAllBookings };
+async function getAllBookingsforGuest(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+  try {
+    const guestInfo = await user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        guestProfile: true,
+      },
+    });
+
+    let realGuestId = 0;
+    if (guestInfo?.guestProfile) {
+      realGuestId = guestInfo?.guestProfile?.id;
+    }
+
+    const result = await booking.findMany({
+      where: {
+        guestId: realGuestId,
+      },
+    });
+
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+    // if(errorList.code){
+
+    // }
+
+    console.log("error:", error);
+  }
+}
+
+export { createBooking, getAllBookings, getAllBookingsforGuest };
