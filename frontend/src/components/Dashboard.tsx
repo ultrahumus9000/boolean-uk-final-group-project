@@ -32,11 +32,12 @@ export default function Dashboard() {
    if (!bookings.length) {
       return <h1>we are loading for you</h1>;
    } else {
-      const userBookings = bookings.find(
-         booking => booking.guestProfile.user.username = currentUser.username)
+      const userBookings = bookings.filter(
+         booking => booking.guestProfile.name === currentUser.username)
+      console.log(userBookings)
    }
 
-   console.log(userBookings)
+
 
    return (
       <>
