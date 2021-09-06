@@ -137,8 +137,6 @@ p {
 
 /* DASHBOARDS  */
 .profile {
-  border: 1px solid var(--body-text);
-
   text-align: center;
 }
 
@@ -386,4 +384,26 @@ p {
 
 .profile textarea {
   font-size: 16px;
+}
+
+/* HOST DASHBOARD */
+
+.listing-container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  border: 1px black solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px 0px;
+}
+.listing-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.contact-guest {
+  display: grid;
+  float: right;
+  grid-template-rows: auto;
+  place-items: center;
 }
