@@ -21,8 +21,8 @@ function createBooking(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { id } = req.currentUser;
         const { total, start, end, houseId } = req.body;
-        const startDate = new Date(start);
-        const endDate = new Date(end);
+        let startDate = new Date(start);
+        let endDate = new Date(end);
         try {
             const guestInfo = yield user.findUnique({
                 where: {
@@ -36,18 +36,60 @@ function createBooking(req, res) {
             if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
                 realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
             }
-            // need to check whether its allow the booking or not
-            const newBooking = yield booking.create({
-                data: {
-                    total: total,
-                    guestId: realGuestId,
-                    start: startDate.toISOString(),
-                    end: endDate.toISOString(),
-                    houseId: houseId,
+            const checkBooking = yield booking.findMany({
+                where: {
+                    AND: [
+                        {
+                            start: {
+                                lte: startDate.toISOString(),
+                            },
+                        },
+                        {
+                            end: {
+                                gte: endDate.toISOString(),
+                            },
+                        },
+                    ],
+                    OR: [
+                        {
+                            start: {
+                                lte: startDate.toISOString(),
+                            },
+                        },
+                        {
+                            end: {
+                                lte: endDate.toISOString(),
+                            },
+                        },
+                    ],
                 },
             });
-            res.json(newBooking);
-            console.log("newBooking", newBooking);
+            if (checkBooking.length) {
+                throw new Error("you can not book this hotel");
+            }
+            else {
+                const newBooking = yield booking.create({
+                    data: {
+                        total: total,
+                        guestId: realGuestId,
+                        start: startDate.toISOString(),
+                        end: endDate.toISOString(),
+                        houseId: houseId,
+                    },
+                });
+                res.json(newBooking);
+            }
+            // const newBooking = await booking.create({
+            //   data: {
+            //     total: total,
+            //     guestId: realGuestId,
+            //     start: startDate.toISOString(),
+            //     end: endDate.toISOString(),
+            //     houseId: houseId,
+            //   },
+            // });
+            // res.json(newBooking);
+            console.log("checkBooking", checkBooking);
         }
         catch (error) {
             if (error instanceof runtime_1.PrismaClientInitializationError) {
@@ -180,8 +222,6 @@ function getAllBookingsforGuest(req, res) {
         }
         catch (error) {
             const errorList = error;
-            // if (errorList.) {
-            // }
             res.json(error);
             console.log("error:", error);
         }
