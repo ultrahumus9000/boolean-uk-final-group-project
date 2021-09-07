@@ -8,7 +8,7 @@ import useStore from "../store";
 
 export default function Dashboard() {
    const [bookings, setBookings] = useState([]);
-   const [toggleBooking, setToggleBooking] = useState(false);
+   const [toggleBooking, setToggleBooking] = useState(true);
    const currentUser = useStore((state) => state.currentUser);
 
    // get all booking for host when host is login
@@ -35,15 +35,6 @@ export default function Dashboard() {
       getBookings();
    }, []);
 
-   // let bookings = [];
-   // console.log("Guest Bookings:", bookings[0].guestProfile.name)
-
-   // if (!bookings.length) {
-   //    return <h1>we are loading for you</h1>;
-   // } else {
-   //    // const bookings = bookings.filter(
-   //    //    booking => booking.guestProfile.name === currentUser.username)
-   // }
 
    console.log("guest bookings", bookings);
 
@@ -55,15 +46,23 @@ export default function Dashboard() {
             <Link to="/guest/profile">
                <button className="go-profile">Go to profile</button>
             </Link>
+            {currentUser.role === "host" &&
+               <Link to="#">
+                  <button className="go-profile">Add a listing</button>
+               </Link>}
+
             {/* if role=host then add listing */}
          </div>
          <div className="bookings">
             <h2> Bookings</h2>
-            {/* <div className= */}
-            <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
-            <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
-            {toggleBooking && <FutureBookings bookings={bookings} />}
-            {!toggleBooking && <PastBookings bookings={bookings} />}
+            <div className="bookings-title">
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
+            </div>
+            {!toggleBooking && <FutureBookings bookings={bookings} />}
+            {toggleBooking && <PastBookings bookings={bookings} />}
+
+
          </div>
       </>
    );

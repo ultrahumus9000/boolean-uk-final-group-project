@@ -147,6 +147,17 @@ p {
   border-radius: 50%;
 }
 
+.bookings-title{
+  display:grid;
+  grid-template-columns: 50px 50px;
+  font-size: 16px;
+}
+
+.bookings-title div{
+  font-size:14px;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 416px) {
   .App {
     padding: 0%;
@@ -232,6 +243,17 @@ p {
 
 .input {
   width: 300px;
+}
+
+.login-options{
+  display:grid;
+  grid-template-columns: 50px 50px;
+  padding-top:10px;
+}
+
+.login-role{
+  display:grid;
+  place-items:center;
 }
 
 /* SIGNUP PAGE */

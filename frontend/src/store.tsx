@@ -50,12 +50,14 @@ type Store = {
   house: House;
   currentUser: User;
   bookingDisplay: Boolean;
+  role: String;
 
   toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
+  setRole: (arg: string) => void;
   // createBooking: (arg: BookingForm) => void;
 };
 
@@ -84,6 +86,14 @@ const useStore = create<Store>((set, get) => ({
   },
 
   bookingDisplay: false,
+
+  role: "",
+
+  setRole: (roleFromServer) => {
+    set({
+      role: roleFromServer,
+    });
+  },
 
   toggleDisplay: () => {
     set({ bookingDisplay: !get().bookingDisplay });
