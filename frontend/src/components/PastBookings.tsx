@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+
 import useStore from "../store";
+import BookingList from "./BookingLists";
 
 export default function PastBookings({ bookings }) {
   const currentUser = useStore((store) => store.currentUser);
@@ -9,45 +10,7 @@ export default function PastBookings({ bookings }) {
   return (
     <>
       {!bookings && <p> No future bookings</p>}
-      {currentUser.role === "host" ? (
-        <div>
-          {bookings.map((booking) => (
-            <div className="stay-container">
-              <img src={booking.pictureSrc}></img>
-              <div className="stay-details">
-                <div className="hotelName">
-                  <p className="stay-title">{booking.houseName}</p>
-                  <p>
-                    {booking.start.slice(2, 10)}-{booking.end.slice(2, 10)}{" "}
-                  </p>
-                </div>
-                <div className="contact-host">
-                  <Button> Leave review</Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>
-          {bookings.map((booking) => (
-            <div className="stay-container">
-              <img src={booking.pictureSrc}></img>
-              <div className="stay-details">
-                <div className="hotelName">
-                  <p className="stay-title">{booking.houseName}</p>
-                  <p>
-                    {booking.start.slice(2, 10)}-{booking.end.slice(2, 10)}{" "}
-                  </p>
-                </div>
-                <div className="contact-host">
-                  <Button> Leave review</Button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <BookingList bookings={bookings} />
     </>
   );
 }

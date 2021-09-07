@@ -8,7 +8,8 @@ import useStore from "../store";
 
 export default function Dashboard() {
   const [bookings, setBookings] = useState([]);
-  const [toggleBooking, setToggleBooking] = useState(true);
+  const toggleBooking = useStore((store) => store.toggleBooking);
+  const setToggleBooking = useStore((store) => store.setToggleBooking);
   const currentUser = useStore((state) => state.currentUser);
 
   function getBookingsForHost() {
@@ -44,10 +45,8 @@ export default function Dashboard() {
     }
   }, []);
 
-  console.log("guest bookings", bookings);
-
   const today = new Date().toISOString();
-  console.log(today);
+
   const futureBookings = bookings.filter((booking) => booking.start >= today);
 
   const pastBookings = bookings.filter((booking) => booking.start < today);
@@ -69,11 +68,25 @@ export default function Dashboard() {
       <div className="bookings">
         <h2> Bookings</h2>
         <div className="bookings-title">
-          <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
-          <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
+          <div
+            onClick={() => setToggleBooking("future")}
+            className={`${toggleBooking === "future" ? "active" : null}`}
+          >
+            {" "}
+            Future
+          </div>
+          <div
+            className={`${toggleBooking === "past" ? "active" : null}`}
+            onClick={() => setToggleBooking("past")}
+          >
+            {" "}
+            Past
+          </div>
         </div>
-        {!toggleBooking && <FutureBookings bookings={futureBookings} />}
-        {toggleBooking && <PastBookings bookings={pastBookings} />}
+        {toggleBooking === "future" && (
+          <FutureBookings bookings={futureBookings} />
+        )}
+        {toggleBooking === "past" && <PastBookings bookings={pastBookings} />}
       </div>
     </>
   );

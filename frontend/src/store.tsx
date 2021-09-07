@@ -50,7 +50,8 @@ type Store = {
   house: House;
   currentUser: User;
   bookingDisplay: Boolean;
-
+  toggleBooking: string;
+  setToggleBooking: (arg: string) => void;
   toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
@@ -85,7 +86,10 @@ const useStore = create<Store>((set, get) => ({
   },
 
   bookingDisplay: false,
-
+  toggleBooking: "future",
+  setToggleBooking: (arg) => {
+    set({ toggleBooking: arg });
+  },
   toggleDisplay: () => {
     set({ bookingDisplay: !get().bookingDisplay });
   },

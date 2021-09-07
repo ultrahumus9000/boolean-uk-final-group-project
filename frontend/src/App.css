@@ -150,14 +150,14 @@ p {
   border-radius: 50%;
 }
 
-.bookings-title{
-  display:grid;
+.bookings-title {
+  display: grid;
   grid-template-columns: 50px 50px;
   font-size: 16px;
 }
 
-.bookings-title div{
-  font-size:14px;
+.bookings-title div {
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -205,7 +205,7 @@ p {
   margin: 10px 0px;
 }
 
-.stay-container img{
+.stay-container img {
   width: 80px;
 }
 .stay-title {
@@ -248,15 +248,15 @@ p {
   width: 300px;
 }
 
-.login-options{
-  display:grid;
+.login-options {
+  display: grid;
   grid-template-columns: 50px 50px;
-  padding-top:10px;
+  padding-top: 10px;
 }
 
-.login-role{
-  display:grid;
-  place-items:center;
+.login-role {
+  display: grid;
+  place-items: center;
 }
 
 /* SIGNUP PAGE */
@@ -444,4 +444,7 @@ p {
   float: right;
   grid-template-rows: auto;
   place-items: center;
+}
+.active {
+  background-color: lawngreen;
 }
