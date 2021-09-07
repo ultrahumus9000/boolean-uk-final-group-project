@@ -1,19 +1,19 @@
 import React from "react"
 import { Button } from "@material-ui/core"
 
-export default function PastBookings({ userBookings }) {
+export default function PastBookings({ bookings }) {
 
-   console.log("userBookings", userBookings)
+   console.log("userBookings", bookings)
    return (
       <>
          {
-            userBookings.map((booking) =>
+            bookings.map((booking) =>
                <div className="stay-container">
-                  <img src="#"></img>
+                  <img src={booking.avatar}></img>
                   <div className="stay-details">
                      <div className="hotelName">
-                        <p className="stay-title">{booking.name}</p>
-                        <p> 1-3st Sep</p>
+                        <p className="stay-title">{booking.house}</p>
+                        <p>{booking.start}-{booking.end}</p>
                      </div>
                      <div className="contact-host">
                         <Button> Leave review</Button>

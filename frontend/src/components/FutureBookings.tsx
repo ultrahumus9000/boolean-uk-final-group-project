@@ -1,7 +1,7 @@
 import React from "react"
 import { Button } from "@material-ui/core"
 
-export default function FutureBookings() {
+export default function FutureBookings({ bookings }) {
    return (
       <div className="stay-container">
          <img src="#"></img>
