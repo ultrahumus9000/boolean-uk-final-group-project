@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllBookingsforGuest = exports.getAllBookings = exports.createBooking = void 0;
+exports.deleteOneBooking = exports.getAllBookingsforGuest = exports.getAllBookings = exports.createBooking = void 0;
 const runtime_1 = require("@prisma/client/runtime");
 const database_1 = __importDefault(require("../database"));
 const { booking, user } = database_1.default;
@@ -226,3 +226,20 @@ function getAllBookingsforGuest(req, res) {
     });
 }
 exports.getAllBookingsforGuest = getAllBookingsforGuest;
+function deleteOneBooking(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const bookingId = Number(req.params.id);
+        try {
+            yield booking.delete({
+                where: {
+                    id: bookingId,
+                },
+            });
+        }
+        catch (error) {
+            console.log(error);
+            res.json(error);
+        }
+    });
+}
+exports.deleteOneBooking = deleteOneBooking;

@@ -6,4 +6,5 @@ const bookingRouter = (0, express_1.Router)();
 bookingRouter.get("/", controller_1.getAllBookings);
 bookingRouter.get("/user", controller_1.getAllBookingsforGuest);
 bookingRouter.post("/", controller_1.createBooking);
+bookingRouter.delete("/:id", controller_1.deleteOneBooking);
 exports.default = bookingRouter;
