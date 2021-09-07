@@ -48,9 +48,9 @@ export default function Dashboard() {
 
   const today = new Date().toISOString();
   console.log(today);
-  const futureBookings = bookings.filter((booking) => booking);
+  const futureBookings = bookings.filter((booking) => booking.start >= today);
 
-  const pastBookings = [];
+  const pastBookings = bookings.filter((booking) => booking.start < today);
 
   return (
     <>
@@ -72,8 +72,8 @@ export default function Dashboard() {
           <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
           <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
         </div>
-        {!toggleBooking && <FutureBookings bookings={bookings} />}
-        {toggleBooking && <PastBookings bookings={bookings} />}
+        {!toggleBooking && <FutureBookings bookings={futureBookings} />}
+        {toggleBooking && <PastBookings bookings={pastBookings} />}
       </div>
     </>
   );
