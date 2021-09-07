@@ -1,37 +1,108 @@
 // import { User } from "@prisma/client"
-import { Request, Response } from "express"
-import db from "../database"
+import { User } from ".prisma/client";
+import {
+  PrismaClientInitializationError,
+  PrismaClientUnknownRequestError,
+} from "@prisma/client/runtime";
+import { Request, Response } from "express";
+import db from "../database";
 
-const { booking } = db
+const { booking, user } = db;
 
 type Booking = {
-  total: number
-  guestId: number
-  start: string
-  end: string
-  houseId: number
-}
+  total: number;
+  guestId: number;
+  start: string;
+  end: string;
+  houseId: number;
+};
 
 async function createBooking(req: Request, res: Response) {
-  //   const { id } = req.currentUser as User
-  const { total, guestId, start, end, houseId } = req.body as Booking
-  console.log("req.body", req.body)
+  const { id } = req.currentUser as User;
+  const { total, start, end, houseId } = req.body as Booking;
+
+  let startDate = new Date(start);
+  let endDate = new Date(end);
 
   try {
-    const newBooking = await booking.create({
-      data: {
-        total: total,
-        guestId: guestId,
-        start: start,
-        end: end,
-        houseId: houseId,
+    const guestInfo = await user.findUnique({
+      where: {
+        id,
       },
-    })
-    res.json(newBooking)
-    console.log("newBooking", newBooking)
+      include: {
+        guestProfile: true,
+      },
+    });
+
+    let realGuestId = 0;
+    if (guestInfo?.guestProfile) {
+      realGuestId = guestInfo?.guestProfile?.id;
+    }
+
+    const checkBookingStartDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: startDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: startDate.toISOString(),
+            },
+          },
+        ],
+      },
+    });
+
+    const checkBookingEndDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: endDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: endDate.toISOString(),
+            },
+          },
+        ],
+      },
+    });
+
+    // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
+    //3 not within 07/09- 11/09 06/09-10/09
+
+    if (checkBookingEndDate === null && checkBookingStartDate === null) {
+      const newBooking = await booking.create({
+        data: {
+          total: total,
+          guestId: realGuestId,
+          start: startDate.toISOString(),
+          end: endDate.toISOString(),
+          houseId: houseId,
+        },
+      });
+      res.json(newBooking);
+    } else {
+      throw new Error("you can not book this hotel");
+    }
   } catch (error) {
-    res.json(error)
-    console.log("error:", error)
+    if (error instanceof PrismaClientInitializationError) {
+      if (error.errorCode === "P2002") {
+        res.json("repeat data");
+      } else {
+        res.json(error.message);
+      }
+    } else {
+      const newError = error as Error;
+      res.json(newError.message);
+    }
+
+    console.log("error:", error);
   }
 }
 
@@ -46,6 +117,7 @@ async function getAllBookings(req: Request, res: Response) {
             user: {
               select: {
                 username: true,
+                avatar: true,
               },
             },
           },
@@ -66,12 +138,120 @@ async function getAllBookings(req: Request, res: Response) {
           },
         },
       },
-    })
-    res.json(foundBookings)
-    console.log("foundBookings", foundBookings)
+    });
+
+    const modifiedBookings = foundBookings.map((booking) => {
+      const modifiedBooking = {
+        ...booking,
+        guestProfile: {
+          name: booking.guestProfile.user.username,
+          avatar: booking.guestProfile.user.avatar,
+        },
+        house: {
+          houseId: booking.house.id,
+          city: booking.house.city,
+          name: booking.house.name,
+        },
+      };
+      return modifiedBooking;
+    });
+
+    res.json(modifiedBookings);
+    console.log("foundBookings", foundBookings);
   } catch (error) {
-    res.json(error)
+    res.json({ message: "error" });
   }
 }
 
-export { createBooking, getAllBookings }
+async function getAllBookingsforGuest(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+
+  try {
+    const guestInfo = await user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        guestProfile: true,
+      },
+    });
+
+    let realGuestId = 0;
+    if (guestInfo?.guestProfile) {
+      realGuestId = guestInfo?.guestProfile?.id;
+    }
+
+    const rawData = await booking.findMany({
+      where: {
+        guestId: realGuestId,
+      },
+      select: {
+        start: true,
+        end: true,
+        total: true,
+        house: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            hostProfile: {
+              select: {
+                user: {
+                  select: {
+                    username: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+            pictures: true,
+          },
+        },
+      },
+    });
+
+    const firstFilterData = rawData.map((booking) => {
+      const modifiedHouseInfo = {
+        houseIdd: booking.house.id,
+        city: booking.house.city,
+        name: booking.house.name,
+        hostname: booking.house.hostProfile.user.username,
+        hostAvatar: booking.house.hostProfile.user.avatar,
+        pictureSrc: booking.house.pictures[0].src,
+        pictureAlt: booking.house.pictures[0].alt,
+      };
+      const newBooking = {
+        ...booking,
+        house: modifiedHouseInfo,
+      };
+      return newBooking;
+    });
+
+    res.json(firstFilterData);
+  } catch (error) {
+    const errorList = error as Error;
+    res.json(error);
+    console.log("error:", error);
+  }
+}
+
+async function deleteOneBooking(req: Request, res: Response) {
+  const bookingId = Number(req.params.id);
+  try {
+    await booking.delete({
+      where: {
+        id: bookingId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+export {
+  createBooking,
+  getAllBookings,
+  getAllBookingsforGuest,
+  deleteOneBooking,
+};

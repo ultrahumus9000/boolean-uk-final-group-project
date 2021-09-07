@@ -3,8 +3,10 @@ import Dashboard from "../components/Dashboard"
 
 export default function GuestDashPage() {
    return (
-      <div>
-         <Dashboard />
+      <div className="dashboard">
+         <div className="container">
+            <Dashboard />
+         </div>
       </div>
    )
 }

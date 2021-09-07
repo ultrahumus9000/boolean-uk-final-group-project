@@ -5,7 +5,6 @@ import db from "../database";
 const { review } = db;
 async function createNewReview(req: Request, res: Response) {
   const { id } = req.currentUser as User;
-
   //req.body only need content and houseId
   const newReview = req.body;
   try {

@@ -16,7 +16,7 @@ type Picture = {
   alt: string
 }
 
-type Review = {
+export type Review = {
   content: string
   guestUsername: string
   guestAvatar: string
@@ -43,16 +43,20 @@ export type House = {
   reviews: Review[]
 }
 
+type Booking = {}
+
 type Store = {
   houses: House[]
   house: House
   currentUser: User
-  reviewDisplay: boolean
-  setReviewDisplay: () => void
+  bookingDisplay: Boolean
+
+  toggleDisplay: () => void
   setCurrentUser: (arg: User) => void
   fetchAllHouses: () => void
   fetchOneHouse: (arg: number) => void
   filterHouses: (arg: Options) => void
+  // createBooking: (arg: BookingForm) => void;
 }
 
 const useStore = create<Store>((set, get) => ({
@@ -78,9 +82,11 @@ const useStore = create<Store>((set, get) => ({
     avatar: "",
     role: "",
   },
-  reviewDisplay: false,
-  setReviewDisplay: () => {
-    set({ reviewDisplay: !get().reviewDisplay })
+
+  bookingDisplay: false,
+
+  toggleDisplay: () => {
+    set({ bookingDisplay: !get().bookingDisplay })
   },
   setCurrentUser: userFromServer => {
     set({
