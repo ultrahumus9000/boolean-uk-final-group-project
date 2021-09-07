@@ -28,9 +28,9 @@ function getFilteredHouses(query) {
                     ],
                     NOT: {
                         bookings: {
-                            every: {
-                                start: { lte: new Date(checkIn).toISOString() },
-                                end: { gte: new Date(checkOut).toISOString() },
+                            some: {
+                                start: { gte: new Date(checkIn).toISOString() },
+                                end: { lte: new Date(checkOut).toISOString() },
                             },
                         },
                     },

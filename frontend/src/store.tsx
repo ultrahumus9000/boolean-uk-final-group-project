@@ -43,6 +43,16 @@ export type House = {
   reviews: Review[]
 }
 
+export type NewHouse = {
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  price: number
+  pictures: Picture[]
+}
+
 type Booking = {}
 
 type Store = {

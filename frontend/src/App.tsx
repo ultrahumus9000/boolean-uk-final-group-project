@@ -12,6 +12,7 @@ import RegisterPage from "./pages/SignUp"
 import GuestProfilePage from "./pages/GuestProfilePage"
 import BottomNav from "./components/BottomNav"
 import useStore from "./store"
+import addListingHost from "./pages/addListingHost"
 
 function App() {
   const currentUser = useStore(store => store.currentUser)
@@ -40,6 +41,9 @@ function App() {
               </Route>
               <Route path="/host/dashboard" exact>
                 <HostDashPage />
+              </Route>
+              <Route path="/host/dashboard/addlisting" exact>
+                <addListingHost />
               </Route>
               <Route path="/guest/profile" exact>
                 <GuestProfilePage />
