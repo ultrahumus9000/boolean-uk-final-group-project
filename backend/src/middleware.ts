@@ -19,8 +19,8 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
   let userData = token && validateToken(token);
   userData = {
-    id: 2,
-    username: "Ceasar.Pollichbcom",
+    id: 1,
+    username: "Aliya.Schulist63anet",
   };
   console.log("line 25", userData);
   if (userData) {

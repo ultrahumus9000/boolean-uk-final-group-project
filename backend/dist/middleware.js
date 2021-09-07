@@ -5,8 +5,8 @@ exports.default = (req, res, next) => {
     const { token } = req.cookies;
     let userData = token && (0, authgenerator_1.validateToken)(token);
     userData = {
-        id: 2,
-        username: "Ceasar.Pollichbcom",
+        id: 1,
+        username: "Aliya.Schulist63anet",
     };
     console.log("line 25", userData);
     if (userData) {

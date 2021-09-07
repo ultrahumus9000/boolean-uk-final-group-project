@@ -5,5 +5,7 @@ const controller_1 = require("./controller");
 const houseRouter = (0, express_1.Router)();
 houseRouter.get("/", controller_1.getAllHouses);
 houseRouter.get("/:id", controller_1.getOneHouse);
+houseRouter.patch("/:id", controller_1.updateOneHouse);
+houseRouter.post("/", controller_1.createOneHouse);
 houseRouter.delete("/:id", controller_1.deleteHouseById);
 exports.default = houseRouter;
