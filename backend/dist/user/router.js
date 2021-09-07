@@ -4,5 +4,4 @@ const express_1 = require("express");
 const controller_1 = require("./controller");
 const userRouter = (0, express_1.Router)();
 userRouter.post("/", controller_1.createNewUser);
-userRouter.route("/switch").get(controller_1.switchToHost);
 exports.default = userRouter;
