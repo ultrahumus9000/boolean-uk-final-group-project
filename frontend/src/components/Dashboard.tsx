@@ -7,66 +7,63 @@ import useStore from "../store";
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState([]);
-  const [toggleBooking, setToggleBooking] = useState(false);
-  const currentUser = useStore((state) => state.currentUser);
+   const [bookings, setBookings] = useState([]);
+   const [toggleBooking, setToggleBooking] = useState(true);
+   const currentUser = useStore((state) => state.currentUser);
 
-  // get all booking for host when host is login
+   // get all booking for host when host is login
 
-  //get bookings for specific guest when guest role is loggedin
+   //get bookings for specific guest when guest role is loggedin
 
-  //   if(role is guest){
-  //      do get bookings for guest only
-  //   }
-  function getBookings() {
-    fetch("http://localhost:4000/bookings/user", {
-      credentials: "include",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setBookings(resp);
-        console.log(resp);
+   //   if(role is guest){
+   //      do get bookings for guest only
+   //   }
+   function getBookings() {
+      fetch("http://localhost:4000/bookings/user", {
+         credentials: "include",
       })
-      .catch((error) => {
-        console.error("Unable to fetch all bookings", error);
-      });
-  }
+         .then((resp) => resp.json())
+         .then((resp) => {
+            setBookings(resp);
+         })
+         .catch((error) => {
+            console.error("Unable to fetch all bookings", error);
+         });
+   }
 
-  useEffect(() => {
-    getBookings();
-  }, []);
+   useEffect(() => {
+      getBookings();
+   }, []);
 
-  // let bookings = [];
-  // console.log("Guest Bookings:", bookings[0].guestProfile.name)
-  console.log("Bookings", bookings);
 
-  // if (!bookings.length) {
-  //    return <h1>we are loading for you</h1>;
-  // } else {
-  //    const bookings = bookings.filter(
-  //       booking => booking.guestProfile.name === currentUser.username)
-  // }
+   console.log("guest bookings", bookings);
 
-  console.log(bookings);
+   return (
+      <>
+         <div className="profile">
+            <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
+            <h1>Hello {currentUser.username}!</h1>
+            <Link to="/guest/profile">
+               <button className="go-profile">Go to profile</button>
+            </Link>
+            {currentUser.role === "host" &&
+               <Link to="#">
+                  <button className="go-profile">Add a listing</button>
+               </Link>}
 
-  return (
-    <>
-      <div className="profile">
-        <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
-        <h1>Hello {currentUser.username}!</h1>
-        <Link to="/guest/profile">
-          <button className="go-profile">Go to profile</button>
-        </Link>
-        {/* if role=host then add listing */}
-      </div>
-      <div className="bookings">
-        <h2> Bookings</h2>
-        {/* <div className= */}
-        <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
-        <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
-        {toggleBooking && <FutureBookings bookings={bookings} />}
-        {!toggleBooking && <PastBookings bookings={bookings} />}
-      </div>
-    </>
-  );
+            {/* if role=host then add listing */}
+         </div>
+         <div className="bookings">
+            <h2> Bookings</h2>
+            <div className="bookings-title">
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
+            </div>
+            {!toggleBooking && <FutureBookings bookings={bookings} />}
+            {toggleBooking && <PastBookings bookings={bookings} />}
+
+
+         </div>
+      </>
+   );
 }
