@@ -7,7 +7,7 @@ import {
 import { Request, Response } from "express";
 import db from "../database";
 
-const { booking, user } = db;
+const { booking, user, hostProfile } = db;
 
 type Booking = {
   total: number;
@@ -106,33 +106,45 @@ async function createBooking(req: Request, res: Response) {
   }
 }
 
-async function getAllBookings(req: Request, res: Response) {
+async function getAllBookingsForHost(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+
   try {
-    const foundBookings = await booking.findMany({
-      select: {
-        id: true,
-        total: true,
-        guestProfile: {
+    const hostProfileInfo = await user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        hostProfile: true,
+      },
+    });
+
+    const hostProfileId = hostProfileInfo?.hostProfile?.id;
+    const foundBookings = await hostProfile.findUnique({
+      where: {
+        id: hostProfileId,
+      },
+      include: {
+        houses: {
           select: {
-            user: {
-              select: {
-                username: true,
-                avatar: true,
-              },
-            },
-          },
-        },
-        start: true,
-        end: true,
-        house: {
-          select: {
-            id: true,
-            name: true,
             city: true,
-            pictures: {
+            pictures: true,
+            bookings: {
               select: {
-                src: true,
-                alt: true,
+                start: true,
+                end: true,
+                guestProfile: {
+                  select: {
+                    user: {
+                      select: {
+                        username: true,
+                        avatar: true,
+                      },
+                    },
+                  },
+                },
+                total: true,
+                id: true,
               },
             },
           },
@@ -140,24 +152,43 @@ async function getAllBookings(req: Request, res: Response) {
       },
     });
 
-    const modifiedBookings = foundBookings.map((booking) => {
-      const modifiedBooking = {
-        ...booking,
-        guestProfile: {
-          name: booking.guestProfile.user.username,
-          avatar: booking.guestProfile.user.avatar,
-        },
-        house: {
-          houseId: booking.house.id,
-          city: booking.house.city,
-          name: booking.house.name,
-        },
-      };
-      return modifiedBooking;
-    });
+    //this give you all houses with bookings
+    const firstModifiedBookings = foundBookings?.houses;
 
-    res.json(modifiedBookings);
-    console.log("foundBookings", foundBookings);
+    const secondModifiedBookings = firstModifiedBookings?.map(
+      (allBookingsForOnehouse) => {
+        const newbookings = allBookingsForOnehouse.bookings.map((booking) => {
+          const newBooking = {
+            houseId: allBookingsForOnehouse.pictures[0].houseId,
+            start: booking.start,
+            end: booking.end,
+            total: booking.total,
+            guestName: booking.guestProfile.user.username,
+            guestAvatar: booking.guestProfile.user.avatar,
+            city: allBookingsForOnehouse.city,
+            pictureSrc: allBookingsForOnehouse.pictures[0].src,
+            pictureAlt: allBookingsForOnehouse.pictures[0].alt,
+          };
+          return newBooking;
+        });
+
+        const modifiedAllBookingsForOneHouse = [...newbookings];
+
+        return modifiedAllBookingsForOneHouse;
+      }
+    );
+
+    if (secondModifiedBookings?.length === undefined) {
+      res.json("no booking for now");
+      return;
+    }
+    const finalAllBookings = [];
+    for (let i = 0; i < secondModifiedBookings?.length; i++) {
+      const houseAccociatedBookings = secondModifiedBookings[i];
+      finalAllBookings.push(...houseAccociatedBookings);
+    }
+
+    res.json(finalAllBookings);
   } catch (error) {
     res.json({ message: "error" });
   }
@@ -251,7 +282,7 @@ async function deleteOneBooking(req: Request, res: Response) {
 
 export {
   createBooking,
-  getAllBookings,
+  getAllBookingsForHost,
   getAllBookingsforGuest,
   deleteOneBooking,
 };

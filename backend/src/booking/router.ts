@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import {
-  getAllBookings,
+  getAllBookingsForHost,
   createBooking,
   getAllBookingsforGuest,
   deleteOneBooking,
@@ -9,8 +9,8 @@ import {
 
 const bookingRouter = Router();
 
-bookingRouter.get("/", getAllBookings);
-bookingRouter.get("/user", getAllBookingsforGuest);
+bookingRouter.get("/host", getAllBookingsForHost);
+bookingRouter.get("/guest", getAllBookingsforGuest);
 bookingRouter.post("/", createBooking);
 bookingRouter.delete("/:id", deleteOneBooking);
 

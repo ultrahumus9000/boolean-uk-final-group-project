@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOneHouse = exports.deleteHouseById = exports.getAllHouses = void 0;
+exports.updateOneHouse = exports.createOneHouse = exports.getOneHouse = exports.deleteHouseById = exports.getAllHouses = void 0;
 const database_1 = __importDefault(require("../database"));
 const service_1 = require("./service");
 const { house } = database_1.default;
@@ -149,8 +149,48 @@ function getOneHouse(req, res) {
             }
         }
         catch (error) {
+            console.log(error);
             res.json(error);
         }
     });
 }
 exports.getOneHouse = getOneHouse;
+function createOneHouse(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const newHouse = yield house.create({
+                data: req.body,
+            });
+            res.json(newHouse);
+        }
+        catch (error) {
+            console.log(error);
+            res.json(error);
+        }
+    });
+}
+exports.createOneHouse = createOneHouse;
+function updateOneHouse(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const houseId = Number(req.params.id);
+        try {
+            const orginalHouseInfo = yield house.findUnique({
+                where: {
+                    id: houseId,
+                },
+            });
+            const newHouseInfo = yield house.update({
+                where: {
+                    id: houseId,
+                },
+                data: Object.assign(Object.assign({}, orginalHouseInfo), req.body),
+            });
+            res.json(newHouseInfo);
+        }
+        catch (error) {
+            console.log(error);
+            res.json(error);
+        }
+    });
+}
+exports.updateOneHouse = updateOneHouse;
