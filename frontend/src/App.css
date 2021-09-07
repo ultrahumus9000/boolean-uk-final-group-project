@@ -150,6 +150,19 @@ p {
   border-radius: 50%;
 }
 
+
+.bookings-title{
+  display:grid;
+  grid-template-columns: 50px 50px;
+  font-size: 16px;
+}
+
+.bookings-title div{
+  font-size:14px;
+  cursor: pointer;
+}
+
+
 .container {
   width: 90%;
 }
@@ -183,6 +196,10 @@ p {
   border-radius: 5px;
   padding: 5px;
   margin: 10px 0px;
+}
+
+.stay-container img{
+  width: 80px;
 }
 .stay-title {
   font-size: 16px;
@@ -222,6 +239,17 @@ p {
 
 .input {
   width: 300px;
+}
+
+.login-options{
+  display:grid;
+  grid-template-columns: 50px 50px;
+  padding-top:10px;
+}
+
+.login-role{
+  display:grid;
+  place-items:center;
 }
 
 /* SIGNUP PAGE */

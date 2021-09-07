@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import findUserWithValidation from "./service";
 
 import { createToken } from "../authgenerator";
+import db from "../database";
+
+const { user } = db;
 
 async function login(req: Request, res: Response) {
   const userCredtial = req.body;
@@ -17,6 +20,7 @@ async function login(req: Request, res: Response) {
     res.cookie("token", token, { httpOnly: true });
 
     const loggedRole = loginUser.guestRole ? "guest" : "host";
+
     const loggedUser = {
       username: loginUser.username,
       firstName: loginUser.firstName,

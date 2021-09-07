@@ -10,8 +10,10 @@ export default function LoginPage() {
 
   const setCurrentUser = useStore((store) => store.setCurrentUser);
   const currentUser = useStore((store) => store.currentUser);
+  const role = useStore((store) => store.role);
+  const setRole = useStore((store) => store.setRole);
 
-  function loginUser(userCreds) {
+  function loginUser(userCreds, role) {
     fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
@@ -24,12 +26,10 @@ export default function LoginPage() {
         return res.json();
       })
       .then((userFromServer) => {
-        setCurrentUser(userFromServer);
+        setCurrentUser({ ...userFromServer, role: role });
         history.push("/");
-        console.log(currentUser.username)
       });
   }
-
 
 
   function handleSubmit(event) {
@@ -42,7 +42,9 @@ export default function LoginPage() {
       password: event.target.password.value,
     };
 
-    loginUser(loginData);
+    let role = event.target.radio.value
+
+    loginUser(loginData, role);
   }
 
   return (
@@ -64,15 +66,30 @@ export default function LoginPage() {
             placeholder="Password"
             variant="outlined"
           ></TextField>
+          <div className="login-role">
+            <p> Login in as: </p>
+            <div className="login-options">
+              <div className="login-radio">
+                <input type="radio" id="guest" name="radio" value="guest"></input>
+                <label htmlFor="guest"> Guest</label>
+              </div>
+              <div className="login-radio">
+                <input type="radio" id="host" name="radio" value="host"></input>
+                <label htmlFor="host"> Host</label>
+              </div>
+            </div>
+          </div>
           <Button type="submit" color="secondary" variant="contained">
             {" "}
             Log in
           </Button>
+
           <p>
             Not registered? Sign up <Link to="/signup">here</Link>
           </p>
+
         </form>
       </div>
-    </main>
+    </main >
   );
 }

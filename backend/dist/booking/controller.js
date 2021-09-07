@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteOneBooking = exports.getAllBookingsforGuest = exports.getAllBookings = exports.createBooking = void 0;
+
+exports.deleteOneBooking = exports.getAllBookingsforGuest = exports.getAllBookingsForHost = exports.createBooking = void 0;
 const runtime_1 = require("@prisma/client/runtime");
 const database_1 = __importDefault(require("../database"));
-const { booking, user } = database_1.default;
+const { booking, user, hostProfile } = database_1.default;
 function createBooking(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -104,60 +105,88 @@ function createBooking(req, res) {
     });
 }
 exports.createBooking = createBooking;
-function getAllBookings(req, res) {
+function getAllBookingsForHost(req, res) {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
         try {
-            const foundBookings = yield booking.findMany({
-                select: {
-                    id: true,
-                    total: true,
-                    guestProfile: {
+            const hostProfileInfo = yield user.findUnique({
+                where: {
+                    id,
+                },
+                include: {
+                    hostProfile: true,
+                },
+            });
+            const hostProfileId = (_a = hostProfileInfo === null || hostProfileInfo === void 0 ? void 0 : hostProfileInfo.hostProfile) === null || _a === void 0 ? void 0 : _a.id;
+            const foundBookings = yield hostProfile.findUnique({
+                where: {
+                    id: hostProfileId,
+                },
+                include: {
+                    houses: {
                         select: {
-                            user: {
-                                select: {
-                                    username: true,
-                                    avatar: true,
-                                },
-                            },
-                        },
-                    },
-                    start: true,
-                    end: true,
-                    house: {
-                        select: {
-                            id: true,
-                            name: true,
                             city: true,
-                            pictures: {
+                            pictures: true,
+                            bookings: {
                                 select: {
-                                    src: true,
-                                    alt: true,
+                                    start: true,
+                                    end: true,
+                                    guestProfile: {
+                                        select: {
+                                            user: {
+                                                select: {
+                                                    username: true,
+                                                    avatar: true,
+                                                },
+                                            },
+                                        },
+                                    },
+                                    total: true,
+                                    id: true,
                                 },
                             },
                         },
                     },
                 },
             });
-            const modifiedBookings = foundBookings.map((booking) => {
-                const modifiedBooking = Object.assign(Object.assign({}, booking), { guestProfile: {
-                        name: booking.guestProfile.user.username,
-                        avatar: booking.guestProfile.user.avatar,
-                    }, house: {
-                        houseId: booking.house.id,
-                        city: booking.house.city,
-                        name: booking.house.name,
-                    } });
-                return modifiedBooking;
+            //this give you all houses with bookings
+            const firstModifiedBookings = foundBookings === null || foundBookings === void 0 ? void 0 : foundBookings.houses;
+            const secondModifiedBookings = firstModifiedBookings === null || firstModifiedBookings === void 0 ? void 0 : firstModifiedBookings.map((allBookingsForOnehouse) => {
+                const newbookings = allBookingsForOnehouse.bookings.map((booking) => {
+                    const newBooking = {
+                        houseId: allBookingsForOnehouse.pictures[0].houseId,
+                        start: booking.start,
+                        end: booking.end,
+                        total: booking.total,
+                        guestName: booking.guestProfile.user.username,
+                        guestAvatar: booking.guestProfile.user.avatar,
+                        city: allBookingsForOnehouse.city,
+                        pictureSrc: allBookingsForOnehouse.pictures[0].src,
+                        pictureAlt: allBookingsForOnehouse.pictures[0].alt,
+                    };
+                    return newBooking;
+                });
+                const modifiedAllBookingsForOneHouse = [...newbookings];
+                return modifiedAllBookingsForOneHouse;
             });
-            res.json(modifiedBookings);
-            console.log("foundBookings", foundBookings);
+            if ((secondModifiedBookings === null || secondModifiedBookings === void 0 ? void 0 : secondModifiedBookings.length) === undefined) {
+                res.json("no booking for now");
+                return;
+            }
+            const finalAllBookings = [];
+            for (let i = 0; i < (secondModifiedBookings === null || secondModifiedBookings === void 0 ? void 0 : secondModifiedBookings.length); i++) {
+                const houseAccociatedBookings = secondModifiedBookings[i];
+                finalAllBookings.push(...houseAccociatedBookings);
+            }
+            res.json(finalAllBookings);
         }
         catch (error) {
             res.json({ message: "error" });
         }
     });
 }
-exports.getAllBookings = getAllBookings;
+exports.getAllBookingsForHost = getAllBookingsForHost;
 function getAllBookingsforGuest(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {

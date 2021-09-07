@@ -56,16 +56,19 @@ export type NewHouse = {
 type Booking = {}
 
 type Store = {
-  houses: House[]
-  house: House
-  currentUser: User
-  bookingDisplay: Boolean
+  houses: House[];
+  house: House;
+  currentUser: User;
+  bookingDisplay: Boolean;
+  role: String;
 
-  toggleDisplay: () => void
-  setCurrentUser: (arg: User) => void
-  fetchAllHouses: () => void
-  fetchOneHouse: (arg: number) => void
-  filterHouses: (arg: Options) => void
+  toggleDisplay: () => void;
+  setCurrentUser: (arg: User) => void;
+  fetchAllHouses: () => void;
+  fetchOneHouse: (arg: number) => void;
+  filterHouses: (arg: Options) => void;
+  setRole: (arg: string) => void;
+
   // createBooking: (arg: BookingForm) => void;
 }
 
@@ -94,6 +97,14 @@ const useStore = create<Store>((set, get) => ({
   },
 
   bookingDisplay: false,
+
+  role: "",
+
+  setRole: (roleFromServer) => {
+    set({
+      role: roleFromServer,
+    });
+  },
 
   toggleDisplay: () => {
     set({ bookingDisplay: !get().bookingDisplay })

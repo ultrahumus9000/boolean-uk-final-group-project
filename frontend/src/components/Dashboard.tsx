@@ -33,6 +33,8 @@ export default function Dashboard() {
       })
       .catch(error => {
         console.error("Unable to fetch all bookings", error)
+
+
       })
   }
 
@@ -40,41 +42,38 @@ export default function Dashboard() {
     getBookings()
   }, [])
 
-  // let bookings = [];
-  // console.log("Guest Bookings:", bookings[0].guestProfile.name)
-  console.log("Bookings", bookings)
 
-  // if (!bookings.length) {
-  //    return <h1>we are loading for you</h1>;
-  // } else {
-  //    const bookings = bookings.filter(
-  //       booking => booking.guestProfile.name === currentUser.username)
-  // }
 
-  console.log(bookings)
 
-  return (
-    <>
-      <div className="profile">
-        <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
-        <h1>Hello {currentUser.username}!</h1>
-        <Link to="/guest/profile">
-          <button className="go-profile">Go to profile</button>
-        </Link>
-        {currentUser.role === "host" ? (
-          <Link to="/host/dashboard/addlisting">
-            <button className="go-profile">Go to profile</button>
-          </Link>
-        ) : null}
-      </div>
-      <div className="bookings">
-        <h2> Bookings</h2>
-        {/* <div className= */}
-        <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
-        <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
-        {toggleBooking && <FutureBookings bookings={bookings} />}
-        {!toggleBooking && <PastBookings bookings={bookings} />}
-      </div>
-    </>
-  )
+   console.log("guest bookings", bookings);
+
+   return (
+      <>
+         <div className="profile">
+            <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
+            <h1>Hello {currentUser.username}!</h1>
+            <Link to="/guest/profile">
+               <button className="go-profile">Go to profile</button>
+            </Link>
+            {currentUser.role === "host" &&
+               <Link to="#">
+                  <button className="go-profile">Add a listing</button>
+               </Link>}
+
+            <Link to="/host/dashboard/addlisting">
+         </div>
+         <div className="bookings">
+            <h2> Bookings</h2>
+            <div className="bookings-title">
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
+               <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
+            </div>
+            {!toggleBooking && <FutureBookings bookings={bookings} />}
+            {toggleBooking && <PastBookings bookings={bookings} />}
+
+
+         </div>
+      </>
+   );
+
 }
