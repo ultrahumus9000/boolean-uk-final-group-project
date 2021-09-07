@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core"
 import React from "react"
 
 export default function Listings() {
+
     return (
         <div className="listing-container">
             <img src="#"></img>

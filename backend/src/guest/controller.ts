@@ -32,4 +32,22 @@ async function getGuestProfile(req: Request, res: Response) {
   }
 }
 
-export default getGuestProfile;
+async function switchToHost(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+  try {
+    const userInfo = await user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (userInfo?.hostRole) {
+      res.json(true);
+    } else {
+      res.json(false);
+    }
+  } catch (error) {
+    res.status(401).json(error);
+  }
+}
+
+export { getGuestProfile, switchToHost };

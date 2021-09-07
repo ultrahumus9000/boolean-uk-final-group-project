@@ -3,7 +3,7 @@ import db from "../database";
 
 import createNewUserWithHash from "./service";
 
-const { hostProfile, guestProfile } = db;
+const { hostProfile, guestProfile, user } = db;
 
 async function createNewUser(req: Request, res: Response) {
   const newUser = req.body;
@@ -33,4 +33,4 @@ async function createNewUser(req: Request, res: Response) {
   }
 }
 
-export default createNewUser;
+export { createNewUser };
