@@ -1,8 +1,10 @@
 import { Router } from "express";
-import getGuestProfile from "./controller";
+
+import { getGuestProfile, switchToHost } from "./controller";
 
 const guestRouter = Router();
 
 guestRouter.post("/guest", getGuestProfile);
+guestRouter.post("/switch", switchToHost);
 
 export default guestRouter;
