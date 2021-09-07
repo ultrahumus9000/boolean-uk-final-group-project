@@ -30,6 +30,7 @@ type Options = {
 };
 
 export type House = {
+
   id: number;
   name: string;
   bedrooms: number;
@@ -43,7 +44,31 @@ export type House = {
   reviews: Review[];
 };
 
-type Booking = {};
+type Booking = {
+
+  id: number
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  hostProfile: string
+  hostAvatar: string
+  price: number
+  pictures: Picture[]
+  reviews: Review[]
+}
+
+export type NewHouse = {
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  price: number
+  pictures: Picture[]
+}
+
 
 type Store = {
   houses: House[];

@@ -150,8 +150,10 @@ p {
   border-radius: 50%;
 }
 
-.bookings-title {
-  display: grid;
+
+
+.bookings-title{
+  display:grid;
   grid-template-columns: 50px 50px;
   font-size: 16px;
 }
@@ -161,14 +163,6 @@ p {
   cursor: pointer;
 }
 
-@media screen and (max-width: 416px) {
-  .App {
-    padding: 0%;
-  }
-}
-
-/* DASHBOARD */
-/* DASHBOARDS  */
 
 .container {
   width: 90%;
@@ -220,7 +214,7 @@ p {
   place-items: center;
 }
 
-/* LOGIN UP PAGE */
+/* LOGIN PAGE */
 
 .login-form {
   display: grid;
@@ -445,6 +439,32 @@ p {
   grid-template-rows: auto;
   place-items: center;
 }
+
 .active {
   background-color: lawngreen;
+
+
+/* ADD HOUSE LISTING PAGE  */
+.addListingForm {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.addListingForm input:invalid + span:after {
+  content: "✖";
+  padding-left: 5px;
+}
+
+.addListingForm input:valid + span:after {
+  content: "✓";
+  padding-left: 5px;
+}
+
+/* RESPONSIVE MEDIA QUERIES */
+
+@media screen and (max-width: 416px) {
+  .App {
+    padding: 0%;
+  }
+
 }

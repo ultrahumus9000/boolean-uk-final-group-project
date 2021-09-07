@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import FutureBookings from "./FutureBookings";
-import PastBookings from "./PastBookings";
-import { Link } from "react-router-dom";
-import useStore from "../store";
+import React, { useState, useEffect } from "react"
+import FutureBookings from "./FutureBookings"
+import PastBookings from "./PastBookings"
+import { Link } from "react-router-dom"
+import useStore from "../store"
 
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
+
   const [bookings, setBookings] = useState([]);
   const toggleBooking = useStore((store) => store.toggleBooking);
   const setToggleBooking = useStore((store) => store.setToggleBooking);
@@ -47,6 +48,10 @@ export default function Dashboard() {
 
   const today = new Date().toISOString();
 
+
+
+
+
   const futureBookings = bookings.filter((booking) => booking.start >= today);
 
   const pastBookings = bookings.filter((booking) => booking.start < today);
@@ -57,7 +62,6 @@ export default function Dashboard() {
         <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
         <h1>Hello {currentUser.username}!</h1>
 
-        <button className="go-profile">Go to profile</button>
 
         {currentUser.role === "host" && (
           <button className="go-profile">Add a listing</button>
@@ -90,4 +94,9 @@ export default function Dashboard() {
       </div>
     </>
   );
+         </div>
+      </>
+   );
+
+
 }
