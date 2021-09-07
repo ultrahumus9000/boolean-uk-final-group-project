@@ -19,6 +19,7 @@ export default function BookingForm({ house }) {
 
   const [bookingForm, setBookingForm] = useState(initialBookingForm);
   const toggleDisplay = useStore((store) => store.toggleDisplay);
+  const currentUser = useStore((store) => store.currentUser);
   const history = useHistory();
 
   function calculateTotal() {
@@ -51,6 +52,8 @@ export default function BookingForm({ house }) {
         console.log(res);
         if (typeof res === "string") {
           alert("you cannot book it for now ");
+        } else if (currentUser.username === "") {
+          history.push("/login");
         } else {
           toggleDisplay();
           setBookingForm(initialBookingForm);
