@@ -128,6 +128,7 @@ function getAllBookingsForHost(req, res) {
                         select: {
                             city: true,
                             pictures: true,
+                            name: true,
                             bookings: {
                                 select: {
                                     start: true,
@@ -155,6 +156,7 @@ function getAllBookingsForHost(req, res) {
             const secondModifiedBookings = firstModifiedBookings === null || firstModifiedBookings === void 0 ? void 0 : firstModifiedBookings.map((allBookingsForOnehouse) => {
                 const newbookings = allBookingsForOnehouse.bookings.map((booking) => {
                     const newBooking = {
+                        houseName: allBookingsForOnehouse.name,
                         houseId: allBookingsForOnehouse.pictures[0].houseId,
                         start: booking.start,
                         end: booking.end,
@@ -234,15 +236,15 @@ function getAllBookingsforGuest(req, res) {
             });
             const firstFilterData = rawData.map((booking) => {
                 const modifiedHouseInfo = {
-                    houseIdd: booking.house.id,
+                    houseId: booking.house.id,
                     city: booking.house.city,
-                    name: booking.house.name,
+                    houseName: booking.house.name,
                     hostname: booking.house.hostProfile.user.username,
                     hostAvatar: booking.house.hostProfile.user.avatar,
                     pictureSrc: booking.house.pictures[0].src,
                     pictureAlt: booking.house.pictures[0].alt,
                 };
-                const newBooking = Object.assign(Object.assign({}, booking), { house: modifiedHouseInfo });
+                const newBooking = Object.assign(Object.assign({}, booking), modifiedHouseInfo);
                 return newBooking;
             });
             res.json(firstFilterData);

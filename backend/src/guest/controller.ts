@@ -41,9 +41,9 @@ async function switchToHost(req: Request, res: Response) {
       },
     });
     if (userInfo?.hostRole) {
-      res.json(true);
+      res.json("true");
     } else {
-      res.json(false);
+      res.json("false");
     }
   } catch (error) {
     res.status(401).json(error);

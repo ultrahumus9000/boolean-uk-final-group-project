@@ -4,5 +4,5 @@ const express_1 = require("express");
 const controller_1 = require("./controller");
 const guestRouter = (0, express_1.Router)();
 guestRouter.post("/guest", controller_1.getGuestProfile);
-guestRouter.post("/switch", controller_1.switchToHost);
+guestRouter.get("/switch", controller_1.switchToHost);
 exports.default = guestRouter;

@@ -1,3 +1,4 @@
+
 import React, { useState } from "react"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
@@ -14,9 +15,10 @@ import BottomNav from "./components/BottomNav"
 import useStore from "./store"
 import addListingHost from "./pages/addListingHost"
 
-function App() {
-  const currentUser = useStore(store => store.currentUser)
 
+function App() {
+  const currentUser = useStore((store) => store.currentUser);
+  //redirect
   return (
     <div className="App">
       <div className="phone">
@@ -57,7 +59,7 @@ function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

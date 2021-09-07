@@ -7,73 +7,96 @@ import useStore from "../store"
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState([])
-  const [toggleBooking, setToggleBooking] = useState(false)
-  const currentUser = useStore(state => state.currentUser)
 
-  // get all booking for host when host is login
+  const [bookings, setBookings] = useState([]);
+  const toggleBooking = useStore((store) => store.toggleBooking);
+  const setToggleBooking = useStore((store) => store.setToggleBooking);
+  const currentUser = useStore((state) => state.currentUser);
 
-  //get bookings for specific guest when guest role is loggedin
-
-  //   if(role is guest){
-  //      do get bookings for guest only
-  //   }
-  function getBookings() {
-    fetch("http://localhost:4000/bookings/user", {
+  function getBookingsForHost() {
+    fetch("http://localhost:4000/bookings/host", {
       credentials: "include",
     })
-      .then(resp => resp.json())
-      .then(resp => {
-        setBookings(resp)
-        console.log(resp)
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setBookings(resp);
       })
-      .then(resp => resp.json())
-      .then(resp => {
-        setBookings(resp)
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
+  }
+  function getBookingsForGuest() {
+    fetch("http://localhost:4000/bookings/guest", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setBookings(resp);
       })
-      .catch(error => {
-        console.error("Unable to fetch all bookings", error)
-
-
-      })
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
   }
 
   useEffect(() => {
-    getBookings()
-  }, [])
+    if (currentUser.role === "guest") {
+      getBookingsForGuest();
+    } else if (currentUser.role === "host") {
+      getBookingsForHost();
+    }
+  }, []);
+
+  const today = new Date().toISOString();
 
 
 
 
-   console.log("guest bookings", bookings);
 
-   return (
-      <>
-         <div className="profile">
-            <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
-            <h1>Hello {currentUser.username}!</h1>
-            <Link to="/guest/profile">
-               <button className="go-profile">Go to profile</button>
-            </Link>
-            {currentUser.role === "host" &&
-               <Link to="#">
-                  <button className="go-profile">Add a listing</button>
-               </Link>}
+  const futureBookings = bookings.filter((booking) => booking.start >= today);
 
-            <Link to="/host/dashboard/addlisting">
-         </div>
-         <div className="bookings">
-            <h2> Bookings</h2>
-            <div className="bookings-title">
-               <div onClick={() => setToggleBooking(!toggleBooking)}> Future</div>
-               <div onClick={() => setToggleBooking(!toggleBooking)}> Past</div>
-            </div>
-            {!toggleBooking && <FutureBookings bookings={bookings} />}
-            {toggleBooking && <PastBookings bookings={bookings} />}
+  const pastBookings = bookings.filter((booking) => booking.start < today);
+
+  return (
+    <>
+      <div className="profile">
+        <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
+        <h1>Hello {currentUser.username}!</h1>
 
 
+        {currentUser.role === "host" && (
+          <button className="go-profile">Add a listing</button>
+        )}
+
+        {/* if role=host then add listing */}
+      </div>
+      <div className="bookings">
+        <h2> Bookings</h2>
+        <div className="bookings-title">
+          <div
+            onClick={() => setToggleBooking("future")}
+            className={`${toggleBooking === "future" ? "active" : null}`}
+          >
+            {" "}
+            Future
+          </div>
+          <div
+            className={`${toggleBooking === "past" ? "active" : null}`}
+            onClick={() => setToggleBooking("past")}
+          >
+            {" "}
+            Past
+          </div>
+        </div>
+        {toggleBooking === "future" && (
+          <FutureBookings bookings={futureBookings} />
+        )}
+        {toggleBooking === "past" && <PastBookings bookings={pastBookings} />}
+      </div>
+    </>
+  );
          </div>
       </>
    );
+
 
 }
