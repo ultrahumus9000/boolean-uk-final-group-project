@@ -57,7 +57,7 @@ p {
   display: grid;
   place-content: center;
   background: rgb(233, 233, 233);
-  border: 1px solid #707d83;
+  border: 1px solid #97a0a5;
   height: 736px;
   width: 414px;
   border-radius: 40px;
@@ -105,6 +105,9 @@ p {
 
 /* HOMEPAGE  */
 .filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   border-bottom: 1px solid var(--body-text);
   margin: 10px 0;
 }
@@ -295,10 +298,6 @@ p {
 }
 
 /* house-listing-page */
-.house-card {
-  width: 400px;
-  overflow: hidden;
-}
 
 .pictures-section {
   display: grid;
@@ -446,4 +445,3 @@ p {
   grid-template-rows: auto;
   place-items: center;
 }
-

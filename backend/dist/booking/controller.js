@@ -21,8 +21,8 @@ function createBooking(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { id } = req.currentUser;
         const { total, start, end, houseId } = req.body;
-        const startDate = new Date(start);
-        const endDate = new Date(end);
+        let startDate = new Date(start);
+        let endDate = new Date(end);
         try {
             const guestInfo = yield user.findUnique({
                 where: {
@@ -36,18 +36,55 @@ function createBooking(req, res) {
             if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
                 realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
             }
-            // need to check whether its allow the booking or not
-            const newBooking = yield booking.create({
-                data: {
-                    total: total,
-                    guestId: realGuestId,
-                    start: startDate.toISOString(),
-                    end: endDate.toISOString(),
-                    houseId: houseId,
+            const checkBookingStartDate = yield booking.findFirst({
+                where: {
+                    AND: [
+                        {
+                            start: {
+                                lte: startDate.toISOString(),
+                            },
+                        },
+                        {
+                            end: {
+                                gte: startDate.toISOString(),
+                            },
+                        },
+                    ],
                 },
             });
-            res.json(newBooking);
-            console.log("newBooking", newBooking);
+            const checkBookingEndDate = yield booking.findFirst({
+                where: {
+                    AND: [
+                        {
+                            start: {
+                                lte: endDate.toISOString(),
+                            },
+                        },
+                        {
+                            end: {
+                                gte: endDate.toISOString(),
+                            },
+                        },
+                    ],
+                },
+            });
+            // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
+            //3 not within 07/09- 11/09 06/09-10/09
+            if (checkBookingEndDate === null && checkBookingStartDate === null) {
+                const newBooking = yield booking.create({
+                    data: {
+                        total: total,
+                        guestId: realGuestId,
+                        start: startDate.toISOString(),
+                        end: endDate.toISOString(),
+                        houseId: houseId,
+                    },
+                });
+                res.json(newBooking);
+            }
+            else {
+                throw new Error("you can not book this hotel");
+            }
         }
         catch (error) {
             if (error instanceof runtime_1.PrismaClientInitializationError) {
@@ -161,17 +198,20 @@ function getAllBookingsforGuest(req, res) {
                                     },
                                 },
                             },
+                            pictures: true,
                         },
                     },
                 },
             });
             const firstFilterData = rawData.map((booking) => {
                 const modifiedHouseInfo = {
-                    id: booking.house.id,
+                    houseIdd: booking.house.id,
                     city: booking.house.city,
                     name: booking.house.name,
                     hostname: booking.house.hostProfile.user.username,
                     hostAvatar: booking.house.hostProfile.user.avatar,
+                    pictureSrc: booking.house.pictures[0].src,
+                    pictureAlt: booking.house.pictures[0].alt,
                 };
                 const newBooking = Object.assign(Object.assign({}, booking), { house: modifiedHouseInfo });
                 return newBooking;
@@ -180,8 +220,6 @@ function getAllBookingsforGuest(req, res) {
         }
         catch (error) {
             const errorList = error;
-            // if (errorList.) {
-            // }
             res.json(error);
             console.log("error:", error);
         }
