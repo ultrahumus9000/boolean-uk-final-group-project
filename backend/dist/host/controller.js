@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getHostProfile = void 0;
+exports.switchToGuest = exports.getHostProfile = void 0;
 const database_1 = __importDefault(require("../database"));
 const { user } = database_1.default;
 function getHostProfile(req, res) {
@@ -42,3 +42,25 @@ function getHostProfile(req, res) {
     });
 }
 exports.getHostProfile = getHostProfile;
+function switchToGuest(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        try {
+            const userInfo = yield user.findUnique({
+                where: {
+                    id,
+                },
+            });
+            if (userInfo === null || userInfo === void 0 ? void 0 : userInfo.guestRole) {
+                res.json("true");
+            }
+            else {
+                res.json("false");
+            }
+        }
+        catch (error) {
+            res.status(401).json(error);
+        }
+    });
+}
+exports.switchToGuest = switchToGuest;

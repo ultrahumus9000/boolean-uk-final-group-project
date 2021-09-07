@@ -52,10 +52,10 @@ function switchToHost(req, res) {
                 },
             });
             if (userInfo === null || userInfo === void 0 ? void 0 : userInfo.hostRole) {
-                res.json(true);
+                res.json("true");
             }
             else {
-                res.json(false);
+                res.json("false");
             }
         }
         catch (error) {
