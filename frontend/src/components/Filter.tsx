@@ -5,9 +5,12 @@ import useStore from "../store"
 
 export default function Filter() {
   const filterHouses = useStore(store => store.filterHouses)
+  const today = new Date().toISOString()
+  const shortDate = today.substring(0, 10)
+
   const initialOptions = {
     city: "",
-    checkIn: "",
+    checkIn: shortDate,
     checkOut: "",
     maxGuests: 1,
   }
@@ -58,7 +61,7 @@ export default function Filter() {
           type="date"
           name="checkIn"
           value={filterOptions.checkIn}
-          min={filterOptions.checkIn}
+          min={shortDate}
           onChange={handleChange}
         />
       </label>

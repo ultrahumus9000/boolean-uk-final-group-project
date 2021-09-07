@@ -14,7 +14,7 @@ export default function HomePage() {
   if (housesArray.length === 0) {
     return <h1> we are loading for you </h1>
   }
-
+  console.log("housesArray in home", housesArray)
   return (
     <div className="main">
       <Filter />
