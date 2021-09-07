@@ -235,4 +235,23 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
   }
 }
 
-export { createBooking, getAllBookings, getAllBookingsforGuest };
+async function deleteOneBooking(req: Request, res: Response) {
+  const bookingId = Number(req.params.id);
+  try {
+    await booking.delete({
+      where: {
+        id: bookingId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+export {
+  createBooking,
+  getAllBookings,
+  getAllBookingsforGuest,
+  deleteOneBooking,
+};
