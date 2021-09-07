@@ -150,10 +150,8 @@ p {
   border-radius: 50%;
 }
 
-
-
-.bookings-title{
-  display:grid;
+.bookings-title {
+  display: grid;
   grid-template-columns: 50px 50px;
   font-size: 16px;
 }
@@ -162,7 +160,6 @@ p {
   font-size: 14px;
   cursor: pointer;
 }
-
 
 .container {
   width: 90%;
@@ -442,9 +439,10 @@ p {
 
 .active {
   background-color: lawngreen;
-
+}
 
 /* ADD HOUSE LISTING PAGE  */
+
 .addListingForm {
   display: grid;
   grid-template-columns: 1fr;
@@ -466,5 +464,4 @@ p {
   .App {
     padding: 0%;
   }
-
 }
