@@ -1,63 +1,63 @@
-import create from "zustand";
+import create from "zustand"
 
-let baseUrl = "http://localhost:4000";
+let baseUrl = "http://localhost:4000"
 
 type User = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string;
-  role: string;
-};
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  avatar: string
+  role: string
+}
 
 type Picture = {
-  src: string;
-  alt: string;
-};
+  src: string
+  alt: string
+}
 
 export type Review = {
-  content: string;
-  guestUsername: string;
-  guestAvatar: string;
-};
+  content: string
+  guestUsername: string
+  guestAvatar: string
+}
 
 type Options = {
-  city: string;
-  checkIn: string;
-  checkOut: string;
-  maxGuests: number;
-};
+  city: string
+  checkIn: string
+  checkOut: string
+  maxGuests: number
+}
 
 export type House = {
-  id: number;
-  name: string;
-  bedrooms: number;
-  maxGuests: number;
-  facility: string[];
-  city: string;
-  hostProfile: string;
-  hostAvatar: string;
-  price: number;
-  pictures: Picture[];
-  reviews: Review[];
-};
+  id: number
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  hostProfile: string
+  hostAvatar: string
+  price: number
+  pictures: Picture[]
+  reviews: Review[]
+}
 
-type Booking = {};
+type Booking = {}
 
 type Store = {
-  houses: House[];
-  house: House;
-  currentUser: User;
-  bookingDisplay: Boolean;
+  houses: House[]
+  house: House
+  currentUser: User
+  bookingDisplay: Boolean
 
-  toggleDisplay: () => void;
-  setCurrentUser: (arg: User) => void;
-  fetchAllHouses: () => void;
-  fetchOneHouse: (arg: number) => void;
-  filterHouses: (arg: Options) => void;
+  toggleDisplay: () => void
+  setCurrentUser: (arg: User) => void
+  fetchAllHouses: () => void
+  fetchOneHouse: (arg: number) => void
+  filterHouses: (arg: Options) => void
   // createBooking: (arg: BookingForm) => void;
-};
+}
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -86,53 +86,54 @@ const useStore = create<Store>((set, get) => ({
   bookingDisplay: false,
 
   toggleDisplay: () => {
-    set({ bookingDisplay: !get().bookingDisplay });
+    set({ bookingDisplay: !get().bookingDisplay })
   },
-  setCurrentUser: (userFromServer) => {
+  setCurrentUser: userFromServer => {
     set({
       currentUser: userFromServer,
-    });
+    })
   },
   fetchAllHouses: () => {
     fetch(`${baseUrl}/houses`)
-      .then((resp) => resp.json())
-      .then((allHouses) => {
-        set({ houses: allHouses });
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
-  fetchOneHouse: (houseId) => {
+  fetchOneHouse: houseId => {
     fetch(`${baseUrl}/houses/${houseId}`)
-      .then((resp) => resp.json())
-      .then((houseFromServer) => {
-        console.log(houseFromServer);
-        set({ house: houseFromServer });
+      .then(resp => resp.json())
+      .then(houseFromServer => {
+        console.log(houseFromServer)
+        set({ house: houseFromServer })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
 
-  filterHouses: (filterOptions) => {
-    let { city, checkIn, checkOut, maxGuests } = filterOptions;
-    console.log("data filter", filterOptions);
-    const cityFilter = city !== "" ? `city=${city}&` : "";
-    checkIn = checkIn !== "" ? checkIn : new Date().toISOString();
-    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString();
+  filterHouses: filterOptions => {
+    let { city, checkIn, checkOut, maxGuests } = filterOptions
+    console.log("data filter", filterOptions)
+    const cityFilter = city !== "" ? `city=${city}&` : ""
+    checkIn = checkIn !== "" ? checkIn : new Date().toISOString()
+    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString()
     fetch(
       `${baseUrl}/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
     )
-      .then((resp) => resp.json())
-      .then((allHouses) => {
-        set({ houses: allHouses });
-        console.log("All houses fetch", allHouses);
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
+        console.log("All houses fetch", allHouses)
       })
-      .catch((error) => {
-        throw error;
-      });
+      .catch(error => {
+        throw error
+      })
   },
-}));
+}))
 
-export default useStore;
+export default useStore
+//test

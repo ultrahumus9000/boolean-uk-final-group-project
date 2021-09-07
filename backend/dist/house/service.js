@@ -18,17 +18,22 @@ const { house } = database_1.default;
 function getFilteredHouses(query) {
     return __awaiter(this, void 0, void 0, function* () {
         let { city, checkIn, checkOut, maxGuests } = query;
+        console.log(query);
         try {
             const filteredHouses = yield house.findMany({
                 where: {
-                    maxGuests: { gte: parseInt(maxGuests) },
-                    city: { contains: city, mode: "insensitive" },
-                    //   bookings: {
-                    //     some: {
-                    //       start: new Date(checkIn).toISOString(),
-                    //       end: new Date(checkOut).toISOString(),
-                    //     },
-                    //   },
+                    AND: [
+                        { maxGuests: { gte: parseInt(maxGuests) } },
+                        { city: { contains: city, mode: "insensitive" } },
+                    ],
+                    NOT: {
+                        bookings: {
+                            every: {
+                                start: { lte: new Date(checkIn).toISOString() },
+                                end: { gte: new Date(checkOut).toISOString() },
+                            },
+                        },
+                    },
                 },
                 select: {
                     id: true,
@@ -71,6 +76,7 @@ function getFilteredHouses(query) {
                     },
                 },
             });
+            console.log("filteredHouses", filteredHouses);
             return filteredHouses;
         }
         catch (error) {
@@ -81,10 +87,10 @@ function getFilteredHouses(query) {
 exports.getFilteredHouses = getFilteredHouses;
 function modifiedHouses(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        const firstModifiedData = data.map((house) => {
+        const firstModifiedData = data.map(house => {
             let hostUsername = house.hostProfile.user.username;
             let hostAvatarLink = house.hostProfile.user.avatar;
-            let filteredReviews = house.reviews.map((review) => {
+            let filteredReviews = house.reviews.map(review => {
                 const modifedReview = {
                     content: review.content,
                     guestUsername: review.guestProfile.user.username,
