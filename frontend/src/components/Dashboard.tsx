@@ -11,9 +11,24 @@ export default function Dashboard() {
    const [toggleBooking, setToggleBooking] = useState(false);
    const currentUser = useStore((state) => state.currentUser);
 
-   function getBookings() {
-      fetch("http://localhost:4000/bookings/user", {
-         credentials: "include",
+
+
+  // get all booking for host when host is login
+
+  //get bookings for specific guest when guest role is loggedin
+
+  //   if(role is guest){
+  //      do get bookings for guest only
+  //   }
+  function getBookings() {
+    fetch("http://localhost:4000/bookings/user", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        setBookings(resp);
+        console.log(resp);
+
       })
          .then((resp) => resp.json())
          .then((resp) => {

@@ -56,11 +56,9 @@ async function getAllHouses(req: Request, res: Response) {
         },
       });
 
-
       const houses = await modifiedHouses(rawData);
 
       res.json(houses);
-
     }
   } catch (error) {
     res.json(error);
@@ -137,8 +135,52 @@ async function getOneHouse(req: Request, res: Response) {
       res.json(modifiedHouse[0]);
     }
   } catch (error) {
+    console.log(error);
     res.json(error);
   }
 }
 
-export { getAllHouses, deleteHouseById, getOneHouse };
+async function createOneHouse(req: Request, res: Response) {
+  try {
+    const newHouse = await house.create({
+      data: req.body,
+    });
+    res.json(newHouse);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+async function updateOneHouse(req: Request, res: Response) {
+  const houseId = Number(req.params.id);
+  try {
+    const orginalHouseInfo = await house.findUnique({
+      where: {
+        id: houseId,
+      },
+    });
+    const newHouseInfo = await house.update({
+      where: {
+        id: houseId,
+      },
+      data: {
+        ...orginalHouseInfo,
+        ...req.body,
+      },
+    });
+
+    res.json(newHouseInfo);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+export {
+  getAllHouses,
+  deleteHouseById,
+  getOneHouse,
+  createOneHouse,
+  updateOneHouse,
+};

@@ -1,5 +1,9 @@
 // import { User } from "@prisma/client"
 import { User } from ".prisma/client";
+import {
+  PrismaClientInitializationError,
+  PrismaClientUnknownRequestError,
+} from "@prisma/client/runtime";
 import { Request, Response } from "express";
 import db from "../database";
 
@@ -17,8 +21,8 @@ async function createBooking(req: Request, res: Response) {
   const { id } = req.currentUser as User;
   const { total, start, end, houseId } = req.body as Booking;
 
-  const startDate = new Date(start);
-  const endDate = new Date(end);
+  let startDate = new Date(start);
+  let endDate = new Date(end);
 
   try {
     const guestInfo = await user.findUnique({
@@ -34,23 +38,69 @@ async function createBooking(req: Request, res: Response) {
     if (guestInfo?.guestProfile) {
       realGuestId = guestInfo?.guestProfile?.id;
     }
-    const newBooking = await booking.create({
-      data: {
-        total: total,
-        guestId: realGuestId,
-        start: startDate.toISOString(),
-        end: endDate.toISOString(),
-        houseId: houseId,
+
+    const checkBookingStartDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: startDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: startDate.toISOString(),
+            },
+          },
+        ],
       },
     });
-    res.json(newBooking);
-    console.log("newBooking", newBooking);
-  } catch (error) {
-    const errorList = error as Error;
-    res.json(error);
-    // if(errorList.code){
 
-    // }
+    const checkBookingEndDate = await booking.findFirst({
+      where: {
+        AND: [
+          {
+            start: {
+              lte: endDate.toISOString(),
+            },
+          },
+          {
+            end: {
+              gte: endDate.toISOString(),
+            },
+          },
+        ],
+      },
+    });
+
+    // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
+    //3 not within 07/09- 11/09 06/09-10/09
+
+    if (checkBookingEndDate === null && checkBookingStartDate === null) {
+      const newBooking = await booking.create({
+        data: {
+          total: total,
+          guestId: realGuestId,
+          start: startDate.toISOString(),
+          end: endDate.toISOString(),
+          houseId: houseId,
+        },
+      });
+      res.json(newBooking);
+    } else {
+      throw new Error("you can not book this hotel");
+    }
+  } catch (error) {
+    if (error instanceof PrismaClientInitializationError) {
+      if (error.errorCode === "P2002") {
+        res.json("repeat data");
+      } else {
+        res.json(error.message);
+      }
+    } else {
+      const newError = error as Error;
+      res.json(newError.message);
+    }
 
     console.log("error:", error);
   }
@@ -115,6 +165,7 @@ async function getAllBookings(req: Request, res: Response) {
 
 async function getAllBookingsforGuest(req: Request, res: Response) {
   const { id } = req.currentUser as User;
+
   try {
     const guestInfo = await user.findUnique({
       where: {
@@ -130,21 +181,77 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
       realGuestId = guestInfo?.guestProfile?.id;
     }
 
-    const result = await booking.findMany({
+    const rawData = await booking.findMany({
       where: {
         guestId: realGuestId,
       },
+      select: {
+        start: true,
+        end: true,
+        total: true,
+        house: {
+          select: {
+            id: true,
+            name: true,
+            city: true,
+            hostProfile: {
+              select: {
+                user: {
+                  select: {
+                    username: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+            pictures: true,
+          },
+        },
+      },
     });
 
-    res.json(result);
+    const firstFilterData = rawData.map((booking) => {
+      const modifiedHouseInfo = {
+        houseIdd: booking.house.id,
+        city: booking.house.city,
+        name: booking.house.name,
+        hostname: booking.house.hostProfile.user.username,
+        hostAvatar: booking.house.hostProfile.user.avatar,
+        pictureSrc: booking.house.pictures[0].src,
+        pictureAlt: booking.house.pictures[0].alt,
+      };
+      const newBooking = {
+        ...booking,
+        house: modifiedHouseInfo,
+      };
+      return newBooking;
+    });
+
+    res.json(firstFilterData);
   } catch (error) {
+    const errorList = error as Error;
     res.json(error);
-    // if(errorList.code){
-
-    // }
-
     console.log("error:", error);
   }
 }
 
-export { createBooking, getAllBookings, getAllBookingsforGuest };
+async function deleteOneBooking(req: Request, res: Response) {
+  const bookingId = Number(req.params.id);
+  try {
+    await booking.delete({
+      where: {
+        id: bookingId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+export {
+  createBooking,
+  getAllBookings,
+  getAllBookingsforGuest,
+  deleteOneBooking,
+};
