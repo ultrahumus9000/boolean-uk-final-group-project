@@ -1,9 +1,12 @@
 import React, { useState, useEffect, SyntheticEvent } from "react"
 import Facility from "../components/Facility"
-import { NewHouse } from "../store"
+import { useHistory } from "react-router"
+import useStore from "../store"
 
-export default function addListingHost() {
+export default function AddListingHost() {
   // const currentUser = useStore((state) => state.currentUser);
+  const addNewListing = useStore(state => state.addNewListing)
+
   const initialHouseData = {
     name: "",
     city: "",
@@ -15,27 +18,28 @@ export default function addListingHost() {
   }
 
   const facilitiesList = {
-    bedroom: "bedroom",
-    maxGuests: "maxGuests",
-    balcony: "balcony",
-    bathtub: "bathtub",
-    bidet: "bidet",
-    garden: "garden",
-    jacuzzi: "jacuzzi",
-    kitchen: "kitchen",
-    parking: "parking",
-    shower: "shower",
-    spa: "spa",
-    swimmingPool: "swimmingPool",
-    tv: "tv",
-    wifi: "wifi",
+    bedroom: "Bedroom",
+    maxGuests: "MaxGuests",
+    balcony: "Balcony",
+    bathtub: "Bathtub",
+    bidet: "Bidet",
+    garden: "Garden",
+    jacuzzi: "Jacuzzi",
+    kitchen: "Kitchen",
+    parking: "Parking",
+    shower: "Shower",
+    spa: "Spa",
+    swimmingPool: "SwimmingPool",
+    tv: "TV",
+    wifi: "WiFi",
   }
 
   const [picturesArray, setPicturesArray] = useState([])
   const [newListing, setNewListing] = useState(initialHouseData)
+  const history = useHistory()
 
   function handleChange(e) {
-    console.log(e.target.value)
+    console.log("handlechange", e.target.value)
     setNewListing({
       ...newListing,
       [e.target.name]: e.target.value,
@@ -48,8 +52,20 @@ export default function addListingHost() {
       : newListing[e.target.name].filter(
           facility => facility !== e.target.value
         )
-
     setNewListing({ ...newListing, [e.target.name]: updatedArray })
+    // console.log("facility change updatedArray", updatedArray)
+    // console.log("facility change e.target.name", e.target.name)
+    // console.log("facility change  e.target.value", e.target.value)
+  }
+
+  function handleChangePictures(e) {
+    console.log("e.target.files", e.target.files)
+
+    const uploadedFiles = e.target.files
+    setNewListing({ ...newListing, pictures: [...uploadedFiles] })
+    setPicturesArray([...uploadedFiles])
+
+    console.log("setPicturesArray", [...uploadedFiles])
   }
 
   function handleSubmit(e: SyntheticEvent) {
@@ -57,21 +73,9 @@ export default function addListingHost() {
     addNewListing(newListing)
   }
 
-  function addNewListing(housedata: NewHouse) {
-    console.log("housedata", housedata)
-    // fetch(`${baseUrl}/houses`, {
-    //   method: "POST",
-    //   headers: { "Content-type": "application/json" },
-    //   body: JSON.stringify(housedata),
-    // })
-    // .then(resp => resp.json())
-    // .then(newHouse => {
-    //   set({ houses: {...houses, newHouse} })
-    //   console.log("newHouse", newHouse)
-    // })
-    // .catch(error => {
-    //   throw error
-    // })
+  function cancel(e) {
+    setNewListing(initialHouseData)
+    history.push("/host/dashboard")
   }
 
   return (
@@ -80,19 +84,36 @@ export default function addListingHost() {
       <form className="addListingForm" onSubmit={handleSubmit}>
         <label>
           Name
-          <input name="name" type="text" onChange={handleChange} />
+          <input
+            className="textfield"
+            name="name"
+            type="text"
+            onChange={handleChange}
+          />
         </label>
         <label>
           City
-          <input name="city" type="text" onChange={handleChange} />
+          <input
+            className="textfield"
+            name="city"
+            type="text"
+            onChange={handleChange}
+          />
         </label>
-        <label>
-          Photos
-          <input name="pictures" type="file" accept="image/*" multiple />
-          <ul>
+        <label htmlFor="file-upload" className="custom-file-upload">
+          Add Photos
+          <input
+            id="file-upload"
+            name="pictures"
+            type="file"
+            accept="image/*"
+            onChange={handleChangePictures}
+            multiple
+          />
+          <ul className="uploadedFileNames">
             {picturesArray.map(picture => (
-              <li>
-                <p>{picture}</p>
+              <li key={picture.name}>
+                <p>{picture.name}</p>
                 {/* <button onClick={delPhoto}>✖</button> */}
               </li>
             ))}
@@ -100,28 +121,50 @@ export default function addListingHost() {
         </label>
         <label>
           Bedrooms
-          <input name="bedroom" type="number" value={newListing.bedrooms} />
+          <input
+            className="numfield"
+            name="bedrooms"
+            type="number"
+            value={newListing.bedrooms}
+            onChange={handleChange}
+          />
         </label>
         <label>
           Maximum No. Guests
-          <input name="maxGuests" type="number" value={newListing.maxGuests} />
+          <input
+            className="numfield"
+            name="maxGuests"
+            type="number"
+            value={newListing.maxGuests}
+            onChange={handleChange}
+          />
         </label>
         <label>
-          Facilities
-          <ul>
-            <Facility
-              options={facilitiesList}
-              handleChangeFacility={handleChangeFacility}
-              newListing={newListing}
-            />
-          </ul>
+          Price Per Night (£)
+          <input
+            className="numfield"
+            name="price"
+            type="number"
+            value={newListing.price}
+            min="0"
+            step="5"
+            onChange={handleChange}
+          />
         </label>
+        <p>Facilities</p>
         <label>
-          Price per Night
-          <input type="number" value={newListing.price} min="0" step="10.0" />
+          <Facility
+            options={facilitiesList}
+            handleChangeFacility={handleChangeFacility}
+            newListing={newListing}
+          />
         </label>
-        <span className="validity"></span>
-        <input type="submit" value="Add listing" />
+        {/* <span className="validity"></span> adds tick to validate?? */}
+        <input className="submitBtn" type="submit" value="Add listing" />
+        <a className="cancelLink" onClick={cancel}>
+          Cancel Listing
+        </a>
+        {/* <Link to="/host/dashboard"></Link> */}
       </form>
     </div>
   )

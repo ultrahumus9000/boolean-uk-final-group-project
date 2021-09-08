@@ -43,6 +43,20 @@ export type House = {
   reviews: Review[]
 }
 
+type Booking = {
+  id: number
+  name: string
+  bedrooms: number
+  maxGuests: number
+  facility: string[]
+  city: string
+  hostProfile: string
+  hostAvatar: string
+  price: number
+  pictures: Picture[]
+  reviews: Review[]
+}
+
 export type NewHouse = {
   name: string
   bedrooms: number
@@ -53,23 +67,20 @@ export type NewHouse = {
   pictures: Picture[]
 }
 
-type Booking = {}
-
 type Store = {
-  houses: House[];
-  house: House;
-  currentUser: User;
-  bookingDisplay: Boolean;
-  toggleBooking: string;
-  setToggleBooking: (arg: string) => void;
-  // role: String;
+  houses: House[]
+  house: House
+  currentUser: User
+  bookingDisplay: Boolean
+  toggleBooking: string
+  setToggleBooking: (arg: string) => void
+  toggleDisplay: () => void
+  setCurrentUser: (arg: User) => void
+  fetchAllHouses: () => void
+  fetchOneHouse: (arg: number) => void
+  filterHouses: (arg: Options) => void
+  addNewListing: (arg: NewHouse) => void
 
-  toggleDisplay: () => void;
-  setCurrentUser: (arg: User) => void;
-  fetchAllHouses: () => void;
-  fetchOneHouse: (arg: number) => void;
-  filterHouses: (arg: Options) => void;
-  // setRole: (arg: string) => void;
 
   // createBooking: (arg: BookingForm) => void;
 }
@@ -100,58 +111,76 @@ const useStore = create<Store>((set, get) => ({
 
   bookingDisplay: false,
   toggleBooking: "future",
-  setToggleBooking: (arg) => {
-    set({ toggleBooking: arg });
+  setToggleBooking: arg => {
+    set({ toggleBooking: arg })
   },
   toggleDisplay: () => {
-    set({ bookingDisplay: !get().bookingDisplay });
+    set({ bookingDisplay: !get().bookingDisplay })
   },
-  setCurrentUser: (userFromServer) => {
+  setCurrentUser: userFromServer => {
     set({
       currentUser: userFromServer,
-    });
+    })
   },
   fetchAllHouses: () => {
     fetch(`${baseUrl}/houses`)
-      .then((resp) => resp.json())
-      .then((allHouses) => {
-        set({ houses: allHouses });
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
-  fetchOneHouse: (houseId) => {
+  fetchOneHouse: houseId => {
     fetch(`${baseUrl}/houses/${houseId}`)
-      .then((resp) => resp.json())
-      .then((houseFromServer) => {
-        console.log(houseFromServer);
-        set({ house: houseFromServer });
+      .then(resp => resp.json())
+      .then(houseFromServer => {
+        console.log(houseFromServer)
+        set({ house: houseFromServer })
       })
-      .catch((error) => {
-        console.error("Unable to fetch all houses", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all houses", error)
+      })
   },
 
-  filterHouses: (filterOptions) => {
-    let { city, checkIn, checkOut, maxGuests } = filterOptions;
-    console.log("data filter", filterOptions);
-    const cityFilter = city !== "" ? `city=${city}&` : "";
-    checkIn = checkIn !== "" ? checkIn : new Date().toISOString();
-    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString();
+  filterHouses: filterOptions => {
+    let { city, checkIn, checkOut, maxGuests } = filterOptions
+    console.log("data filter", filterOptions)
+    const cityFilter = city !== "" ? `city=${city}&` : ""
+    checkIn = checkIn !== "" ? checkIn : new Date().toISOString()
+    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString()
     fetch(
       `${baseUrl}/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
     )
-      .then((resp) => resp.json())
-      .then((allHouses) => {
-        set({ houses: allHouses });
-        console.log("All houses fetch", allHouses);
+      .then(resp => resp.json())
+      .then(allHouses => {
+        set({ houses: allHouses })
+        console.log("All houses fetch", allHouses)
       })
-      .catch((error) => {
-        throw error;
-      });
+      .catch(error => {
+        throw error
+      })
   },
-}));
 
-export default useStore;
+  addNewListing: (housedata: NewHouse) => {
+    console.log("housedata", housedata)
+    fetch(`${baseUrl}/houses`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(housedata),
+    })
+      .then(resp => resp.json())
+      // .then(newHouse => {
+      //   set({ houses: [...houses, newHouse] })
+      //   console.log("newHouse", newHouse)
+      // })
+      .then(newHouse => console.log("newHouse", newHouse))
+      .catch(error => {
+        throw error
+      })
+  },
+}))
+
+export default useStore
 //test
