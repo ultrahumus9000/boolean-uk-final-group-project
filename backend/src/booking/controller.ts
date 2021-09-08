@@ -129,10 +129,9 @@ async function getAllBookingsForHost(req: Request, res: Response) {
           select: {
             city: true,
             pictures: true,
-<<<<<<< HEAD
+
             name: true,
-=======
->>>>>>> commit
+
             bookings: {
               select: {
                 start: true,
@@ -163,10 +162,7 @@ async function getAllBookingsForHost(req: Request, res: Response) {
       (allBookingsForOnehouse) => {
         const newbookings = allBookingsForOnehouse.bookings.map((booking) => {
           const newBooking = {
-<<<<<<< HEAD
             houseName: allBookingsForOnehouse.name,
-=======
->>>>>>> commit
             houseId: allBookingsForOnehouse.pictures[0].houseId,
             start: booking.start,
             end: booking.end,
@@ -251,15 +247,9 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
 
     const firstFilterData = rawData.map((booking) => {
       const modifiedHouseInfo = {
-<<<<<<< HEAD
         houseId: booking.house.id,
         city: booking.house.city,
         houseName: booking.house.name,
-=======
-        houseIdd: booking.house.id,
-        city: booking.house.city,
-        name: booking.house.name,
->>>>>>> commit
         hostname: booking.house.hostProfile.user.username,
         hostAvatar: booking.house.hostProfile.user.avatar,
         pictureSrc: booking.house.pictures[0].src,
@@ -267,11 +257,7 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
       };
       const newBooking = {
         ...booking,
-<<<<<<< HEAD
         ...modifiedHouseInfo,
-=======
-        house: modifiedHouseInfo,
->>>>>>> commit
       };
       return newBooking;
     });
