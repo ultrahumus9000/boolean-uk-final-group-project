@@ -5,12 +5,18 @@ import useStore from "../store"
 
 export default function Filter() {
   const filterHouses = useStore(store => store.filterHouses)
+<<<<<<< HEAD
   const today = new Date().toISOString()
   const shortDate = today.substring(0, 10)
 
   const initialOptions = {
     city: "",
     checkIn: shortDate,
+=======
+  const initialOptions = {
+    city: "",
+    checkIn: "",
+>>>>>>> commit
     checkOut: "",
     maxGuests: 1,
   }
@@ -61,7 +67,11 @@ export default function Filter() {
           type="date"
           name="checkIn"
           value={filterOptions.checkIn}
+<<<<<<< HEAD
           min={shortDate}
+=======
+          min={filterOptions.checkIn}
+>>>>>>> commit
           onChange={handleChange}
         />
       </label>

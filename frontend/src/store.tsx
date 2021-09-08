@@ -1,51 +1,35 @@
-import create from "zustand";
+import create from "zustand"
 
-let baseUrl = "http://localhost:4000";
+let baseUrl = "http://localhost:4000"
 
 type User = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: string;
-  role: string;
-};
+  username: string
+  firstName: string
+  lastName: string
+  email: string
+  avatar: string
+  role: string
+}
 
 type Picture = {
-  src: string;
-  alt: string;
-};
+  src: string
+  alt: string
+}
 
 export type Review = {
-  content: string;
-  guestUsername: string;
-  guestAvatar: string;
-};
+  content: string
+  guestUsername: string
+  guestAvatar: string
+}
 
 type Options = {
-  city: string;
-  checkIn: string;
-  checkOut: string;
-  maxGuests: number;
-};
+  city: string
+  checkIn: string
+  checkOut: string
+  maxGuests: number
+}
 
 export type House = {
-
-  id: number;
-  name: string;
-  bedrooms: number;
-  maxGuests: number;
-  facility: string[];
-  city: string;
-  hostProfile: string;
-  hostAvatar: string;
-  price: number;
-  pictures: Picture[];
-  reviews: Review[];
-};
-
-type Booking = {
-
   id: number
   name: string
   bedrooms: number
@@ -69,6 +53,7 @@ export type NewHouse = {
   pictures: Picture[]
 }
 
+type Booking = {}
 
 type Store = {
   houses: House[];
@@ -77,14 +62,17 @@ type Store = {
   bookingDisplay: Boolean;
   toggleBooking: string;
   setToggleBooking: (arg: string) => void;
+  role: String;
+
   toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
+  setRole: (arg: string) => void;
 
   // createBooking: (arg: BookingForm) => void;
-};
+}
 
 const useStore = create<Store>((set, get) => ({
   houses: [],

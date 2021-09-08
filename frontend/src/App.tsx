@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> commit
 import React, { useState } from "react"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
@@ -13,12 +16,19 @@ import RegisterPage from "./pages/SignUp"
 import GuestProfilePage from "./pages/GuestProfilePage"
 import BottomNav from "./components/BottomNav"
 import useStore from "./store"
+<<<<<<< HEAD
 import addListingHost from "./pages/addListingHost"
 
 
 function App() {
   const currentUser = useStore((store) => store.currentUser);
   //redirect
+=======
+
+function App() {
+  const currentUser = useStore(store => store.currentUser)
+
+>>>>>>> commit
   return (
     <div className="App">
       <div className="phone">
@@ -44,9 +54,12 @@ function App() {
               <Route path="/host/dashboard" exact>
                 <HostDashPage />
               </Route>
+<<<<<<< HEAD
               <Route path="/host/dashboard/addlisting" exact>
                 <addListingHost />
               </Route>
+=======
+>>>>>>> commit
               <Route path="/guest/profile" exact>
                 <GuestProfilePage />
               </Route>
@@ -59,7 +72,14 @@ function App() {
         </div>
       </div>
     </div>
+<<<<<<< HEAD
   );
 }
 
 export default App;
+=======
+  )
+}
+
+export default App
+>>>>>>> commit
