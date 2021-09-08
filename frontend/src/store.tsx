@@ -81,6 +81,7 @@ type Store = {
   filterHouses: (arg: Options) => void
   addNewListing: (arg: NewHouse) => void
 
+
   // createBooking: (arg: BookingForm) => void;
 }
 

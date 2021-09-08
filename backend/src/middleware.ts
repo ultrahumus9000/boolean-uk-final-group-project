@@ -6,10 +6,10 @@ declare global {
   namespace Express {
     interface Request {
       currentUser:
-        | { id: number; username: string }
-        | JwtPayload
-        | undefined
-        | string;
+      | { id: number; username: string }
+      | JwtPayload
+      | undefined
+      | string;
     }
   }
 }
