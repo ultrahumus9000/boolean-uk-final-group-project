@@ -46,6 +46,7 @@ export default function HouseListingPage() {
   const history = useHistory();
   const houseId: HouseIdType = useParams();
   const realHouseId = Number(houseId.houseId);
+  const setCurrentUser = useStore((store) => store.setCurrentUser);
   const house = useStore((store) => store.house);
   const fetchOneHouse = useStore((store) => store.fetchOneHouse);
   const currentUser = useStore((store) => store.currentUser);
@@ -62,9 +63,26 @@ export default function HouseListingPage() {
   function bookAction() {
     if (currentUser.role === "guest") {
       toggleBookingDisplay();
+    } else if (currentUser.role === "host") {
+      alert("you have to login as host then you can book this house");
     } else {
       console.log(currentUser);
       history.push("/login");
+      function logout() {
+        fetch("http://localhost:4000/logout", {
+          credentials: "include",
+        }).then(() => {
+          setCurrentUser({
+            username: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            avatar: "",
+            role: "",
+          });
+          history.push("/");
+        });
+      }
     }
   }
 
