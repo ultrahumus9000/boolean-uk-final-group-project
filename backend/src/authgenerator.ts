@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT as string;
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
 function createToken(payload: Jwt.JwtPayload) {
   console.log(Jwt.sign(payload, JWT_SECRET));

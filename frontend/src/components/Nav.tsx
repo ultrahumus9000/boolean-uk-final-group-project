@@ -50,6 +50,6 @@ export default function Nav() {
           </Button>
         )}
       </div>
-    </div>
+    </div >
   );
 }

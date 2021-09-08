@@ -64,9 +64,15 @@ async function getFilteredHouses(query: Query) {
         ],
         NOT: {
           bookings: {
+<<<<<<< HEAD
             some: {
               start: { gte: new Date(checkIn).toISOString() },
               end: { lte: new Date(checkOut).toISOString() },
+=======
+            every: {
+              start: { lte: new Date(checkIn).toISOString() },
+              end: { gte: new Date(checkOut).toISOString() },
+>>>>>>> commit
             },
           },
         },
