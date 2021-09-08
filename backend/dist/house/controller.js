@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateOneHouse = exports.createOneHouse = exports.getOneHouse = exports.deleteHouseById = exports.getAllHouses = void 0;
 const database_1 = __importDefault(require("../database"));
 const service_1 = require("./service");
-const { house } = database_1.default;
+const { house, picture } = database_1.default;
 function getAllHouses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -157,10 +157,37 @@ function getOneHouse(req, res) {
 exports.getOneHouse = getOneHouse;
 function createOneHouse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        // const { id } = req.currentUser as User
         console.log("request body", req.body);
+        const { name, city, bedrooms, maxGuests, facility, price } = req.body;
+        const { pictures } = req.body;
+        console.log("pictures", pictures);
+        // const images = pictures.map(picture => ({
+        //   src: picture.file,
+        //   alt: pictures.name,
+        // }))
+        // console.log("images", images)
         // try {
         //   const newHouse = await house.create({
-        //     data: req.body,
+        //     data: {
+        //       name: name,
+        //       city: city,
+        //       pictures: {
+        //         createMany: {
+        //           data: [
+        //             // images
+        //             { src: pictures[0].file, alt: pictures[0].name },
+        //             { src: pictures[1].file, alt: pictures[1].name },
+        //             { src: pictures[2].file, alt: pictures[2].name },
+        //           ],
+        //         },
+        //       },
+        //       bedrooms: parseInt(bedrooms),
+        //       maxGuests: parseInt(maxGuests),
+        //       facility: facility,
+        //       price: parseInt(price),
+        //       hostId: 1,
+        //     },
         //   })
         //   res.json(newHouse)
         // } catch (error) {
