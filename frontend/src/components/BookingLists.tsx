@@ -7,6 +7,8 @@ export default function BookingList({ bookings }) {
 
   const toggleBooking = useStore((store) => store.toggleBooking);
 
+  function deleteBooking() {}
+
   return (
     <>
       {currentUser.role === "host" ? (
@@ -21,13 +23,15 @@ export default function BookingList({ bookings }) {
                     {booking.start.slice(2, 10)}-{booking.end.slice(2, 10)}{" "}
                   </p>
                 </div>
-                <div className="contact-host">
-                  {toggleBooking === "future" ? (
+
+                {toggleBooking === "future" ? (
+                  <div className="contact-host">
                     <Button> Contact Host</Button>
-                  ) : (
-                    <Button> Leave review</Button>
-                  )}
-                </div>
+                    <button onClick={deleteBooking}>X</button>
+                  </div>
+                ) : (
+                  <Button> Leave review</Button>
+                )}
               </div>
             </div>
           ))}
@@ -41,16 +45,17 @@ export default function BookingList({ bookings }) {
                 <div className="hotelName">
                   <p className="stay-title">{booking.houseName}</p>
                   <p>
-                    {booking.start.slice(2, 10)}-{booking.end.slice(2, 10)}{" "}
+                    {booking.start.slice(2, 10)} - {booking.end.slice(2, 10)}{" "}
                   </p>
                 </div>
-                <div className="contact-host">
-                  {toggleBooking === "future" ? (
+                {toggleBooking === "future" ? (
+                  <div className="contact-host">
                     <Button> Contact Host</Button>
-                  ) : (
-                    <Button> Leave review</Button>
-                  )}
-                </div>
+                    <p onClick={deleteBooking}>Xhahahahah</p>
+                  </div>
+                ) : (
+                  <Button> Leave review</Button>
+                )}
               </div>
             </div>
           ))}
