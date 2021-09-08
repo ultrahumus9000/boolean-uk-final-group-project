@@ -10,8 +10,8 @@ export default function LoginPage() {
 
   const setCurrentUser = useStore((store) => store.setCurrentUser);
   const currentUser = useStore((store) => store.currentUser);
-  const role = useStore((store) => store.role);
-  const setRole = useStore((store) => store.setRole);
+  // const role = useStore((store) => store.role);
+  // const setRole = useStore((store) => store.setRole);
 
   function loginUser(userCreds, role) {
     fetch("http://localhost:4000/login", {
@@ -65,7 +65,7 @@ export default function LoginPage() {
             placeholder="Password"
             variant="outlined"
           ></TextField>
-          {/* <div className="login-role">
+          <div className="login-role">
             <p> Login in as: </p>
             <div className="login-options">
               <div className="login-radio">

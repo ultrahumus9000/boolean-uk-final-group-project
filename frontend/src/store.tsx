@@ -62,14 +62,14 @@ type Store = {
   bookingDisplay: Boolean;
   toggleBooking: string;
   setToggleBooking: (arg: string) => void;
-  role: String;
+  // role: String;
 
   toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
-  setRole: (arg: string) => void;
+  // setRole: (arg: string) => void;
 
   // createBooking: (arg: BookingForm) => void;
 }
