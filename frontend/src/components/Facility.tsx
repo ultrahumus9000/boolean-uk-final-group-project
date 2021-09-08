@@ -4,27 +4,20 @@ export default function Facility({
   options,
   handleChangeFacility,
   newListing,
-  //   children
 }) {
   const optionsList = Object.keys(options).map(facility => (
-    <li key={facility}>
-      <label>
-        {facility}
-        <input
-          onChange={handleChangeFacility}
-          type="checkbox"
-          name="facility"
-          value={facility}
-        />
-        {options[facility]}
-      </label>
+    <li key={facility} className="cboxLi">
+      <input
+        className="hidden"
+        onChange={handleChangeFacility}
+        type="checkbox"
+        name="facility"
+        value={facility}
+        id={facility}
+      />
+      <label htmlFor={facility}>{options[facility]}</label>
     </li>
   ))
 
-  return (
-    <div className="form_facilities_checkboxes">
-      {/* {children} */}
-      <ul>{optionsList}</ul>
-    </div>
-  )
+  return <ul className="checkboxUl">{optionsList}</ul>
 }

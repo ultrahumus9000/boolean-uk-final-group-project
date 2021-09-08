@@ -1,4 +1,3 @@
-
 import React, { useState } from "react"
 import { Route, Switch } from "react-router-dom"
 import "./App.css"
@@ -13,11 +12,10 @@ import RegisterPage from "./pages/SignUp"
 import GuestProfilePage from "./pages/GuestProfilePage"
 import BottomNav from "./components/BottomNav"
 import useStore from "./store"
-import addListingHost from "./pages/addListingHost"
-
+import AddListingHost from "./pages/AddListingHost"
 
 function App() {
-  const currentUser = useStore((store) => store.currentUser);
+  const currentUser = useStore(store => store.currentUser)
   //redirect
   return (
     <div className="App">
@@ -45,7 +43,7 @@ function App() {
                 <HostDashPage />
               </Route>
               <Route path="/host/dashboard/addlisting" exact>
-                <addListingHost />
+                <AddListingHost />
               </Route>
               <Route path="/guest/profile" exact>
                 <GuestProfilePage />
@@ -59,7 +57,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

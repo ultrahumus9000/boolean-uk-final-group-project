@@ -46,6 +46,24 @@ p {
   --offwhite: #fffffe;
 }
 
+.cancelLink {
+  text-align: center;
+}
+
+.submitBtn {
+  background-color: #ff8e3c;
+  border-radius: 30px;
+  padding: 8px 15px;
+  border: none;
+  font-size: 1.2rem;
+}
+.clearBtn {
+  background-color: #eff0f3;
+  border-radius: 30px;
+  padding: 8px 15px;
+  border: none;
+}
+
 .App {
   display: grid;
   padding: 10%;
@@ -76,6 +94,7 @@ p {
 }
 .main-content {
   overflow: scroll;
+  padding: 20px;
 }
 .nav {
   background-color: pink;
@@ -445,7 +464,34 @@ p {
 
 .addListingForm {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 100%;
+  gap: 20px;
+}
+
+.addListingForm input:hover {
+  box-shadow: 0 0 0 1px #d9376e;
+}
+
+.addListingForm label {
+  font-size: 1rem;
+  display: flex;
+  place-items: center;
+}
+
+.addListingForm .textfield {
+  flex: 1;
+  border: 0px;
+  border-radius: 30px;
+  padding: 8px 11px;
+  margin-left: 10px;
+}
+
+.addListingForm .numfield {
+  flex: 1;
+  border: 0px;
+  border-radius: 30px;
+  padding: 8px 11px;
+  margin-left: 10px;
 }
 
 .addListingForm input:invalid + span:after {
@@ -458,6 +504,65 @@ p {
   padding-left: 5px;
 }
 
+.checkboxUl {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  padding: 0;
+}
+
+.cboxLi {
+  border-radius: 30px;
+  margin: 8px 0;
+}
+
+.hidden {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+}
+
+input[type="checkbox"] + label {
+  color: #2a2a2a;
+  border-radius: 30px;
+  padding: 8px 15px;
+  background-color: #eff0f3;
+}
+input[type="checkbox"]:hover + label {
+  background-color: #d9376e;
+  color: #eff0f3;
+}
+input[type="checkbox"]:checked + label {
+  background-color: #ff8e3c;
+  color: #eff0f3;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  background-color: #eff0f3;
+  color: #2a2a2a;
+  border-radius: 25px;
+  padding: 8px 15px;
+  display: block;
+  cursor: pointer;
+}
+.custom-file-upload:hover {
+  box-shadow: 0 0 0 1px #d9376e;
+}
+
+.uploadedFileNames {
+  list-style: none;
+  padding: 0;
+  margin-left: 10px;
+}
+.uploadedFileNames p {
+  font-size: 0.6rem;
+  display: inline;
+}
+
 /* RESPONSIVE MEDIA QUERIES */
 
 @media screen and (max-width: 416px) {
@@ -465,3 +570,13 @@ p {
     padding: 0%;
   }
 }
+
+/* :root {
+  --orange-hl: #ff8e3c;
+  --orange-ll: #d67632;
+  --pink-hl: #d9376e;
+  --black: #0d0d0d;
+  --body-text: #2a2a2a;
+  --grey: #eff0f3;
+  --offwhite: #fffffe;
+} */

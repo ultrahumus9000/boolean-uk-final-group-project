@@ -157,16 +157,16 @@ function getOneHouse(req, res) {
 exports.getOneHouse = getOneHouse;
 function createOneHouse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const newHouse = yield house.create({
-                data: req.body,
-            });
-            res.json(newHouse);
-        }
-        catch (error) {
-            console.log(error);
-            res.json(error);
-        }
+        console.log("request body", req.body);
+        // try {
+        //   const newHouse = await house.create({
+        //     data: req.body,
+        //   })
+        //   res.json(newHouse)
+        // } catch (error) {
+        //   console.log(error)
+        //   res.json(error)
+        // }
     });
 }
 exports.createOneHouse = createOneHouse;
