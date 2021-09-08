@@ -1,15 +1,14 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
-import heart from "../assets/heart.png";
+import hotel from "../assets/hotel.svg";
 import account from "../assets/account.svg";
-import { useHistory } from "react-router";
+
 import useStore from "../store";
 
 export default function BottomNav() {
   const currentUser = useStore((state) => state.currentUser);
   const setCurrentUser = useStore((state) => state.setCurrentUser);
-  const history = useHistory();
 
   function switchToHost() {
     fetch("http://localhost:4000/guests/switch", {
@@ -41,10 +40,19 @@ export default function BottomNav() {
 
   return (
     <div className="bottom-nav">
-      <img src={heart}></img>
-      <Link to="/guest/dashboard">
-        <img src={account}></img>
+      <Link to="/">
+        <img src={hotel}></img>
       </Link>
+      {currentUser.role === "host" && (
+        <Link to="/host/dashboard">
+          <img src={account}></img>
+        </Link>
+      )}
+      {currentUser.role === "guest" && (
+        <Link to="/guest/dashboard">
+          <img src={account}></img>
+        </Link>
+      )}
       {currentUser.role === "guest" && (
         <Button onClick={switchToHost} variant="contained" color="secondary">
           {" "}
