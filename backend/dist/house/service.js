@@ -28,15 +28,9 @@ function getFilteredHouses(query) {
                     ],
                     NOT: {
                         bookings: {
-<<<<<<< HEAD
                             some: {
                                 start: { gte: new Date(checkIn).toISOString() },
                                 end: { lte: new Date(checkOut).toISOString() },
-=======
-                            every: {
-                                start: { lte: new Date(checkIn).toISOString() },
-                                end: { gte: new Date(checkOut).toISOString() },
->>>>>>> commit
                             },
                         },
                     },
@@ -93,10 +87,10 @@ function getFilteredHouses(query) {
 exports.getFilteredHouses = getFilteredHouses;
 function modifiedHouses(data) {
     return __awaiter(this, void 0, void 0, function* () {
-        const firstModifiedData = data.map(house => {
+        const firstModifiedData = data.map((house) => {
             let hostUsername = house.hostProfile.user.username;
             let hostAvatarLink = house.hostProfile.user.avatar;
-            let filteredReviews = house.reviews.map(review => {
+            let filteredReviews = house.reviews.map((review) => {
                 const modifedReview = {
                     content: review.content,
                     guestUsername: review.guestProfile.user.username,
