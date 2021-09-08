@@ -4,9 +4,13 @@ const authgenerator_1 = require("./authgenerator");
 exports.default = (req, res, next) => {
     const { token } = req.cookies;
     let userData = token && (0, authgenerator_1.validateToken)(token);
-    console.log("line 25 userData", userData);
+    // userData = {
+    //   id: 1,
+    //   username: "Aliya.Schulist63anet",
+    // };
     if (userData) {
         req.currentUser = userData;
+        console.log("line 27", userData);
         next();
     }
     else {
