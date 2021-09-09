@@ -11,10 +11,6 @@ const multer_storage_cloudinary_1 = require("multer-storage-cloudinary");
 exports.default = (req, res, next) => {
     const { token } = req.cookies;
     let userData = token && (0, authgenerator_1.validateToken)(token);
-    userData = {
-        id: 1,
-        username: "Aliya.Schulist63anet",
-    };
     if (userData) {
         req.currentUser = userData;
         console.log("line 27", userData);

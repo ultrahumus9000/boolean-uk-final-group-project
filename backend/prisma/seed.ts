@@ -83,6 +83,29 @@ async function main() {
       facilities[randomInt + 2],
     ];
 
+    // const houses = await house.create({
+    //   data: {
+    //     name: faker.random.words(4),
+    //     bedrooms: randomBeds,
+    //     maxGuests: 2 * randomBeds,
+    //     facility: randomFacilities,
+    //     city: faker.address.cityName(),
+    //     price: Math.floor(100 - Math.random() * 20),
+    //     hostId: 1,
+    //     pictures: {
+    //       createMany: {
+    //         data: [
+    //           { src: wholehousePics[i], alt: "whole house" },
+    //           { src: bedroomPics[i], alt: "bedroom" },
+    //           { src: livingRoomPics[i], alt: "living room" },
+    //           { src: bathroomPics[i], alt: "bathroom" },
+    //           { src: kitchenPics[i], alt: "kitchen" },
+    //         ],
+    //       },
+    //     },
+    //   },
+    // });
+
     const host = await user.create({
       data: {
         username: faker.internet.exampleEmail().replace("@example.", "a"),
@@ -146,32 +169,6 @@ async function main() {
   console.log("guests", guests);
 }
 
-//   model GuestProfile {
-//     id        Int        @id @default(autoincrement())
-//     user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-//     userId    Int
-//     bio       String?
-//     wishlists WishList[]
-//     reviews   Review[]
-//     bookings  Booking[]
-//   }
-
-//   model HostProfile {
-//     id     Int     @id @default(autoincrement())
-//     user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-//     userId Int
-//     bio    String?
-//     houses House[]
-//   }
-
-//   model WishList {
-//     id           Int          @id @default(autoincrement())
-//     guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
-//     guestId      Int
-//     house        House        @relation(fields: [houseId], references: [id], onDelete: Cascade)
-//     houseId      Int
-//   }
-
 //   model House {
 //     id          Int         @id @default(autoincrement())
 //     name        String
@@ -186,34 +183,6 @@ async function main() {
 //     reviews     Review[]
 //     pictures    Picture[]
 //     bookings    Booking[]
-//   }
-
-//   model Review {
-//     id           Int          @id @default(autoincrement())
-//     content      String
-//     house        House        @relation(fields: [houseId], references: [id], onDelete: Cascade)
-//     houseId      Int
-//     guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
-//     guestId      Int
-//   }
-
-//   model Booking {
-//     id           Int          @id @default(autoincrement())
-//     total        Int          @default(0)
-//     guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
-//     guestId      Int
-//     start        DateTime     @db.Date
-//     end          DateTime     @db.Date
-//     house        House        @relation(fields: [houseId], references: [id])
-//     houseId      Int
-//   }
-
-//   model Picture {
-//     id      Int    @id @default(autoincrement())
-//     house   House  @relation(fields: [houseId], references: [id], onDelete: Cascade)
-//     houseId Int
-//     src     String
-//     alt     String
 //   }
 
 main()

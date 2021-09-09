@@ -8,17 +8,15 @@ export default function BookingList({ bookings }) {
   const currentUser = useStore((store) => store.currentUser);
   const history = useHistory();
   const toggleBooking = useStore((store) => store.toggleBooking);
+  const deleteBooking = useStore((store) => store.deleteBooking);
 
   const [addReviewStatus, setAddReviewStatus] = useState(false);
-
-  function deleteBooking() {}
 
   function toggleReview() {
     setAddReviewStatus(!addReviewStatus);
   }
-  console.log(addReviewStatus);
 
-  console.log(bookings);
+  console.log("booking", bookings);
 
   return (
     <>
@@ -38,7 +36,13 @@ export default function BookingList({ bookings }) {
                 {toggleBooking === "future" ? (
                   <div className="contact-host">
                     <Button> Contact Guest</Button>
-                    <button onClick={deleteBooking}>X</button>
+                    <button
+                      onClick={() => {
+                        deleteBooking(booking.bookingId);
+                      }}
+                    >
+                      X
+                    </button>
                   </div>
                 ) : (
                   <Button> Leave review</Button>
@@ -67,7 +71,13 @@ export default function BookingList({ bookings }) {
                 {toggleBooking === "future" ? (
                   <div className="contact-host">
                     <Button> Contact Host</Button>
-                    <button onClick={deleteBooking}>X</button>
+                    <button
+                      onClick={() => {
+                        deleteBooking(booking.bookingId);
+                      }}
+                    >
+                      X
+                    </button>
                   </div>
                 ) : addReviewStatus ? (
                   <ReviewForm toggleReview={toggleReview} />

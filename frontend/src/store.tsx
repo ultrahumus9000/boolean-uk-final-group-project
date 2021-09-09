@@ -45,18 +45,21 @@ export type House = {
 }
 
 type Booking = {
-  id: number
-  name: string
-  bedrooms: number
-  maxGuests: number
-  facility: string[]
-  city: string
-  hostProfile: string
-  hostAvatar: string
-  price: number
-  pictures: Picture[]
-  reviews: Review[]
-}
+  total: number;
+  bookingId: number;
+  houseId: number;
+  houseName: string;
+  city: string;
+  name: string;
+  avatar: string;
+  price: number;
+  start: string;
+  end: string;
+  pictureSrc: string;
+  pictureAlt: string;
+};
+
+
 
 export type NewHouse = {
   name: string
@@ -69,20 +72,28 @@ export type NewHouse = {
 }
 
 type Store = {
-  houses: House[]
-  house: House
-  currentUser: User
-  bookingDisplay: Boolean
-  toggleBooking: string
-  setToggleBooking: (arg: string) => void
-  toggleDisplay: () => void
-  setCurrentUser: (arg: User) => void
-  fetchAllHouses: () => void
-  fetchOneHouse: (arg: number) => void
-  filterHouses: (arg: Options) => void
-  addNewListing: (arg: SyntheticEvent, arg2: NewHouse) => void
-  getValidateCurrToken: () => void
+
+  houses: House[];
+  house: House;
+  currentUser: User;
+  bookingDisplay: Boolean;
+  toggleBooking: string;
+  bookings: Booking[];
+
+  setToggleBooking: (arg: string) => void;
+  toggleDisplay: () => void;
+  setCurrentUser: (arg: User) => void;
+  fetchAllHouses: () => void;
+  fetchOneHouse: (arg: number) => void;
+  filterHouses: (arg: Options) => void;
+  addNewListing: (arg: NewHouse) => void;
+  getValidateCurrToken: () => void;
+  getBookingsForHost: () => void;
+  getBookingsForGuest: () => void;
+  deleteBooking: (arg: number) => void;
 }
+
+
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -107,7 +118,7 @@ const useStore = create<Store>((set, get) => ({
     avatar: "",
     role: "",
   },
-
+  bookings: [],
   bookingDisplay: false,
   toggleBooking: "future",
   setToggleBooking: arg => {
@@ -197,7 +208,54 @@ const useStore = create<Store>((set, get) => ({
         set({ currentUser: userToken })
       })
   },
+
+
+  getBookingsForHost: () => {
+    fetch("http://localhost:4000/bookings/host", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((respFromBookings) => {
+        set({ bookings: respFromBookings });
+      })
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
+  },
+  getBookingsForGuest: () => {
+    fetch("http://localhost:4000/bookings/guest", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((respFromBookings) => {
+        set({ bookings: respFromBookings });
+      })
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
+  },
+
+  deleteBooking: (id) => {
+    fetch(`${baseUrl}/bookings/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then(() => {
+        console.log("i am deleting");
+        const allBookings = get().bookings;
+        const filteredBookings = allBookings.filter(
+          (booking) => booking.bookingId !== id
+        );
+        set({ bookings: filteredBookings });
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
+}));
+
 }))
+
 
 export default useStore
 //test
