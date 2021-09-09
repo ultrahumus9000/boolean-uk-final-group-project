@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   const futureBookings = bookings.filter((booking) => booking.start >= today);
 
-  const pastBookings = bookings.filter((booking) => booking.start < today);
+  const pastBookings = bookings.filter((booking) => booking.end < today);
 
   return (
     <>

@@ -2,10 +2,11 @@ import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import address from "../assets/address.svg";
+import useStore from "../store";
 
 export default function Listings() {
   const [housesForHost, setHousesForHost] = useState([]);
-
+  const houses = useStore((store) => store.houses);
   const history = useHistory();
 
   useEffect(() => {
@@ -16,7 +17,23 @@ export default function Listings() {
       .then((houses) => {
         setHousesForHost(houses);
       });
-  }, []);
+  }, [housesForHost.length]);
+
+  const deleteHouse = (id) => {
+    fetch(`http://localhost:4000/houses/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then(() => {
+        const allHousesForhost = housesForHost.filter(
+          (house) => house.id !== id
+        );
+        setHousesForHost(allHousesForhost);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
   console.log(housesForHost);
   return (
     <>
@@ -24,13 +41,14 @@ export default function Listings() {
         <div>
           {housesForHost.map((house) => {
             return (
-              <div
-                className="listing-container"
-                onClick={() => {
-                  history.push(`/house/${house.id}`);
-                }}
-              >
-                <img className="house-img" src={house.pictures}></img>
+              <div className="listing-container">
+                <img
+                  className="house-img"
+                  src={house.pictures}
+                  onClick={() => {
+                    history.push(`/house/${house.id}`);
+                  }}
+                ></img>
                 <div className="listing-details">
                   <div className="hotelName">
                     <p className="listing-title"> {house.name}</p>
@@ -52,6 +70,9 @@ export default function Listings() {
                       variant="contained"
                       color="secondary"
                       href="#contained-buttons"
+                      onClick={() => {
+                        deleteHouse(house.id);
+                      }}
                     >
                       {" "}
                       Delete

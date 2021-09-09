@@ -21,7 +21,7 @@ function createNewUser(req, res) {
         const newUser = req.body;
         try {
             const modifiedUser = yield (0, service_1.default)(newUser);
-            if (newUser.guestProfile) {
+            if (newUser.guestRole) {
                 const result = yield guestProfile.create({
                     data: {
                         bio: newUser.bio,

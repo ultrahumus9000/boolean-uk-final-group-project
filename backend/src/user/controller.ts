@@ -10,7 +10,7 @@ async function createNewUser(req: Request, res: Response) {
   try {
     const modifiedUser = await createNewUserWithHash(newUser);
 
-    if (newUser.guestProfile) {
+    if (newUser.guestRole) {
       const result = await guestProfile.create({
         data: {
           bio: newUser.bio,

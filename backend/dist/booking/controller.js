@@ -17,12 +17,13 @@ const runtime_1 = require("@prisma/client/runtime");
 const database_1 = __importDefault(require("../database"));
 const { booking, user, hostProfile } = database_1.default;
 function createBooking(req, res) {
-    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const { id } = req.currentUser;
         const { total, start, end, houseId } = req.body;
         let startDate = new Date(start);
         let endDate = new Date(end);
+        console.log("houseid", houseId);
+        console.log("houseid", Number(houseId));
         try {
             const guestInfo = yield user.findUnique({
                 where: {
@@ -33,11 +34,18 @@ function createBooking(req, res) {
                 },
             });
             let realGuestId = 0;
-            if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) {
-                realGuestId = (_a = guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestProfile) === null || _a === void 0 ? void 0 : _a.id;
+            if (guestInfo === null) {
+                return;
+            }
+            if (guestInfo.guestProfile === null) {
+                return;
+            }
+            if (guestInfo === null || guestInfo === void 0 ? void 0 : guestInfo.guestRole) {
+                realGuestId = guestInfo.guestProfile.id;
             }
             const checkBookingStartDate = yield booking.findFirst({
                 where: {
+                    id: Number(houseId),
                     AND: [
                         {
                             start: {
@@ -54,6 +62,7 @@ function createBooking(req, res) {
             });
             const checkBookingEndDate = yield booking.findFirst({
                 where: {
+                    id: Number(houseId),
                     AND: [
                         {
                             start: {
@@ -70,14 +79,23 @@ function createBooking(req, res) {
             });
             // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
             //3 not within 07/09- 11/09 06/09-10/09
+            // id           Int          @id @default(autoincrement())
+            // total        Int          @default(0)
+            // guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
+            // guestId      Int
+            // start        DateTime     @unique @db.Date
+            // end          DateTime     @unique @db.Date
+            // house        House        @relation(fields: [houseId], references: [id])
+            // houseId      Int
             if (checkBookingEndDate === null && checkBookingStartDate === null) {
+                console.log("i can book");
                 const newBooking = yield booking.create({
                     data: {
                         total: total,
                         guestId: realGuestId,
                         start: startDate.toISOString(),
                         end: endDate.toISOString(),
-                        houseId: houseId,
+                        houseId: Number(houseId),
                     },
                 });
                 res.json(newBooking);

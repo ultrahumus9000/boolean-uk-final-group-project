@@ -23,7 +23,8 @@ async function createBooking(req: Request, res: Response) {
 
   let startDate = new Date(start);
   let endDate = new Date(end);
-
+  console.log("houseid", houseId);
+  console.log("houseid", Number(houseId));
   try {
     const guestInfo = await user.findUnique({
       where: {
@@ -35,12 +36,20 @@ async function createBooking(req: Request, res: Response) {
     });
 
     let realGuestId = 0;
-    if (guestInfo?.guestProfile) {
-      realGuestId = guestInfo?.guestProfile?.id;
+
+    if (guestInfo === null) {
+      return;
+    }
+    if (guestInfo.guestProfile === null) {
+      return;
+    }
+    if (guestInfo?.guestRole) {
+      realGuestId = guestInfo.guestProfile.id;
     }
 
     const checkBookingStartDate = await booking.findFirst({
       where: {
+        id: Number(houseId),
         AND: [
           {
             start: {
@@ -58,6 +67,7 @@ async function createBooking(req: Request, res: Response) {
 
     const checkBookingEndDate = await booking.findFirst({
       where: {
+        id: Number(houseId),
         AND: [
           {
             start: {
@@ -76,14 +86,24 @@ async function createBooking(req: Request, res: Response) {
     // 1 within  07/09- 11/09, example, 08/09-09/09 2 not within 07/09- 11/09 08/09-14/09
     //3 not within 07/09- 11/09 06/09-10/09
 
+    // id           Int          @id @default(autoincrement())
+    // total        Int          @default(0)
+    // guestProfile GuestProfile @relation(fields: [guestId], references: [id], onDelete: Cascade)
+    // guestId      Int
+    // start        DateTime     @unique @db.Date
+    // end          DateTime     @unique @db.Date
+    // house        House        @relation(fields: [houseId], references: [id])
+    // houseId      Int
+
     if (checkBookingEndDate === null && checkBookingStartDate === null) {
+      console.log("i can book");
       const newBooking = await booking.create({
         data: {
           total: total,
           guestId: realGuestId,
           start: startDate.toISOString(),
           end: endDate.toISOString(),
-          houseId: houseId,
+          houseId: Number(houseId),
         },
       });
       res.json(newBooking);
@@ -99,6 +119,7 @@ async function createBooking(req: Request, res: Response) {
       }
     } else {
       const newError = error as Error;
+
       res.json(newError.message);
     }
 
