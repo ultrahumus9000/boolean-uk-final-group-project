@@ -41,15 +41,9 @@ async function switchToHost(req: Request, res: Response) {
       },
     });
     if (userInfo?.hostRole) {
-<<<<<<< HEAD
       res.json("true");
     } else {
       res.json("false");
-=======
-      res.json(true);
-    } else {
-      res.json(false);
->>>>>>> commit
     }
   } catch (error) {
     res.status(401).json(error);

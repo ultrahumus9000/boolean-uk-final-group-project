@@ -1,11 +1,12 @@
 import React from "react"
 import { Button } from "@material-ui/core"
+import useStore from "../store";
 
 export default function FutureBookings({ bookings }) {
+   const deleteBooking = useStore((state) => state.deleteBooking);
+   const currentUser = useStore((state) => state.currentUser)
 
-   function deleteBooking() {
-
-   }
+   console.log(currentUser)
    return (
       <div className="stay-container">
          <img src="#"></img>
@@ -16,7 +17,7 @@ export default function FutureBookings({ bookings }) {
             </div>
             <div className="contact-host">
                <Button> Contact host</Button>
-               <p onClick={deleteBooking}>X</p>
+               {/* <p onClick={() => deleteBooking(currentUser.id} > X </p> */}
             </div>
          </div>
       </div>

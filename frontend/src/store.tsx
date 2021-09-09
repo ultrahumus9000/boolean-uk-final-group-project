@@ -69,7 +69,7 @@ type Store = {
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
-  // setRole: (arg: string) => void;
+  // deleteBooking: (arg: string) => void;
 
   // createBooking: (arg: BookingForm) => void;
 }
@@ -150,6 +150,16 @@ const useStore = create<Store>((set, get) => ({
       .catch((error) => {
         throw error;
       });
+  },
+  deleteBooking: (userId) => {
+    fetch(
+      `${baseUrl}/booking/:userId`, {
+      method: 'DELETE',
+    })
+      .then(function (response) { return response.json() })
+      .then(function (response) {
+        console.log(response)
+      })
   },
 }));
 

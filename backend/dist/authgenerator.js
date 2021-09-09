@@ -7,11 +7,7 @@ exports.validateToken = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-<<<<<<< HEAD
-const JWT_SECRET = process.env.JWT;
-=======
 const JWT_SECRET = process.env.JWT_SECRET;
->>>>>>> commit
 function createToken(payload) {
     console.log(jsonwebtoken_1.default.sign(payload, JWT_SECRET));
     return jsonwebtoken_1.default.sign(payload, JWT_SECRET);

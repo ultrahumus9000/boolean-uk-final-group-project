@@ -39,10 +39,6 @@ function login(req, res) {
             res.json(loggedUser);
         }
         catch (error) {
-<<<<<<< HEAD
-=======
-            console.log("error from login", error);
->>>>>>> commit
             res.status(401).json(error);
         }
     });

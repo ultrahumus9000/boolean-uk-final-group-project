@@ -127,10 +127,7 @@ function getAllBookingsForHost(req, res) {
                         select: {
                             city: true,
                             pictures: true,
-<<<<<<< HEAD
                             name: true,
-=======
->>>>>>> commit
                             bookings: {
                                 select: {
                                     start: true,
@@ -158,10 +155,7 @@ function getAllBookingsForHost(req, res) {
             const secondModifiedBookings = firstModifiedBookings === null || firstModifiedBookings === void 0 ? void 0 : firstModifiedBookings.map((allBookingsForOnehouse) => {
                 const newbookings = allBookingsForOnehouse.bookings.map((booking) => {
                     const newBooking = {
-<<<<<<< HEAD
                         houseName: allBookingsForOnehouse.name,
-=======
->>>>>>> commit
                         houseId: allBookingsForOnehouse.pictures[0].houseId,
                         start: booking.start,
                         end: booking.end,
@@ -241,25 +235,15 @@ function getAllBookingsforGuest(req, res) {
             });
             const firstFilterData = rawData.map((booking) => {
                 const modifiedHouseInfo = {
-<<<<<<< HEAD
                     houseId: booking.house.id,
                     city: booking.house.city,
                     houseName: booking.house.name,
-=======
-                    houseIdd: booking.house.id,
-                    city: booking.house.city,
-                    name: booking.house.name,
->>>>>>> commit
                     hostname: booking.house.hostProfile.user.username,
                     hostAvatar: booking.house.hostProfile.user.avatar,
                     pictureSrc: booking.house.pictures[0].src,
                     pictureAlt: booking.house.pictures[0].alt,
                 };
-<<<<<<< HEAD
                 const newBooking = Object.assign(Object.assign({}, booking), modifiedHouseInfo);
-=======
-                const newBooking = Object.assign(Object.assign({}, booking), { house: modifiedHouseInfo });
->>>>>>> commit
                 return newBooking;
             });
             res.json(firstFilterData);

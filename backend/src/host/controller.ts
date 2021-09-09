@@ -33,7 +33,6 @@ async function getHostProfile(req: Request, res: Response) {
   }
 }
 
-<<<<<<< HEAD
 async function switchToGuest(req: Request, res: Response) {
   const { id } = req.currentUser as User;
   try {
@@ -53,6 +52,3 @@ async function switchToGuest(req: Request, res: Response) {
 }
 
 export { getHostProfile, switchToGuest };
-=======
-export { getHostProfile };
->>>>>>> commit

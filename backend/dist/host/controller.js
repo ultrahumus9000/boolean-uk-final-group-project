@@ -12,11 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
 exports.switchToGuest = exports.getHostProfile = void 0;
-=======
-exports.getHostProfile = void 0;
->>>>>>> commit
 const database_1 = __importDefault(require("../database"));
 const { user } = database_1.default;
 function getHostProfile(req, res) {
@@ -46,7 +42,6 @@ function getHostProfile(req, res) {
     });
 }
 exports.getHostProfile = getHostProfile;
-<<<<<<< HEAD
 function switchToGuest(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { id } = req.currentUser;
@@ -69,5 +64,3 @@ function switchToGuest(req, res) {
     });
 }
 exports.switchToGuest = switchToGuest;
-=======
->>>>>>> commit

@@ -23,21 +23,25 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 // house routes has to be put before token check so that everyone can view houses
 app.use("/houses", houseRouter);
 // here until ready to move down.
+app.use("/bookings", bookingRouter);
+app.use("/guests", guestRouter);
+app.use("/hosts", hostRouter);
+app.use("/users", userRouter);
 
 //check token
 app.use(authRouter);
 
 // general routes
-app.use("/users", userRouter);
+
 
 app.use(tokenMiddleware);
 
 app.use("/reviews", reviewRouter);
-app.use("/bookings", bookingRouter);
 
-app.use("/guests", guestRouter);
 
-app.use("/hosts", hostRouter);
+
+
+
 
 app.all(
   "*",
