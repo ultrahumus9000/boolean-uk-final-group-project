@@ -1,48 +1,48 @@
-import { SyntheticEvent } from "react"
-import create from "zustand"
+import { SyntheticEvent } from "react";
+import create from "zustand";
 
-let baseUrl = "http://localhost:4000"
+let baseUrl = "http://localhost:4000";
 
 type User = {
-  username: string
-  firstName: string
-  lastName: string
-  email: string
-  avatar: string
-  role: string
-}
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  role: string;
+};
 
 type Picture = {
-  src: string
-  alt: string
-}
+  src: string;
+  alt: string;
+};
 
 export type Review = {
-  content: string
-  guestUsername: string
-  guestAvatar: string
-}
+  content: string;
+  guestUsername: string;
+  guestAvatar: string;
+};
 
 type Options = {
-  city: string
-  checkIn: string
-  checkOut: string
-  maxGuests: number
-}
+  city: string;
+  checkIn: string;
+  checkOut: string;
+  maxGuests: number;
+};
 
 export type House = {
-  id: number
-  name: string
-  bedrooms: number
-  maxGuests: number
-  facility: string[]
-  city: string
-  hostProfile: string
-  hostAvatar: string
-  price: number
-  pictures: Picture[]
-  reviews: Review[]
-}
+  id: number;
+  name: string;
+  bedrooms: number;
+  maxGuests: number;
+  facility: string[];
+  city: string;
+  hostProfile: string;
+  hostAvatar: string;
+  price: number;
+  pictures: Picture[];
+  reviews: Review[];
+};
 
 type Booking = {
   total: number;
@@ -59,20 +59,17 @@ type Booking = {
   pictureAlt: string;
 };
 
-
-
 export type NewHouse = {
-  name: string
-  bedrooms: number
-  maxGuests: number
-  facility: string[]
-  city: string
-  price: number
-  pictures: File[]
-}
+  name: string;
+  bedrooms: number;
+  maxGuests: number;
+  facility: string[];
+  city: string;
+  price: number;
+  pictures: File[];
+};
 
 type Store = {
-
   houses: House[];
   house: House;
   currentUser: User;
@@ -86,14 +83,12 @@ type Store = {
   fetchAllHouses: () => void;
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
-  addNewListing: (arg: NewHouse) => void;
+  addNewListing: (e: SyntheticEvent, arg: NewHouse) => void;
   getValidateCurrToken: () => void;
   getBookingsForHost: () => void;
   getBookingsForGuest: () => void;
   deleteBooking: (arg: number) => void;
-}
-
-
+};
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -121,56 +116,56 @@ const useStore = create<Store>((set, get) => ({
   bookings: [],
   bookingDisplay: false,
   toggleBooking: "future",
-  setToggleBooking: arg => {
-    set({ toggleBooking: arg })
+  setToggleBooking: (arg) => {
+    set({ toggleBooking: arg });
   },
   toggleDisplay: () => {
-    set({ bookingDisplay: !get().bookingDisplay })
+    set({ bookingDisplay: !get().bookingDisplay });
   },
-  setCurrentUser: userFromServer => {
+  setCurrentUser: (userFromServer) => {
     set({
       currentUser: userFromServer,
-    })
+    });
   },
   fetchAllHouses: () => {
     fetch(`${baseUrl}/houses`)
-      .then(resp => resp.json())
-      .then(allHouses => {
-        set({ houses: allHouses })
+      .then((resp) => resp.json())
+      .then((allHouses) => {
+        set({ houses: allHouses });
       })
-      .catch(error => {
-        console.error("Unable to fetch all houses", error)
-      })
+      .catch((error) => {
+        console.error("Unable to fetch all houses", error);
+      });
   },
-  fetchOneHouse: houseId => {
+  fetchOneHouse: (houseId) => {
     fetch(`${baseUrl}/houses/${houseId}`)
-      .then(resp => resp.json())
-      .then(houseFromServer => {
-        console.log(houseFromServer)
-        set({ house: houseFromServer })
+      .then((resp) => resp.json())
+      .then((houseFromServer) => {
+        console.log(houseFromServer);
+        set({ house: houseFromServer });
       })
-      .catch(error => {
-        console.error("Unable to fetch all houses", error)
-      })
+      .catch((error) => {
+        console.error("Unable to fetch all houses", error);
+      });
   },
 
-  filterHouses: filterOptions => {
-    let { city, checkIn, checkOut, maxGuests } = filterOptions
-    console.log("data filter", filterOptions)
-    const cityFilter = city !== "" ? `city=${city}&` : ""
-    checkIn = checkIn !== "" ? checkIn : new Date().toISOString()
-    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString()
+  filterHouses: (filterOptions) => {
+    let { city, checkIn, checkOut, maxGuests } = filterOptions;
+    console.log("data filter", filterOptions);
+    const cityFilter = city !== "" ? `city=${city}&` : "";
+    checkIn = checkIn !== "" ? checkIn : new Date().toISOString();
+    checkOut = checkOut !== "" ? checkOut : new Date(2025, 1, 1).toISOString();
     fetch(
       `${baseUrl}/houses?${cityFilter}checkIn=${checkIn}&checkOut=${checkOut}&maxGuests=${maxGuests}`
     )
-      .then(resp => resp.json())
-      .then(allHouses => {
-        set({ houses: allHouses })
-        console.log("All houses fetch", allHouses)
+      .then((resp) => resp.json())
+      .then((allHouses) => {
+        set({ houses: allHouses });
+        console.log("All houses fetch", allHouses);
       })
-      .catch(error => {
-        throw error
-      })
+      .catch((error) => {
+        throw error;
+      });
   },
 
   // must supply FormData with a form object and event
@@ -178,37 +173,36 @@ const useStore = create<Store>((set, get) => ({
   // only accepts strings not numbers. Doesn't like Arrays - json parse in backend.
   // 'npm i --save multer' in backend to accept new file type
   addNewListing: (e, housedata) => {
-    const formDataObj = new FormData(e.target as HTMLFormElement)
-    formDataObj.append("facility", JSON.stringify(housedata.facility))
+    const formDataObj = new FormData(e.target as HTMLFormElement);
+    formDataObj.append("facility", JSON.stringify(housedata.facility));
 
-    console.log("housedata", housedata)
-    console.log("formDataObj", formDataObj.get("pictures"))
+    console.log("housedata", housedata);
+    console.log("formDataObj", formDataObj.get("pictures"));
 
     fetch(`${baseUrl}/houses`, {
       method: "POST",
       credentials: "include",
       body: formDataObj,
     })
-      .then(resp => resp.json())
+      .then((resp) => resp.json())
       // .then(newHouse => {
       //   set({ houses: [...houses, newHouse] })
       //   console.log("newHouse", newHouse)
       // })
-      .then(newHouse => console.log("newHouse", newHouse))
-      .catch(error => {
-        throw error
-      })
+      .then((newHouse) => console.log("newHouse", newHouse))
+      .catch((error) => {
+        throw error;
+      });
   },
   getValidateCurrToken: () => {
     fetch("http://localhost:4000/token", {
       credentials: "include",
     })
-      .then(resp => resp.json())
-      .then(userToken => {
-        set({ currentUser: userToken })
-      })
+      .then((resp) => resp.json())
+      .then((userToken) => {
+        set({ currentUser: userToken });
+      });
   },
-
 
   getBookingsForHost: () => {
     fetch("http://localhost:4000/bookings/host", {
@@ -254,8 +248,5 @@ const useStore = create<Store>((set, get) => ({
   },
 }));
 
-}))
-
-
-export default useStore
+export default useStore;
 //test
