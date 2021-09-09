@@ -15,69 +15,105 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.modifiedHouses = exports.getFilteredHouses = void 0;
 const database_1 = __importDefault(require("../database"));
 const { house } = database_1.default;
+const queryContent = {
+    select: {
+        id: true,
+        name: true,
+        bedrooms: true,
+        maxGuests: true,
+        facility: true,
+        city: true,
+        hostProfile: {
+            select: {
+                user: {
+                    select: {
+                        username: true,
+                        avatar: true,
+                    },
+                },
+            },
+        },
+        price: true,
+        reviews: {
+            select: {
+                content: true,
+                guestProfile: {
+                    select: {
+                        user: {
+                            select: {
+                                username: true,
+                                avatar: true,
+                            },
+                        },
+                    },
+                },
+            },
+        },
+        pictures: {
+            select: {
+                src: true,
+                alt: true,
+            },
+        },
+    },
+};
 function getFilteredHouses(query) {
     return __awaiter(this, void 0, void 0, function* () {
         let { city, checkIn, checkOut, maxGuests } = query;
         console.log(query);
         try {
-            const filteredHouses = yield house.findMany({
-                where: {
-                    AND: [
-                        { maxGuests: { gte: parseInt(maxGuests) } },
-                        { city: { contains: city, mode: "insensitive" } },
-                    ],
-                    NOT: {
-                        bookings: {
-                            some: {
-                                start: { gte: new Date(checkIn).toISOString() },
-                                end: { lte: new Date(checkOut).toISOString() },
-                            },
-                        },
-                    },
-                },
-                select: {
-                    id: true,
-                    name: true,
-                    bedrooms: true,
-                    maxGuests: true,
-                    facility: true,
-                    city: true,
-                    hostProfile: {
-                        select: {
-                            user: {
-                                select: {
-                                    username: true,
-                                    avatar: true,
-                                },
-                            },
-                        },
-                    },
-                    price: true,
-                    reviews: {
-                        select: {
-                            content: true,
-                            guestProfile: {
-                                select: {
-                                    user: {
-                                        select: {
-                                            username: true,
-                                            avatar: true,
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    pictures: {
-                        select: {
-                            src: true,
-                            alt: true,
-                        },
-                    },
-                },
-            });
-            console.log("filteredHouses", filteredHouses);
-            return filteredHouses;
+            if (checkOut) {
+                const filteredHouses = yield house.findMany(Object.assign({ where: {
+                        AND: [
+                            { maxGuests: { gte: parseInt(maxGuests) } },
+                            { city: { contains: city, mode: "insensitive" } },
+                        ],
+                    } }, queryContent));
+                console.log("filteredHouses", filteredHouses);
+                return filteredHouses;
+            }
+            else {
+                const filteredHouses = yield house.findMany(Object.assign({ where: {
+                        AND: [
+                            { maxGuests: { gte: parseInt(maxGuests) } },
+                            { city: { contains: city, mode: "insensitive" } },
+                        ],
+                    } }, queryContent));
+                console.log("filteredHouses", filteredHouses);
+                return filteredHouses;
+            }
+            // const filteredHouses = await house.findMany({
+            //   where: {
+            //     AND: [
+            //       { maxGuests: { gte: parseInt(maxGuests) } },
+            //       { city: { contains: city, mode: "insensitive" } },
+            //     ],
+            //     NOT: {
+            //       bookings: {
+            //         some: {
+            //           start: { gte: new Date(checkIn).toISOString() },
+            //           end: { lte: new Date(checkOut).toISOString() },
+            //         },
+            //       },
+            //     },
+            //   },
+            // });
+            // const checkBookingStartDate = await booking.findFirst({
+            //   where: {
+            //     AND: [
+            //       {
+            //         start: {
+            //           lte: startDate.toISOString(),
+            //         },
+            //       },
+            //       {
+            //         end: {
+            //           gte: startDate.toISOString(),
+            //         },
+            //       },
+            //     ],
+            //   },
+            // });
         }
         catch (error) {
             throw new Error();

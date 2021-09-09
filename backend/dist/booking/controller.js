@@ -165,6 +165,7 @@ function getAllBookingsForHost(req, res) {
                         city: allBookingsForOnehouse.city,
                         pictureSrc: allBookingsForOnehouse.pictures[0].src,
                         pictureAlt: allBookingsForOnehouse.pictures[0].alt,
+                        bookingId: booking.id,
                     };
                     return newBooking;
                 });
