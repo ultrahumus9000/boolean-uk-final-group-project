@@ -12,22 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.login = void 0;
+exports.validateLoggedInToken = exports.logout = exports.login = void 0;
 const service_1 = __importDefault(require("./service"));
+const database_1 = __importDefault(require("../database"));
 const authgenerator_1 = require("../authgenerator");
+const { user } = database_1.default;
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const userCredtial = req.body;
         try {
             const loginUser = yield (0, service_1.default)(userCredtial);
+            const loggedRole = loginUser.guestRole ? "guest" : "host";
             console.log("loginUser in backend", loginUser);
             const token = (0, authgenerator_1.createToken)({
                 id: loginUser.id,
                 username: loginUser.username,
+                role: loggedRole,
             });
-            console.log("token", token);
             res.cookie("token", token, { httpOnly: true });
-            const loggedRole = loginUser.guestRole ? "guest" : "host";
             const loggedUser = {
                 username: loginUser.username,
                 firstName: loginUser.firstName,
@@ -52,3 +54,30 @@ function logout(req, res) {
     });
 }
 exports.logout = logout;
+function validateLoggedInToken(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const token = req.cookies.token;
+        const tokenPayload = token && (0, authgenerator_1.validateToken)(token);
+        if (tokenPayload) {
+            const userData = yield user.findUnique({
+                where: {
+                    id: parseInt(tokenPayload.id),
+                },
+                select: {
+                    username: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true,
+                    avatar: true,
+                },
+            });
+            const tokenUserData = Object.assign(Object.assign({}, userData), { role: tokenPayload.role });
+            console.log(tokenUserData);
+            res.json(tokenUserData);
+        }
+        else {
+            res.status(401).json({ err: "No valid token was found" });
+        }
+    });
+}
+exports.validateLoggedInToken = validateLoggedInToken;

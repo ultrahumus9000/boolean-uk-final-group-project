@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
@@ -13,10 +13,16 @@ import GuestProfilePage from "./pages/GuestProfilePage";
 import BottomNav from "./components/BottomNav";
 import useStore from "./store";
 import AddListingHost from "./pages/AddListingHost";
+import LoadingPage from "./pages/LoadingPage";
 
 function App() {
   const currentUser = useStore((store) => store.currentUser);
-  //redirect
+  const getValidateCurrToken = useStore((store) => store.getValidateCurrToken);
+
+  useEffect(() => {
+    getValidateCurrToken();
+  }, []);
+
   return (
     <div className="App">
       <div className="phone">
@@ -40,28 +46,28 @@ function App() {
                 {currentUser.role === "guest" ? (
                   <GuestDashPage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/host/dashboard" exact>
                 {currentUser.role === "host" ? (
                   <HostDashPage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/host/dashboard/addlisting" exact>
                 {currentUser.role === "host" ? (
                   <AddListingHost />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/guest/profile" exact>
                 {currentUser.role === "guest" ? (
                   <GuestProfilePage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="*">

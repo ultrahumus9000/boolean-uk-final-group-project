@@ -80,8 +80,7 @@ type Store = {
   fetchOneHouse: (arg: number) => void;
   filterHouses: (arg: Options) => void;
   addNewListing: (arg: NewHouse) => void;
-
-  // createBooking: (arg: BookingForm) => void;
+  getValidateCurrToken: () => void;
 };
 
 const useStore = create<Store>((set, get) => ({
@@ -177,6 +176,15 @@ const useStore = create<Store>((set, get) => ({
       .then((newHouse) => console.log("newHouse", newHouse))
       .catch((error) => {
         throw error;
+      });
+  },
+  getValidateCurrToken: () => {
+    fetch("http://localhost:4000/token", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((userToken) => {
+        set({ currentUser: userToken });
       });
   },
 }));
