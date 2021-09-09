@@ -44,17 +44,18 @@ export type House = {
 };
 
 type Booking = {
-  id: number;
-  name: string;
-  bedrooms: number;
-  maxGuests: number;
-  facility: string[];
+  total: number;
+  bookingId: number;
+  houseId: number;
+  houseName: string;
   city: string;
-  hostProfile: string;
-  hostAvatar: string;
+  name: string;
+  avatar: string;
   price: number;
-  pictures: Picture[];
-  reviews: Review[];
+  start: string;
+  end: string;
+  pictureSrc: string;
+  pictureAlt: string;
 };
 
 export type NewHouse = {
@@ -73,6 +74,8 @@ type Store = {
   currentUser: User;
   bookingDisplay: Boolean;
   toggleBooking: string;
+  bookings: Booking[];
+
   setToggleBooking: (arg: string) => void;
   toggleDisplay: () => void;
   setCurrentUser: (arg: User) => void;
@@ -81,8 +84,12 @@ type Store = {
   filterHouses: (arg: Options) => void;
   addNewListing: (arg: NewHouse) => void;
   getValidateCurrToken: () => void;
+  getBookingsForHost: () => void;
+  getBookingsForGuest: () => void;
+  deleteBooking: (arg: number) => void;
 };
 
+// const [bookings, setBookings] = useState([]);
 const useStore = create<Store>((set, get) => ({
   houses: [],
   house: {
@@ -106,7 +113,7 @@ const useStore = create<Store>((set, get) => ({
     avatar: "",
     role: "",
   },
-
+  bookings: [],
   bookingDisplay: false,
   toggleBooking: "future",
   setToggleBooking: (arg) => {
@@ -185,6 +192,49 @@ const useStore = create<Store>((set, get) => ({
       .then((resp) => resp.json())
       .then((userToken) => {
         set({ currentUser: userToken });
+      });
+  },
+
+  getBookingsForHost: () => {
+    fetch("http://localhost:4000/bookings/host", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((respFromBookings) => {
+        set({ bookings: respFromBookings });
+      })
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
+  },
+  getBookingsForGuest: () => {
+    fetch("http://localhost:4000/bookings/guest", {
+      credentials: "include",
+    })
+      .then((resp) => resp.json())
+      .then((respFromBookings) => {
+        set({ bookings: respFromBookings });
+      })
+      .catch((error) => {
+        console.error("Unable to fetch all bookings", error);
+      });
+  },
+
+  deleteBooking: (id) => {
+    fetch(`${baseUrl}/bookings/${id}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then(() => {
+        console.log("i am deleting");
+        const allBookings = get().bookings;
+        const filteredBookings = allBookings.filter(
+          (booking) => booking.bookingId !== id
+        );
+        set({ bookings: filteredBookings });
+      })
+      .catch((error) => {
+        throw error;
       });
   },
 }));

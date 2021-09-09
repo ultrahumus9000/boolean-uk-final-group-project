@@ -8,7 +8,9 @@ import { useHistory } from "react-router";
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState([]);
+  const bookings = useStore((store) => store.bookings);
+  const getBookingsForHost = useStore((store) => store.getBookingsForHost);
+  const getBookingsForGuest = useStore((store) => store.getBookingsForGuest);
   const toggleBooking = useStore((store) => store.toggleBooking);
   const setToggleBooking = useStore((store) => store.setToggleBooking);
   const currentUser = useStore((state) => state.currentUser);
@@ -18,38 +20,13 @@ export default function Dashboard() {
     history.push("/host/dashboard/addlisting");
   }
 
-  function getBookingsForHost() {
-    fetch("http://localhost:4000/bookings/host", {
-      credentials: "include",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setBookings(resp);
-      })
-      .catch((error) => {
-        console.error("Unable to fetch all bookings", error);
-      });
-  }
-  function getBookingsForGuest() {
-    fetch("http://localhost:4000/bookings/guest", {
-      credentials: "include",
-    })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setBookings(resp);
-      })
-      .catch((error) => {
-        console.error("Unable to fetch all bookings", error);
-      });
-  }
-
   useEffect(() => {
     if (currentUser.role === "guest") {
       getBookingsForGuest();
     } else if (currentUser.role === "host") {
       getBookingsForHost();
     }
-  }, []);
+  }, [bookings.length]);
 
   const today = new Date().toISOString();
 

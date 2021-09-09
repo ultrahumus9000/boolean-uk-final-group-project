@@ -167,8 +167,8 @@ async function getAllBookingsForHost(req: Request, res: Response) {
             start: booking.start,
             end: booking.end,
             total: booking.total,
-            guestName: booking.guestProfile.user.username,
-            guestAvatar: booking.guestProfile.user.avatar,
+            name: booking.guestProfile.user.username,
+            avatar: booking.guestProfile.user.avatar,
             city: allBookingsForOnehouse.city,
             pictureSrc: allBookingsForOnehouse.pictures[0].src,
             pictureAlt: allBookingsForOnehouse.pictures[0].alt,
@@ -222,6 +222,7 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
         guestId: realGuestId,
       },
       select: {
+        id: true,
         start: true,
         end: true,
         total: true,
@@ -247,19 +248,20 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
     });
 
     const firstFilterData = rawData.map((booking) => {
-      const modifiedHouseInfo = {
+      const newBooking = {
+        bookingId: booking.id,
         houseId: booking.house.id,
         city: booking.house.city,
         houseName: booking.house.name,
-        hostname: booking.house.hostProfile.user.username,
-        hostAvatar: booking.house.hostProfile.user.avatar,
+        name: booking.house.hostProfile.user.username,
+        avatar: booking.house.hostProfile.user.avatar,
         pictureSrc: booking.house.pictures[0].src,
         pictureAlt: booking.house.pictures[0].alt,
+        start: booking.start,
+        end: booking.end,
+        total: booking.total,
       };
-      const newBooking = {
-        ...booking,
-        ...modifiedHouseInfo,
-      };
+
       return newBooking;
     });
 
@@ -273,6 +275,7 @@ async function getAllBookingsforGuest(req: Request, res: Response) {
 
 async function deleteOneBooking(req: Request, res: Response) {
   const bookingId = Number(req.params.id);
+  console.log("i am deleting");
   try {
     await booking.delete({
       where: {

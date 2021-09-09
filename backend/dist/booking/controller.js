@@ -160,8 +160,8 @@ function getAllBookingsForHost(req, res) {
                         start: booking.start,
                         end: booking.end,
                         total: booking.total,
-                        guestName: booking.guestProfile.user.username,
-                        guestAvatar: booking.guestProfile.user.avatar,
+                        name: booking.guestProfile.user.username,
+                        avatar: booking.guestProfile.user.avatar,
                         city: allBookingsForOnehouse.city,
                         pictureSrc: allBookingsForOnehouse.pictures[0].src,
                         pictureAlt: allBookingsForOnehouse.pictures[0].alt,
@@ -211,6 +211,7 @@ function getAllBookingsforGuest(req, res) {
                     guestId: realGuestId,
                 },
                 select: {
+                    id: true,
                     start: true,
                     end: true,
                     total: true,
@@ -235,16 +236,19 @@ function getAllBookingsforGuest(req, res) {
                 },
             });
             const firstFilterData = rawData.map((booking) => {
-                const modifiedHouseInfo = {
+                const newBooking = {
+                    bookingId: booking.id,
                     houseId: booking.house.id,
                     city: booking.house.city,
                     houseName: booking.house.name,
-                    hostname: booking.house.hostProfile.user.username,
-                    hostAvatar: booking.house.hostProfile.user.avatar,
+                    name: booking.house.hostProfile.user.username,
+                    avatar: booking.house.hostProfile.user.avatar,
                     pictureSrc: booking.house.pictures[0].src,
                     pictureAlt: booking.house.pictures[0].alt,
+                    start: booking.start,
+                    end: booking.end,
+                    total: booking.total,
                 };
-                const newBooking = Object.assign(Object.assign({}, booking), modifiedHouseInfo);
                 return newBooking;
             });
             res.json(firstFilterData);
@@ -260,6 +264,7 @@ exports.getAllBookingsforGuest = getAllBookingsforGuest;
 function deleteOneBooking(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const bookingId = Number(req.params.id);
+        console.log("i am deleting");
         try {
             yield booking.delete({
                 where: {
