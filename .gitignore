@@ -5,3 +5,5 @@ dist
 dist-ssr
 *.local
 backend/.env
+backend/.DS_Store
+backend/dist/.DS_Store
