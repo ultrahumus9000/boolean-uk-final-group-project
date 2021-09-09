@@ -279,6 +279,7 @@ async function deleteOneBooking(req: Request, res: Response) {
         id: bookingId,
       },
     });
+    res.json("you successfully deleted");
   } catch (error) {
     console.log(error);
     res.json(error);

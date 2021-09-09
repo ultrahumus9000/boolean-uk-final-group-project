@@ -16,7 +16,37 @@ import AddListingHost from "./pages/AddListingHost";
 
 function App() {
   const currentUser = useStore((store) => store.currentUser);
-  //redirect
+
+  // const [loggedUser, setLoggedUser] = useState<User | null>(null);
+  // const [errorStatus, setErrorStatus] = useState<string>("empty");
+  // const history = useHistory();
+
+  // function loginUser(userCreds: UserCredentials) {
+  //   postLoginUser(userCreds).then(user => {
+  //     setLoggedUser(user);
+  //     history.push("/");
+  //   });
+  // }
+
+  // // Check if the user iss logged in on the first app load
+
+  // // Send a request to he backend, validating my current token
+
+  // // I'll do this on a useEffect only when the app loads for the firs time
+
+  // // If token is valid I should save the user in state, and push to a new route
+
+  // useEffect(() => {
+  //   getValidateCurrToken()
+  //     .then(user => {
+  //       setLoggedUser(user);
+  //       history.push("/");
+  //     })
+  //     .catch(err => {
+  //       setErrorStatus(err.message);
+  //     });
+  // }, []);
+
   return (
     <div className="App">
       <div className="phone">

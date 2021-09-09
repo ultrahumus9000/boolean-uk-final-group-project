@@ -266,6 +266,7 @@ function deleteOneBooking(req, res) {
                     id: bookingId,
                 },
             });
+            res.json("you successfully deleted");
         }
         catch (error) {
             console.log(error);
