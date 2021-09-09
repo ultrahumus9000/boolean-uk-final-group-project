@@ -64,7 +64,7 @@ export default function HouseListingPage() {
     if (currentUser.role === "guest") {
       toggleBookingDisplay();
     } else if (currentUser.role === "host") {
-      alert("you have to login as host then you can book this house");
+      alert("you have to login as a guest then you can book this house");
     } else {
       console.log(currentUser);
       history.push("/login");

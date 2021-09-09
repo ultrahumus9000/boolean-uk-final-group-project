@@ -18,10 +18,10 @@ export default (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
 
   let userData = token && validateToken(token);
-  // userData = {
-  //   id: 1,
-  //   username: "Aliya.Schulist63anet",
-  // };
+  userData = {
+    id: 1,
+    username: "Aliya.Schulist63anet",
+  };
 
   if (userData) {
     req.currentUser = userData;

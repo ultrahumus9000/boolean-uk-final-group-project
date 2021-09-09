@@ -26,7 +26,7 @@ export default function BookingList({ bookings }) {
 
                 {toggleBooking === "future" ? (
                   <div className="contact-host">
-                    <Button> Contact Host</Button>
+                    <Button> Contact Guest</Button>
                     <button onClick={deleteBooking}>X</button>
                   </div>
                 ) : (
@@ -50,11 +50,17 @@ export default function BookingList({ bookings }) {
                 </div>
                 {toggleBooking === "future" ? (
                   <div className="contact-host">
-                    <Button> Contact Host</Button>
+                    <Button variant="contained" color="secondary">
+                      {" "}
+                      Contact Host
+                    </Button>
                     <p onClick={deleteBooking}>Xhahahahah</p>
                   </div>
                 ) : (
-                  <Button> Leave review</Button>
+                  <Button variant="contained" color="secondary">
+                    {" "}
+                    Leave review
+                  </Button>
                 )}
               </div>
             </div>

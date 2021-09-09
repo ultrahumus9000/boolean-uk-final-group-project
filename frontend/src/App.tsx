@@ -69,7 +69,7 @@ function App() {
               </Route>
             </Switch>
           </div>
-          <BottomNav />
+          {currentUser.username && <BottomNav />}
         </div>
       </div>
     </div>

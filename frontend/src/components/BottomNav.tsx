@@ -3,12 +3,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import hotel from "../assets/hotel.svg";
 import account from "../assets/account.svg";
-
+import { useHistory } from "react-router";
 import useStore from "../store";
 
 export default function BottomNav() {
   const currentUser = useStore((state) => state.currentUser);
   const setCurrentUser = useStore((state) => state.setCurrentUser);
+  const history = useHistory();
 
   function switchToHost() {
     fetch("http://localhost:4000/guests/switch", {
@@ -18,6 +19,7 @@ export default function BottomNav() {
       .then((res) => {
         if (res === "true") {
           setCurrentUser({ ...currentUser, role: "host" });
+          history.push("/host/dashboard");
         } else {
           alert("you dont have a host account");
         }
@@ -32,6 +34,7 @@ export default function BottomNav() {
       .then((res) => {
         if (res === "true") {
           setCurrentUser({ ...currentUser, role: "guest" });
+          history.push("/guest/dashboard");
         } else {
           alert("you dont have a guest account");
         }
