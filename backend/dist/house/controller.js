@@ -194,13 +194,3 @@ function updateOneHouse(req, res) {
     });
 }
 exports.updateOneHouse = updateOneHouse;
-function fetchHouseForHost(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-        }
-        catch (error) {
-            console.log(error);
-            res.json(error);
-        }
-    });
-}
