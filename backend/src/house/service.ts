@@ -52,33 +52,30 @@ type HouseType = {
   reviews: Review[];
 };
 
-async function getFilteredHouses(query: Query) {
-  let { city, checkIn, checkOut, maxGuests } = query;
-  console.log(query);
-  try {
-    const filteredHouses = await house.findMany({
-      where: {
-        AND: [
-          { maxGuests: { gte: parseInt(maxGuests) } },
-          { city: { contains: city, mode: "insensitive" } },
-        ],
-        NOT: {
-          bookings: {
-            some: {
-              start: { gte: new Date(checkIn).toISOString() },
-              end: { lte: new Date(checkOut).toISOString() },
-            },
+const queryContent = {
+  select: {
+    id: true,
+    name: true,
+    bedrooms: true,
+    maxGuests: true,
+    facility: true,
+    city: true,
+    hostProfile: {
+      select: {
+        user: {
+          select: {
+            username: true,
+            avatar: true,
           },
         },
       },
+    },
+
+    price: true,
+    reviews: {
       select: {
-        id: true,
-        name: true,
-        bedrooms: true,
-        maxGuests: true,
-        facility: true,
-        city: true,
-        hostProfile: {
+        content: true,
+        guestProfile: {
           select: {
             user: {
               select: {
@@ -88,33 +85,79 @@ async function getFilteredHouses(query: Query) {
             },
           },
         },
-
-        price: true,
-        reviews: {
-          select: {
-            content: true,
-            guestProfile: {
-              select: {
-                user: {
-                  select: {
-                    username: true,
-                    avatar: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        pictures: {
-          select: {
-            src: true,
-            alt: true,
-          },
-        },
       },
-    });
-    console.log("filteredHouses", filteredHouses);
-    return filteredHouses;
+    },
+    pictures: {
+      select: {
+        src: true,
+        alt: true,
+      },
+    },
+  },
+};
+
+async function getFilteredHouses(query: Query) {
+  let { city, checkIn, checkOut, maxGuests } = query;
+  console.log(query);
+  try {
+    if (checkOut !== "") {
+      const filteredHouses = await house.findMany({
+        where: {
+          AND: [
+            { maxGuests: { gte: parseInt(maxGuests) } },
+            { city: { contains: city, mode: "insensitive" } },
+          ],
+        },
+        ...queryContent,
+      });
+      console.log("filteredHouses", filteredHouses);
+      return filteredHouses;
+    } else {
+      const filteredHouses = await house.findMany({
+        where: {
+          AND: [
+            { maxGuests: { gte: parseInt(maxGuests) } },
+            { city: { contains: city, mode: "insensitive" } },
+          ],
+        },
+        ...queryContent,
+      });
+      console.log("filteredHouses", filteredHouses);
+      return filteredHouses;
+    }
+    // const filteredHouses = await house.findMany({
+    //   where: {
+    //     AND: [
+    //       { maxGuests: { gte: parseInt(maxGuests) } },
+    //       { city: { contains: city, mode: "insensitive" } },
+    //     ],
+    //     NOT: {
+    //       bookings: {
+    //         some: {
+    //           start: { gte: new Date(checkIn).toISOString() },
+    //           end: { lte: new Date(checkOut).toISOString() },
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+
+    // const checkBookingStartDate = await booking.findFirst({
+    //   where: {
+    //     AND: [
+    //       {
+    //         start: {
+    //           lte: startDate.toISOString(),
+    //         },
+    //       },
+    //       {
+    //         end: {
+    //           gte: startDate.toISOString(),
+    //         },
+    //       },
+    //     ],
+    //   },
+    // });
   } catch (error) {
     throw new Error();
   }

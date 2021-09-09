@@ -14,9 +14,11 @@ export default function BookingList({ bookings }) {
   function deleteBooking() {}
 
   function toggleReview() {
-    setAddReviewStatus(!addReviewStatus);
+    // setAddReviewStatus(!addReviewStatus);
   }
   console.log(addReviewStatus);
+
+  console.log(bookings);
 
   return (
     <>
