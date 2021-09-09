@@ -42,7 +42,7 @@ export default function AddListingHost() {
     console.log("handlechange", e.target.value)
     setNewListing({
       ...newListing,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.toString(),
     })
   }
 
@@ -70,7 +70,7 @@ export default function AddListingHost() {
 
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault()
-    addNewListing(newListing)
+    addNewListing(e, newListing)
   }
 
   function cancel(e) {

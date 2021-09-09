@@ -6,12 +6,12 @@ import reviewRouter from "./review/router"
 import guestRouter from "./guest/router"
 import hostRouter from "./host/router"
 import bookingRouter from "./booking/router"
+
 var express = require("express")
 
 var cookieParser = require("cookie-parser")
 var logger = require("morgan")
 const cors = require("cors")
-
 var app = express()
 
 //middlewares
