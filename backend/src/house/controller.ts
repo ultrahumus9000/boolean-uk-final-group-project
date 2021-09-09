@@ -6,6 +6,7 @@ import { Query } from "./service";
 const { house } = db;
 
 async function getAllHouses(req: Request, res: Response) {
+  console.log("query", Object.keys(req.query).length);
   try {
     if (Object.keys(req.query).length) {
       const rawData = await getFilteredHouses(req.query as Query);
