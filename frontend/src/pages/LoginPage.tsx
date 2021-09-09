@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
@@ -10,10 +10,8 @@ export default function LoginPage() {
 
   const setCurrentUser = useStore((store) => store.setCurrentUser);
   const currentUser = useStore((store) => store.currentUser);
-  // const role = useStore((store) => store.role);
-  // const setRole = useStore((store) => store.setRole);
 
-  function loginUser(userCreds, role) {
+  function loginUser(userCreds) {
     fetch("http://localhost:4000/login", {
       method: "POST",
       headers: {
@@ -31,19 +29,17 @@ export default function LoginPage() {
       });
   }
 
-  function handleSubmit(event) {
-    const { username, password } = event.target;
-
+  function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    const { username, password } = event.target as HTMLFormElement;
 
     const loginData = {
-      username: event.target.username.value,
-      password: event.target.password.value,
+      username: username.value,
+      password: password.value,
     };
 
-    let role = event.target.radio.value
-
-    loginUser(loginData, role);
+    console.log("loginData", loginData);
+    loginUser(loginData);
   }
 
   return (
@@ -65,7 +61,7 @@ export default function LoginPage() {
             placeholder="Password"
             variant="outlined"
           ></TextField>
-          <div className="login-role">
+          {/* <div className="login-role">
             <p> Login in as: </p>
             <div className="login-options">
               <div className="login-radio">
@@ -82,7 +78,7 @@ export default function LoginPage() {
                 <label htmlFor="host"> Host</label>
               </div>
             </div>
-          </div>
+          </div> */}
           <Button type="submit" color="secondary" variant="contained">
             {" "}
             Log in

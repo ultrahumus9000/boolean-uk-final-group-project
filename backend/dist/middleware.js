@@ -8,7 +8,6 @@ exports.default = (req, res, next) => {
     //   id: 1,
     //   username: "Aliya.Schulist63anet",
     // };
-    console.log("line 25", userData);
     if (userData) {
         req.currentUser = userData;
         console.log("line 27", userData);

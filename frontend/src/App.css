@@ -169,24 +169,19 @@ p {
   border-radius: 50%;
 }
 
-
-.bookings-title{
-  display:grid;
+.bookings-title {
+  display: grid;
 
   grid-template-columns: 50px 50px;
   font-size: 16px;
 }
 
-
-.bookings-title div{
-  font-size:14px;
+.bookings-title div {
+  font-size: 14px;
   cursor: pointer;
 }
 
-
 /* DASHBOARD */
-
-
 
 .container {
   width: 90%;
@@ -223,9 +218,7 @@ p {
   margin: 10px 0px;
 }
 
-
-.stay-container img{
-
+.stay-container img {
   width: 80px;
 }
 .stay-title {
@@ -240,9 +233,7 @@ p {
   place-items: center;
 }
 
-
 /* LOGIN UP PAGE */
-
 
 .login-form {
   display: grid;
@@ -270,17 +261,15 @@ p {
   width: 300px;
 }
 
-
-.login-options{
-  display:grid;
+.login-options {
+  display: grid;
   grid-template-columns: 50px 50px;
-  padding-top:10px;
+  padding-top: 10px;
 }
 
-.login-role{
-  display:grid;
-  place-items:center;
-
+.login-role {
+  display: grid;
+  place-items: center;
 }
 
 /* SIGNUP PAGE */
@@ -328,8 +317,18 @@ p {
   justify-items: center;
   height: 300px;
 }
+.edit-section {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.edit-section button {
+  border: none;
+  background-color: deepskyblue;
+  border-radius: 10px;
+  font-size: 1.2rem;
+}
 .swiper {
-  width: 380px;
+  width: 330px;
   height: 300px;
 }
 .host-profile {
@@ -340,7 +339,7 @@ p {
   border: 2px solid teal;
 }
 .pictures-section img {
-  width: 100%;
+  width: 320px;
   height: 100%;
   object-fit: cover;
 }
@@ -458,6 +457,30 @@ p {
   padding: 5px;
   margin: 10px 0px;
 }
+.house-img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+}
+.address-p {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+}
+.address-svg {
+  height: 20px;
+  width: 20px;
+  object-fit: cover;
+}
+.house-info {
+  display: grid;
+  grid-template-columns: 60px 60px;
+  padding: 10px;
+  gap: 10px;
+}
+.MuiButton-label {
+  color: black;
+}
 .listing-title {
   font-size: 16px;
   font-weight: bold;
@@ -470,9 +493,10 @@ p {
   place-items: center;
 }
 
-
 .active {
   background-color: lawngreen;
+  display: grid;
+  place-content: center;
 }
 
 /* ADD HOUSE LISTING PAGE  */
@@ -586,7 +610,6 @@ input[type="file"] {
   }
 }
 
-
 /* :root {
   --orange-hl: #ff8e3c;
   --orange-ll: #d67632;
@@ -596,4 +619,3 @@ input[type="file"] {
   --grey: #eff0f3;
   --offwhite: #fffffe;
 } */
-

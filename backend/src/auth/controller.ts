@@ -2,9 +2,6 @@ import { Request, Response } from "express";
 import findUserWithValidation from "./service";
 
 import { createToken } from "../authgenerator";
-import db from "../database";
-
-const { user } = db;
 
 async function login(req: Request, res: Response) {
   const userCredtial = req.body;
@@ -12,11 +9,12 @@ async function login(req: Request, res: Response) {
   try {
     const loginUser = await findUserWithValidation(userCredtial);
 
+    console.log("loginUser in backend", loginUser);
     const token = createToken({
       id: loginUser.id,
       username: loginUser.username,
     });
-
+    console.log("token", token);
     res.cookie("token", token, { httpOnly: true });
 
     const loggedRole = loginUser.guestRole ? "guest" : "host";
@@ -31,6 +29,7 @@ async function login(req: Request, res: Response) {
     };
     res.json(loggedUser);
   } catch (error) {
+    console.log(error);
     res.status(401).json(error);
   }
 }

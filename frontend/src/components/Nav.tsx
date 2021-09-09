@@ -12,7 +12,7 @@ export default function Nav() {
 
   console.log(currentUser);
 
-  function Logout() {
+  function logout() {
     fetch("http://localhost:4000/logout", {
       credentials: "include",
     }).then(() => {
@@ -44,12 +44,12 @@ export default function Nav() {
           </Link>
         )}
         {currentUser.username && (
-          <Button variant="contained" color="secondary" onClick={Logout}>
+          <Button variant="contained" color="secondary" onClick={logout}>
             {" "}
             Log Out
           </Button>
         )}
       </div>
-    </div >
+    </div>
   );
 }

@@ -60,8 +60,6 @@ export default function Dashboard() {
         {currentUser.role === "host" && (
           <button className="go-profile">Add a listing</button>
         )}
-
-        {/* if role=host then add listing */}
       </div>
       <div className="bookings">
         <h2> Bookings</h2>

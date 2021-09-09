@@ -1,24 +1,11 @@
-import React from "react"
-import { Button } from "@material-ui/core"
+import React from "react";
+
+import BookingList from "./BookingLists";
 
 export default function FutureBookings({ bookings }) {
-
-   function deleteBooking() {
-
-   }
-   return (
-      <div className="stay-container">
-         <img src="#"></img>
-         <div className="stay-details">
-            <div className="hotelName">
-               <p className="stay-title">Future Name</p>
-               <p> 1-3st Sep</p>
-            </div>
-            <div className="contact-host">
-               <Button> Contact host</Button>
-               <p onClick={deleteBooking}>X</p>
-            </div>
-         </div>
-      </div>
-   )
+  return (
+    <>
+      <BookingList bookings={bookings} />
+    </>
+  );
 }
