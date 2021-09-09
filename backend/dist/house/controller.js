@@ -156,6 +156,8 @@ function getOneHouse(req, res) {
     });
 }
 exports.getOneHouse = getOneHouse;
+// media storage in cloud - Cloudinary
+// npm i multer-storage-cloudinary cloudinary
 function createOneHouse(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         // const { id } = req.currentUser as User
