@@ -1,55 +1,61 @@
-import React, { useState, useEffect } from "react";
-import FutureBookings from "./FutureBookings";
-import PastBookings from "./PastBookings";
-import { Link } from "react-router-dom";
-import useStore from "../store";
+import React, { useState, useEffect } from "react"
+import FutureBookings from "./FutureBookings"
+import PastBookings from "./PastBookings"
+import { Link } from "react-router-dom"
+import useStore from "../store"
+import { useHistory } from "react-router"
 
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState([]);
-  const toggleBooking = useStore((store) => store.toggleBooking);
-  const setToggleBooking = useStore((store) => store.setToggleBooking);
-  const currentUser = useStore((state) => state.currentUser);
+  const [bookings, setBookings] = useState([])
+  const toggleBooking = useStore(store => store.toggleBooking)
+  const setToggleBooking = useStore(store => store.setToggleBooking)
+  const currentUser = useStore(state => state.currentUser)
+  const history = useHistory()
+
+  function addListingPage() {
+    history.push("/host/dashboard/addlisting")
+  }
 
   function getBookingsForHost() {
     fetch("http://localhost:4000/bookings/host", {
       credentials: "include",
     })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setBookings(resp);
+      .then(resp => resp.json())
+      .then(resp => {
+        setBookings(resp)
       })
-      .catch((error) => {
-        console.error("Unable to fetch all bookings", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all bookings", error)
+      })
   }
   function getBookingsForGuest() {
     fetch("http://localhost:4000/bookings/guest", {
       credentials: "include",
     })
-      .then((resp) => resp.json())
-      .then((resp) => {
-        setBookings(resp);
+      .then(resp => resp.json())
+      .then(resp => {
+        setBookings(resp)
       })
-      .catch((error) => {
-        console.error("Unable to fetch all bookings", error);
-      });
+      .catch(error => {
+        console.error("Unable to fetch all bookings", error)
+      })
   }
 
   useEffect(() => {
     if (currentUser.role === "guest") {
-      getBookingsForGuest();
+      getBookingsForGuest()
     } else if (currentUser.role === "host") {
-      getBookingsForHost();
+      getBookingsForHost()
     }
-  }, []);
+  }, [])
 
-  const today = new Date().toISOString();
+  const today = new Date().toISOString()
 
-  const futureBookings = bookings.filter((booking) => booking.start >= today);
+  const futureBookings = bookings.filter(booking => booking.start >= today)
 
-  const pastBookings = bookings.filter((booking) => booking.start < today);
+  const pastBookings = bookings.filter(booking => booking.start < today)
 
   return (
     <>
@@ -58,7 +64,9 @@ export default function Dashboard() {
         <h1>Hello {currentUser.username}!</h1>
 
         {currentUser.role === "host" && (
-          <button className="go-profile">Add a listing</button>
+          <button onClick={addListingPage} className="go-profile">
+            Add a listing
+          </button>
         )}
       </div>
       <div className="bookings">
@@ -85,5 +93,5 @@ export default function Dashboard() {
         {toggleBooking === "past" && <PastBookings bookings={pastBookings} />}
       </div>
     </>
-  );
+  )
 }
