@@ -447,6 +447,20 @@ p {
   display: grid;
 }
 
+p.voyage {
+  height: 150px;
+  width: 250px;
+  color: aliceblue;
+  font-family: fantasy;
+  font-size: 3rem;
+  font-weight: bolder;
+  display: grid;
+  place-items: center;
+  background-image: url("https://wallpaperaccess.com/thumb/4817951.jpg");
+  background-size: cover;
+  animation-name: jojo;
+  animation-duration: 600ms;
+}
 /* HOST DASHBOARD */
 
 .listing-container {
@@ -610,6 +624,17 @@ input[type="file"] {
   }
 }
 
+@keyframes jojo {
+  from {
+    transform: scale(70%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(70%);
+  }
+}
 /* :root {
   --orange-hl: #ff8e3c;
   --orange-ll: #d67632;
