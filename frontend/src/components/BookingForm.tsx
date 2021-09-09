@@ -123,7 +123,6 @@ export default function BookingForm({ house }) {
 
   function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
-    const targetEvent = event.target as HTMLFormElement;
     createBooking(bookingForm);
   }
 

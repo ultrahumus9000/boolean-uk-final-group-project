@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import useStore from "../store";
 
 export default function LoginPage() {
   const history = useHistory();
+
   const setCurrentUser = useStore((store) => store.setCurrentUser);
   const currentUser = useStore((store) => store.currentUser);
 
@@ -28,16 +29,16 @@ export default function LoginPage() {
       });
   }
 
-  function handleSubmit(event) {
-    const { username, password } = event.target;
-
+  function handleSubmit(event: SyntheticEvent) {
     event.preventDefault();
+    const { username, password } = event.target as HTMLFormElement;
 
     const loginData = {
-      username: event.target.username.value,
-      password: event.target.password.value,
+      username: username.value,
+      password: password.value,
     };
 
+    console.log("loginData", loginData);
     loginUser(loginData);
   }
 

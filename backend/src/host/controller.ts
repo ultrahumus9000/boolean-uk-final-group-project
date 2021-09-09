@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import { Request, Response } from "express";
 import db from "../database";
-const { user } = db;
+const { user, house } = db;
 
 async function getHostProfile(req: Request, res: Response) {
   const { username } = req.body;
@@ -51,4 +51,35 @@ async function switchToGuest(req: Request, res: Response) {
   }
 }
 
-export { getHostProfile, switchToGuest };
+async function fetchHouseForHost(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+  try {
+    const houses = await house.findMany({
+      where: {
+        hostId: id,
+      },
+      include: {
+        pictures: {
+          select: {
+            src: true,
+          },
+        },
+      },
+    });
+
+    const modifiedHouses = houses.map((house) => {
+      const modifiedHouse = {
+        ...house,
+        pictures: house.pictures[0].src,
+      };
+      return modifiedHouse;
+    });
+
+    res.json(modifiedHouses);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+}
+
+export { getHostProfile, switchToGuest, fetchHouseForHost };

@@ -129,7 +129,9 @@ async function getAllBookingsForHost(req: Request, res: Response) {
           select: {
             city: true,
             pictures: true,
+
             name: true,
+
             bookings: {
               select: {
                 start: true,

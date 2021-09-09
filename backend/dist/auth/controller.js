@@ -15,17 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = void 0;
 const service_1 = __importDefault(require("./service"));
 const authgenerator_1 = require("../authgenerator");
-const database_1 = __importDefault(require("../database"));
-const { user } = database_1.default;
 function login(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const userCredtial = req.body;
         try {
             const loginUser = yield (0, service_1.default)(userCredtial);
+            console.log("loginUser in backend", loginUser);
             const token = (0, authgenerator_1.createToken)({
                 id: loginUser.id,
                 username: loginUser.username,
             });
+            console.log("token", token);
             res.cookie("token", token, { httpOnly: true });
             const loggedRole = loginUser.guestRole ? "guest" : "host";
             const loggedUser = {
@@ -39,6 +39,7 @@ function login(req, res) {
             res.json(loggedUser);
         }
         catch (error) {
+            console.log(error);
             res.status(401).json(error);
         }
     });

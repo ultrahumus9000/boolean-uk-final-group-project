@@ -1,3 +1,4 @@
+
 import { Picture, User, House } from ".prisma/client"
 import { Request, Response } from "express"
 import db from "../database"
@@ -6,12 +7,14 @@ import { Query } from "./service"
 
 const { house, picture } = db
 
+
 async function getAllHouses(req: Request, res: Response) {
+  console.log("query", Object.keys(req.query).length);
   try {
     if (Object.keys(req.query).length) {
-      const rawData = await getFilteredHouses(req.query as Query)
-      const houses = await modifiedHouses(rawData)
-      res.json(houses)
+      const rawData = await getFilteredHouses(req.query as Query);
+      const houses = await modifiedHouses(rawData);
+      res.json(houses);
     } else {
       const rawData = await house.findMany({
         select: {
@@ -55,33 +58,33 @@ async function getAllHouses(req: Request, res: Response) {
             },
           },
         },
-      })
+      });
 
-      const houses = await modifiedHouses(rawData)
+      const houses = await modifiedHouses(rawData);
 
-      res.json(houses)
+      res.json(houses);
     }
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 }
 
 async function deleteHouseById(req: Request, res: Response) {
-  const houseId = Number(req.params.id)
+  const houseId = Number(req.params.id);
   try {
     await house.delete({
       where: {
         id: houseId,
       },
-    })
-    res.json("this house of listing is deleted ")
+    });
+    res.json("this house of listing is deleted ");
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 }
 
 async function getOneHouse(req: Request, res: Response) {
-  const houseId = Number(req.params.id)
+  const houseId = Number(req.params.id);
 
   try {
     const targetHouse = await house.findUnique({
@@ -129,19 +132,20 @@ async function getOneHouse(req: Request, res: Response) {
           },
         },
       },
-    })
+    });
 
     if (targetHouse?.pictures.length) {
-      const modifiedHouse = await modifiedHouses([targetHouse])
-      res.json(modifiedHouse[0])
+      const modifiedHouse = await modifiedHouses([targetHouse]);
+      res.json(modifiedHouse[0]);
     }
   } catch (error) {
-    console.log(error)
-    res.json(error)
+    console.log(error);
+    res.json(error);
   }
 }
 
 async function createOneHouse(req: Request, res: Response) {
+
   // const { id } = req.currentUser as User
   console.log("request body", req.body)
   const { name, city, bedrooms, maxGuests, facility, price } = req.body
@@ -153,6 +157,7 @@ async function createOneHouse(req: Request, res: Response) {
   //   alt: pictures.name,
   // }))
   // console.log("images", images)
+
 
   // try {
   //   const newHouse = await house.create({
@@ -184,13 +189,13 @@ async function createOneHouse(req: Request, res: Response) {
 }
 
 async function updateOneHouse(req: Request, res: Response) {
-  const houseId = Number(req.params.id)
+  const houseId = Number(req.params.id);
   try {
     const orginalHouseInfo = await house.findUnique({
       where: {
         id: houseId,
       },
-    })
+    });
     const newHouseInfo = await house.update({
       where: {
         id: houseId,
@@ -199,12 +204,12 @@ async function updateOneHouse(req: Request, res: Response) {
         ...orginalHouseInfo,
         ...req.body,
       },
-    })
+    });
 
-    res.json(newHouseInfo)
+    res.json(newHouseInfo);
   } catch (error) {
-    console.log(error)
-    res.json(error)
+    console.log(error);
+    res.json(error);
   }
 }
 
@@ -214,4 +219,4 @@ export {
   getOneHouse,
   createOneHouse,
   updateOneHouse,
-}
+};

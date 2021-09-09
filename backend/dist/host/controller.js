@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.switchToGuest = exports.getHostProfile = void 0;
+exports.fetchHouseForHost = exports.switchToGuest = exports.getHostProfile = void 0;
 const database_1 = __importDefault(require("../database"));
-const { user } = database_1.default;
+const { user, house } = database_1.default;
 function getHostProfile(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
@@ -64,3 +64,32 @@ function switchToGuest(req, res) {
     });
 }
 exports.switchToGuest = switchToGuest;
+function fetchHouseForHost(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        try {
+            const houses = yield house.findMany({
+                where: {
+                    hostId: id,
+                },
+                include: {
+                    pictures: {
+                        select: {
+                            src: true,
+                        },
+                    },
+                },
+            });
+            const modifiedHouses = houses.map((house) => {
+                const modifiedHouse = Object.assign(Object.assign({}, house), { pictures: house.pictures[0].src });
+                return modifiedHouse;
+            });
+            res.json(modifiedHouses);
+        }
+        catch (error) {
+            console.log(error);
+            res.json(error);
+        }
+    });
+}
+exports.fetchHouseForHost = fetchHouseForHost;

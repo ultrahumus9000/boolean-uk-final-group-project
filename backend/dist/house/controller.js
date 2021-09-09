@@ -18,6 +18,7 @@ const service_1 = require("./service");
 const { house, picture } = database_1.default;
 function getAllHouses(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("query", Object.keys(req.query).length);
         try {
             if (Object.keys(req.query).length) {
                 const rawData = yield (0, service_1.getFilteredHouses)(req.query);

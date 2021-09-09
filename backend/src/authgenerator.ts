@@ -6,7 +6,7 @@ dotenv.config();
 const JWT_SECRET = process.env.JWT as string;
 
 function createToken(payload: Jwt.JwtPayload) {
-  console.log(Jwt.sign(payload, JWT_SECRET));
+  console.log("create token", Jwt.sign(payload, JWT_SECRET));
   return Jwt.sign(payload, JWT_SECRET);
 }
 

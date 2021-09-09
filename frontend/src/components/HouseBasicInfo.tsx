@@ -1,14 +1,20 @@
 import React from "react";
 import address from "../assets/address.svg";
-import { House } from "../store";
+import useStore, { House } from "../store";
 type HouseBioProp = {
   house: House;
 };
 
 export default function HouseBasicInfo({ house }: HouseBioProp) {
+  const currentUser = useStore((store) => store.currentUser);
+  console.log(house);
   return (
     <section className="house-bio">
-      <h2>{house.name}</h2>
+      <div className="edit-section">
+        <h2>{house.name}</h2>
+        {house.hostProfile === currentUser.username && <button>Edit</button>}
+      </div>
+
       <section className="basic-section">
         <div className="address-div">
           <img className="facility-icon" src={address} />

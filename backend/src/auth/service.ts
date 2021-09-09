@@ -14,7 +14,6 @@ async function findUserWithValidation(loginUser: UserFromLogin) {
       username: loginUser.username,
     },
   });
-
   if (!foundUser) {
     if (!foundUser) throw new Error("Username incorrect");
   }
