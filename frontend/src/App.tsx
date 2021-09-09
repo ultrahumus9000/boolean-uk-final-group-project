@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Nav from "./components/Nav";
@@ -13,39 +13,15 @@ import GuestProfilePage from "./pages/GuestProfilePage";
 import BottomNav from "./components/BottomNav";
 import useStore from "./store";
 import AddListingHost from "./pages/AddListingHost";
+import LoadingPage from "./pages/LoadingPage";
 
 function App() {
   const currentUser = useStore((store) => store.currentUser);
+  const getValidateCurrToken = useStore((store) => store.getValidateCurrToken);
 
-  // const [loggedUser, setLoggedUser] = useState<User | null>(null);
-  // const [errorStatus, setErrorStatus] = useState<string>("empty");
-  // const history = useHistory();
-
-  // function loginUser(userCreds: UserCredentials) {
-  //   postLoginUser(userCreds).then(user => {
-  //     setLoggedUser(user);
-  //     history.push("/");
-  //   });
-  // }
-
-  // // Check if the user iss logged in on the first app load
-
-  // // Send a request to he backend, validating my current token
-
-  // // I'll do this on a useEffect only when the app loads for the firs time
-
-  // // If token is valid I should save the user in state, and push to a new route
-
-  // useEffect(() => {
-  //   getValidateCurrToken()
-  //     .then(user => {
-  //       setLoggedUser(user);
-  //       history.push("/");
-  //     })
-  //     .catch(err => {
-  //       setErrorStatus(err.message);
-  //     });
-  // }, []);
+  useEffect(() => {
+    getValidateCurrToken();
+  }, []);
 
   return (
     <div className="App">
@@ -70,28 +46,28 @@ function App() {
                 {currentUser.role === "guest" ? (
                   <GuestDashPage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/host/dashboard" exact>
                 {currentUser.role === "host" ? (
                   <HostDashPage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/host/dashboard/addlisting" exact>
                 {currentUser.role === "host" ? (
                   <AddListingHost />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="/guest/profile" exact>
                 {currentUser.role === "guest" ? (
                   <GuestProfilePage />
                 ) : (
-                  <Redirect to="/login" />
+                  <LoadingPage />
                 )}
               </Route>
               <Route path="*">
