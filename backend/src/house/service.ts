@@ -100,7 +100,7 @@ async function getFilteredHouses(query: Query) {
   let { city, checkIn, checkOut, maxGuests } = query;
   console.log(query);
   try {
-    if (checkOut) {
+    if (checkOut !== "") {
       const filteredHouses = await house.findMany({
         where: {
           AND: [

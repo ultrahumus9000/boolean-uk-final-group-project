@@ -62,7 +62,7 @@ function getFilteredHouses(query) {
         let { city, checkIn, checkOut, maxGuests } = query;
         console.log(query);
         try {
-            if (checkOut) {
+            if (checkOut !== "") {
                 const filteredHouses = yield house.findMany(Object.assign({ where: {
                         AND: [
                             { maxGuests: { gte: parseInt(maxGuests) } },
