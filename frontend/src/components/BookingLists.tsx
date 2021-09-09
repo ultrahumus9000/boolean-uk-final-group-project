@@ -14,7 +14,7 @@ export default function BookingList({ bookings }) {
   function deleteBooking() {}
 
   function toggleReview() {
-    // setAddReviewStatus(!addReviewStatus);
+    setAddReviewStatus(!addReviewStatus);
   }
   console.log(addReviewStatus);
 
@@ -50,13 +50,13 @@ export default function BookingList({ bookings }) {
       ) : (
         <div>
           {bookings.map((booking) => (
-            <div
-              className="stay-container"
-              onClick={() => {
-                history.push(`/house/${booking.house.id}`);
-              }}
-            >
-              <img src={booking.pictureSrc}></img>
+            <div className="stay-container">
+              <img
+                src={booking.pictureSrc}
+                onClick={() => {
+                  history.push(`/house/${booking.house.id}`);
+                }}
+              ></img>
               <div className="stay-details">
                 <div className="hotelName">
                   <p className="stay-title">{booking.houseName}</p>
@@ -70,6 +70,8 @@ export default function BookingList({ bookings }) {
                     <button onClick={deleteBooking}>X</button>
                   </div>
                 ) : addReviewStatus ? (
+                  <ReviewForm toggleReview={toggleReview} />
+                ) : (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -78,8 +80,6 @@ export default function BookingList({ bookings }) {
                     {" "}
                     Leave review
                   </Button>
-                ) : (
-                  <ReviewForm toggleReview={toggleReview} />
                 )}
               </div>
             </div>
