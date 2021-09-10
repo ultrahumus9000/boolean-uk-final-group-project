@@ -70,26 +70,31 @@ export type NewHouse = {
 }
 
 type Store = {
-  houses: House[]
-  house: House
-  currentUser: User
-  bookingDisplay: Boolean
-  toggleBooking: string
-  bookings: Booking[]
 
-  setToggleBooking: (arg: string) => void
-  toggleDisplay: () => void
-  setCurrentUser: (arg: User) => void
-  fetchAllHouses: () => void
-  fetchOneHouse: (arg: number) => void
-  filterHouses: (arg: Options) => void
-  addNewListing: (e: SyntheticEvent, arg: NewHouse) => void
-  getValidateCurrToken: () => void
-  getBookingsForHost: () => void
-  getBookingsForGuest: () => void
-  deleteBooking: (arg: number) => void
-  addReview: (arg: string, arg2: number) => void
-}
+  houses: House[];
+  house: House;
+  currentUser: User;
+  bookingDisplay: Boolean;
+  toggleBooking: string;
+  bookings: Booking[];
+  displayHouseEdit: boolean;
+  toggleDisplayHouseEdit: () => void;
+
+  setToggleBooking: (arg: string) => void;
+  toggleDisplay: () => void;
+  setCurrentUser: (arg: User) => void;
+  fetchAllHouses: () => void;
+  fetchOneHouse: (arg: number) => void;
+  filterHouses: (arg: Options) => void;
+  addNewListing: (e: SyntheticEvent, arg: NewHouse) => void;
+  getValidateCurrToken: () => void;
+  getBookingsForHost: () => void;
+  getBookingsForGuest: () => void;
+  deleteBooking: (arg: number) => void;
+  addReview: (arg: string, arg2: number) => void;
+};
+
+
 
 const useStore = create<Store>((set, get) => ({
   houses: [],
@@ -115,6 +120,10 @@ const useStore = create<Store>((set, get) => ({
     role: "",
   },
   bookings: [],
+  displayHouseEdit: false,
+  toggleDisplayHouseEdit: () => {
+    set({ displayHouseEdit: !get().displayHouseEdit });
+  },
   bookingDisplay: false,
   toggleBooking: "future",
   setToggleBooking: arg => {
