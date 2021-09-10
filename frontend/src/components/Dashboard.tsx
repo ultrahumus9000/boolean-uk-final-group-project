@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-import FutureBookings from "./FutureBookings";
-import PastBookings from "./PastBookings";
-import { Link } from "react-router-dom";
-import useStore from "../store";
-import { useHistory } from "react-router";
+import React, { useState, useEffect } from "react"
+import FutureBookings from "./FutureBookings"
+import PastBookings from "./PastBookings"
+import { Link } from "react-router-dom"
+import useStore from "../store"
+import { useHistory } from "react-router"
 
 // This component can be used for both host and guest. If not, add another tho!
 
 export default function Dashboard() {
-  const bookings = useStore((store) => store.bookings);
-  const getBookingsForHost = useStore((store) => store.getBookingsForHost);
-  const getBookingsForGuest = useStore((store) => store.getBookingsForGuest);
-  const toggleBooking = useStore((store) => store.toggleBooking);
-  const setToggleBooking = useStore((store) => store.setToggleBooking);
-  const currentUser = useStore((state) => state.currentUser);
-  const setCurrentUser = useStore((store) => store.setCurrentUser);
-  const history = useHistory();
+  const bookings = useStore(store => store.bookings)
+  const getBookingsForHost = useStore(store => store.getBookingsForHost)
+  const getBookingsForGuest = useStore(store => store.getBookingsForGuest)
+  const toggleBooking = useStore(store => store.toggleBooking)
+  const setToggleBooking = useStore(store => store.setToggleBooking)
+  const currentUser = useStore(state => state.currentUser)
+  const setCurrentUser = useStore(store => store.setCurrentUser)
+  const history = useHistory()
 
-  console.log(currentUser);
+  console.log(currentUser)
 
   function addListingPage() {
-    history.push("/host/dashboard/addlisting");
+    history.push("/host/dashboard/addlisting")
   }
 
   function deleteAccount() {
@@ -28,14 +28,14 @@ export default function Dashboard() {
       fetch(`http://localhost:4000/guests`, {
         method: "DELETE",
         credentials: "include",
-      });
+      })
     } else {
       fetch(`http://localhost:4000/hosts`, {
         method: "DELETE",
         credentials: "include",
-      });
+      })
     }
-    alert("you are successfully deleted");
+    alert("you are successfully deleted")
     setTimeout(() => {
       fetch("http://localhost:4000/logout", {
         credentials: "include",
@@ -47,25 +47,25 @@ export default function Dashboard() {
           email: "",
           avatar: "",
           role: "",
-        });
-        history.push("/");
-      });
-    }, 2000);
+        })
+        history.push("/")
+      })
+    }, 2000)
   }
 
   useEffect(() => {
     if (currentUser.role === "guest") {
-      getBookingsForGuest();
+      getBookingsForGuest()
     } else if (currentUser.role === "host") {
-      getBookingsForHost();
+      getBookingsForHost()
     }
-  }, [bookings.length]);
+  }, [bookings.length])
 
-  const today = new Date().toISOString();
+  const today = new Date().toISOString()
 
-  const futureBookings = bookings.filter((booking) => booking.start >= today);
+  const futureBookings = bookings.filter(booking => booking.start >= today)
 
-  const pastBookings = bookings.filter((booking) => booking.end < today);
+  const pastBookings = bookings.filter(booking => booking.end < today)
 
   return (
     <>
@@ -73,15 +73,16 @@ export default function Dashboard() {
         <img className="profile-avatar" src={currentUser.avatar} alt="avatar" />
         <h1>Hello {currentUser.username}!</h1>
         <button
+          className="clearBtn"
           onClick={() => {
-            deleteAccount();
+            deleteAccount()
           }}
         >
           {" "}
           Delete Account
         </button>
         {currentUser.role === "host" && (
-          <button onClick={addListingPage} className="go-profile">
+          <button onClick={addListingPage} className="book-btn">
             Add a listing
           </button>
         )}
@@ -110,5 +111,5 @@ export default function Dashboard() {
         {toggleBooking === "past" && <PastBookings bookings={pastBookings} />}
       </div>
     </>
-  );
+  )
 }

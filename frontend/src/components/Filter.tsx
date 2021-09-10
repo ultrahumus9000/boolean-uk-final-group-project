@@ -1,56 +1,62 @@
 // import React, { useState } from "react"
-import * as React from "react";
-import { useState, SyntheticEvent } from "react";
-import useStore from "../store";
+import * as React from "react"
+import { useState, SyntheticEvent } from "react"
+import useStore from "../store"
 
 export default function Filter() {
-  const filterHouses = useStore((store) => store.filterHouses);
-  const fetchAllHouses = useStore((store) => store.fetchAllHouses);
-  const today = new Date().toISOString();
-  const shortDate = today.substring(0, 10);
+  const filterHouses = useStore(store => store.filterHouses)
+  const fetchAllHouses = useStore(store => store.fetchAllHouses)
+  const today = new Date().toISOString()
+  const shortDate = today.substring(0, 10)
 
   const initialOptions = {
     city: "",
     checkIn: shortDate,
     checkOut: "",
     maxGuests: 1,
-  };
+  }
 
-  const [filterOptions, setFilterOptions] = useState(initialOptions);
+  const [filterOptions, setFilterOptions] = useState(initialOptions)
 
   function handleSubmit(e) {
-    e.preventDefault();
-    filterHouses(filterOptions);
-    console.log("submit clicked", filterOptions);
-    console.log("i submit");
+    e.preventDefault()
+    filterHouses(filterOptions)
+    console.log("submit clicked", filterOptions)
+    console.log("i submit")
   }
 
   function handleChange(e) {
-    console.log(e.target.value);
+    console.log(e.target.value)
     setFilterOptions({
       ...filterOptions,
       [e.target.name]: e.target.value,
-    });
+    })
   }
 
   function clearForm() {
-    setFilterOptions(initialOptions);
-    fetchAllHouses();
+    setFilterOptions(initialOptions)
+    fetchAllHouses()
   }
 
   return (
     <>
+      <h1>Choose a stay...</h1>
       <form className="filter" onSubmit={handleSubmit}>
-        <input
-          type="search"
-          name="city"
-          placeholder="Where to?"
-          onChange={handleChange}
-          value={filterOptions.city}
-        />
+        <label>
+          Where to?
+          <input
+            className="searchfield"
+            type="search"
+            name="city"
+            placeholder="Anywhere"
+            onChange={handleChange}
+            value={filterOptions.city}
+          />
+        </label>
         <label>
           Guests
           <input
+            className="numfield"
             type="number"
             name="maxGuests"
             value={filterOptions.maxGuests}
@@ -58,9 +64,11 @@ export default function Filter() {
             onChange={handleChange}
           />
         </label>
+
         <label>
           Check In
           <input
+            className="datefield"
             id="checkInCal"
             type="date"
             name="checkIn"
@@ -69,9 +77,11 @@ export default function Filter() {
             onChange={handleChange}
           />
         </label>
+
         <label>
           Check Out
           <input
+            className="datefield"
             type="date"
             name="checkOut"
             value={filterOptions.checkOut}
@@ -79,13 +89,14 @@ export default function Filter() {
             onChange={handleChange}
           />
         </label>
-        <input type="submit" value="Search" />
-        <button type="button" onClick={clearForm}>
+
+        <input className="submitBtn" type="submit" value="Search" />
+        <button className="clearBtn " type="button" onClick={clearForm}>
           Reset
         </button>
       </form>
     </>
-  );
+  )
 }
 
 // function makeDate(newDate: Date) {

@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { Button } from "@material-ui/core";
-import useStore from "../store";
-import ReviewForm from "./ReviewForm";
-import { useHistory } from "react-router";
+import React, { useState } from "react"
+import { Button } from "@material-ui/core"
+import useStore from "../store"
+import ReviewForm from "./ReviewForm"
+import { useHistory } from "react-router"
 
 export default function BookingList({ bookings }) {
-  const currentUser = useStore((store) => store.currentUser);
-  const history = useHistory();
-  const toggleBooking = useStore((store) => store.toggleBooking);
-  const deleteBooking = useStore((store) => store.deleteBooking);
+  const currentUser = useStore(store => store.currentUser)
+  const history = useHistory()
+  const toggleBooking = useStore(store => store.toggleBooking)
+  const deleteBooking = useStore(store => store.deleteBooking)
 
-  const [addReviewStatus, setAddReviewStatus] = useState(false);
+  const [addReviewStatus, setAddReviewStatus] = useState(false)
 
   function toggleReview() {
-    setAddReviewStatus(!addReviewStatus);
+    setAddReviewStatus(!addReviewStatus)
   }
 
-  console.log("booking", bookings);
+  // console.log("booking", bookings)
 
   return (
     <>
       {currentUser.role === "host" ? (
         <div>
-          {bookings.map((booking) => (
+          {bookings.map(booking => (
             <div className="stay-container">
               <img src={booking.pictureSrc}></img>
               <div className="stay-details">
@@ -38,7 +38,7 @@ export default function BookingList({ bookings }) {
                     <Button> Contact Guest</Button>
                     <button
                       onClick={() => {
-                        deleteBooking(booking.bookingId);
+                        deleteBooking(booking.bookingId)
                       }}
                     >
                       X
@@ -53,12 +53,12 @@ export default function BookingList({ bookings }) {
         </div>
       ) : (
         <div>
-          {bookings.map((booking) => (
+          {bookings.map(booking => (
             <div className="stay-container">
               <img
                 src={booking.pictureSrc}
                 onClick={() => {
-                  history.push(`/house/${booking.houseId}`);
+                  history.push(`/house/${booking.houseId}`)
                 }}
               ></img>
               <div className="stay-details">
@@ -70,17 +70,25 @@ export default function BookingList({ bookings }) {
                 </div>
                 {toggleBooking === "future" ? (
                   <div className="contact-host">
-                    <Button> Contact Host</Button>
+                    <Button
+                      onClick={() => prompt("Send an email to the host:")}
+                    >
+                      {" "}
+                      Contact Host
+                    </Button>
                     <button
                       onClick={() => {
-                        deleteBooking(booking.bookingId);
+                        deleteBooking(booking.bookingId)
                       }}
                     >
                       X
                     </button>
                   </div>
                 ) : addReviewStatus ? (
-                  <ReviewForm toggleReview={toggleReview} />
+                  <ReviewForm
+                    houseId={booking.houseId}
+                    toggleReview={toggleReview}
+                  />
                 ) : (
                   <Button
                     variant="contained"
@@ -97,5 +105,5 @@ export default function BookingList({ bookings }) {
         </div>
       )}
     </>
-  );
+  )
 }

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useStore, { House } from "../store";
-import { useHistory } from "react-router";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper";
-import "swiper/css";
-import "swiper/css/bundle";
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import useStore, { House } from "../store"
+import { useHistory } from "react-router"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, Scrollbar } from "swiper"
+import "swiper/css"
+import "swiper/css/bundle"
+
 
 import Balcony from "../assets/Balcony.svg";
 import Bathtub from "../assets/Bathtub.svg";
@@ -24,9 +25,12 @@ import HouseBasicInfo from "../components/HouseBasicInfo";
 import BookingForm from "../components/BookingForm";
 import EditHouseForm from "../components/EditHouseForm";
 
+
+
+
 type HouseIdType = {
-  houseId: string;
-};
+  houseId: string
+}
 
 const imageObj = {
   Balcony: Balcony,
@@ -41,9 +45,10 @@ const imageObj = {
   TV: TV,
   Spa: Spa,
   Wifi: Wifi,
-};
+}
 
 export default function HouseListingPage() {
+
   const history = useHistory();
   const houseId: HouseIdType = useParams();
   const realHouseId = Number(houseId.houseId);
@@ -54,32 +59,70 @@ export default function HouseListingPage() {
   const toggleBookingDisplay = useStore((store) => store.toggleDisplay);
   const displayEditHouse = useStore((store) => store.displayHouseEdit);
 
+
   useEffect(() => {
-    fetchOneHouse(realHouseId);
-  }, [realHouseId]);
+    fetchOneHouse(realHouseId)
+  }, [realHouseId])
 
   if (Object.keys(house).length === 0) {
-    return <h1>we are loading for you</h1>;
+    return <h1>we are loading for you</h1>
   }
 
   function bookAction() {
     if (currentUser.role === "guest") {
-      toggleBookingDisplay();
+      toggleBookingDisplay()
     } else if (currentUser.role === "host") {
-      alert("you have to login as a guest then you can book this house");
+      alert("you have to login as a guest then you can book this house")
     } else {
+
       history.push("/login");
+
     }
   }
 
   return (
+
     <div>
       {displayEditHouse ? (
         <EditHouseForm />
+
+    <div className="house-listing-page">
+      <HouseBasicInfo house={house} />
+
+      <section className="pictures-section">
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar]}
+          spaceBetween={0}
+          slidesPerView={1}
+          navigation
+          pagination
+        >
+          {house.pictures.map(picture => {
+            return (
+              <SwiperSlide key={picture.alt}>
+                <img src={picture.src} alt={picture.alt} />
+              </SwiperSlide>
+            )
+          })}
+        </Swiper>
+      </section>
+      <p className="facility-p"> Provided Facilities</p>
+      <section className="facility-section">
+        {house.facility.map(facility => {
+          return (
+            <p className="facility" key={facility}>
+              <img className="facility-icon" src={imageObj[facility]} />
+              <span>{facility}</span>
+            </p>
+          )
+        })}
+      </section>
+      {bookingDisplay ? (
+        <BookingForm house={house} />
+
       ) : (
         <div className="house-card">
           <HouseBasicInfo house={house} />
-
           <section className="pictures-section">
             <Swiper
               modules={[Navigation, Pagination, Scrollbar]}
@@ -126,6 +169,8 @@ export default function HouseListingPage() {
           </section>
         </div>
       )}
+
+
     </div>
-  );
+  )
 }
