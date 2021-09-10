@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchHouseForHost = exports.switchToGuest = exports.getHostProfile = void 0;
+exports.deleteOneHost = exports.fetchHouseForHost = exports.switchToGuest = exports.getHostProfile = void 0;
 const database_1 = __importDefault(require("../database"));
 const { user, house } = database_1.default;
 function getHostProfile(req, res) {
@@ -93,3 +93,20 @@ function fetchHouseForHost(req, res) {
     });
 }
 exports.fetchHouseForHost = fetchHouseForHost;
+function deleteOneHost(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        try {
+            yield user.delete({
+                where: {
+                    id,
+                },
+            });
+            res.json("deleted");
+        }
+        catch (error) {
+            res.status(401).json(error);
+        }
+    });
+}
+exports.deleteOneHost = deleteOneHost;

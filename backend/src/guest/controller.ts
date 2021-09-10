@@ -50,4 +50,18 @@ async function switchToHost(req: Request, res: Response) {
   }
 }
 
-export { getGuestProfile, switchToHost };
+async function deleteOneGuest(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+  try {
+    await user.delete({
+      where: {
+        id,
+      },
+    });
+    res.json("deleted");
+  } catch (error) {
+    res.status(401).json(error);
+  }
+}
+
+export { getGuestProfile, switchToHost, deleteOneGuest };
