@@ -23,6 +23,9 @@ export default function BookingForm({ house }) {
   const [bookConfirm, setBookConfirm] = useState(false);
   const history = useHistory();
 
+  const today = new Date().toISOString();
+  const shortDate = today.substring(0, 10);
+
   function calculateTotal() {
     var date1 = new Date(bookingForm.start);
     console.log("bookingForm end in line 29", bookingForm.end);
@@ -142,6 +145,7 @@ export default function BookingForm({ house }) {
           <input
             type="date"
             name="start"
+            min={shortDate}
             value={bookingForm.start}
             onChange={handleStart}
             required
