@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useEffect } from "react"
 import useStore from "../store"
 import Filter from "../components/Filter"
 import HouseCard from "../components/HouseCard"
+import Loading from "../components/Loading"
 
 export default function HomePage() {
   const housesArray = useStore(store => store.houses)
@@ -12,7 +13,7 @@ export default function HomePage() {
   }, [])
 
   if (housesArray.length === 0) {
-    return <h1> we are loading for you </h1>
+    return <Loading />
   }
   console.log("housesArray in home", housesArray)
   return (

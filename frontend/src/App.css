@@ -98,6 +98,33 @@ p {
   padding: 20px;
 }
 
+.wrapper {
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  grid-auto-rows: 200px;
+  grid-template-areas:
+    ". a ."
+    ". a .";
+}
+.loader {
+  grid-area: a;
+  align-self: center;
+  justify-self: center;
+}
+
+.spinner {
+  width: 100%;
+  transition: 0.2s;
+  animation: mymove 1s infinite;
+}
+@keyframes mymove {
+  50% {
+    transform: rotate(180deg);
+  }
+}
+
 /* NAV */
 
 .nav {
