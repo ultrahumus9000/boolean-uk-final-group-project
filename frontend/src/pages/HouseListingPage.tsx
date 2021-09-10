@@ -169,8 +169,5 @@ export default function HouseListingPage() {
           </section>
         </div>
       )}
-
-
-    </div>
   )
 }

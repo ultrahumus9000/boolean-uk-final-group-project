@@ -98,6 +98,34 @@ p {
   padding: 20px;
 }
 
+.wrapper {
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  grid-auto-rows: 200px;
+  grid-template-areas:
+    ". a ."
+    ". a .";
+}
+.loader {
+  grid-area: a;
+  align-self: center;
+  justify-self: center;
+}
+
+.doorHanger {
+  opacity: 10%;
+  width: 100%;
+  margin-bottom: 20px;
+  animation: swing 0.3s infinite;
+}
+@keyframes swing {
+  50% {
+    transform: rotate(30deg);
+  }
+}
+
 /* NAV */
 
 .nav {
@@ -499,10 +527,13 @@ p {
 
 .review-section .single-review {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 130px;
+  gap: 20px;
   align-items: center;
-  border: 2px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  padding: 10px 0;
 }
+
 .guest-div {
   display: grid;
   grid-template-columns: 40px 1fr;
