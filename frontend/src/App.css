@@ -616,6 +616,22 @@ input[type="file"] {
   display: inline;
 }
 
+.editform-ul-img {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  gap: 10px;
+
+  place-items: center;
+  margin-left: -20px;
+}
+.editform-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
 /* RESPONSIVE MEDIA QUERIES */
 
 @media screen and (max-width: 416px) {
