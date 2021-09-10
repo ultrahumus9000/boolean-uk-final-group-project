@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.switchToHost = exports.getGuestProfile = void 0;
+exports.deleteOneGuest = exports.switchToHost = exports.getGuestProfile = void 0;
 const database_1 = __importDefault(require("../database"));
 const { user } = database_1.default;
 function getGuestProfile(req, res) {
@@ -64,3 +64,20 @@ function switchToHost(req, res) {
     });
 }
 exports.switchToHost = switchToHost;
+function deleteOneGuest(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { id } = req.currentUser;
+        try {
+            yield user.delete({
+                where: {
+                    id,
+                },
+            });
+            res.json("deleted");
+        }
+        catch (error) {
+            res.status(401).json(error);
+        }
+    });
+}
+exports.deleteOneGuest = deleteOneGuest;

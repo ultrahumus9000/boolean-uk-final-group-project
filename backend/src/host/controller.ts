@@ -81,5 +81,18 @@ async function fetchHouseForHost(req: Request, res: Response) {
     res.json(error);
   }
 }
+async function deleteOneHost(req: Request, res: Response) {
+  const { id } = req.currentUser as User;
+  try {
+    await user.delete({
+      where: {
+        id,
+      },
+    });
+    res.json("deleted");
+  } catch (error) {
+    res.status(401).json(error);
+  }
+}
 
-export { getHostProfile, switchToGuest, fetchHouseForHost };
+export { getHostProfile, switchToGuest, fetchHouseForHost, deleteOneHost };

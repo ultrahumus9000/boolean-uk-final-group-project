@@ -6,4 +6,5 @@ const hostRouter = (0, express_1.Router)();
 hostRouter.post("/host", controller_1.getHostProfile);
 hostRouter.get("/houses", controller_1.fetchHouseForHost);
 hostRouter.get("/switch", controller_1.switchToGuest);
+hostRouter.delete("/", controller_1.deleteOneHost);
 exports.default = hostRouter;
