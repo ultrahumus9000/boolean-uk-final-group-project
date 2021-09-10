@@ -1,52 +1,50 @@
-import { Button } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import address from "../assets/address.svg";
-import useStore from "../store";
+import { Button } from "@material-ui/core"
+import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router"
+import address from "../assets/address.svg"
+import useStore from "../store"
 
 export default function Listings() {
-  const [housesForHost, setHousesForHost] = useState([]);
-  const houses = useStore((store) => store.houses);
-  const history = useHistory();
+  const [housesForHost, setHousesForHost] = useState([])
+  const houses = useStore(store => store.houses)
+  const history = useHistory()
 
   useEffect(() => {
     fetch("http://localhost:4000/hosts/houses", {
       credentials: "include",
     })
-      .then((res) => res.json())
-      .then((houses) => {
-        setHousesForHost(houses);
-      });
-  }, [housesForHost.length]);
+      .then(res => res.json())
+      .then(houses => {
+        setHousesForHost(houses)
+      })
+  }, [housesForHost.length])
 
-  const deleteHouse = (id) => {
+  const deleteHouse = id => {
     fetch(`http://localhost:4000/houses/${id}`, {
       method: "DELETE",
       credentials: "include",
     })
       .then(() => {
-        const allHousesForhost = housesForHost.filter(
-          (house) => house.id !== id
-        );
-        setHousesForHost(allHousesForhost);
+        const allHousesForhost = housesForHost.filter(house => house.id !== id)
+        setHousesForHost(allHousesForhost)
       })
-      .catch((error) => {
-        throw error;
-      });
-  };
-  console.log(housesForHost);
+      .catch(error => {
+        throw error
+      })
+  }
+  console.log(housesForHost)
   return (
     <>
       {housesForHost.length && (
         <div>
-          {housesForHost.map((house) => {
+          {housesForHost.map(house => {
             return (
               <div className="listing-container">
                 <img
                   className="house-img"
                   src={house.pictures}
                   onClick={() => {
-                    history.push(`/house/${house.id}`);
+                    history.push(`/house/${house.id}`)
                   }}
                 ></img>
                 <div className="listing-details">
@@ -71,7 +69,7 @@ export default function Listings() {
                       color="secondary"
                       href="#contained-buttons"
                       onClick={() => {
-                        deleteHouse(house.id);
+                        deleteHouse(house.id)
                       }}
                     >
                       {" "}
@@ -80,10 +78,10 @@ export default function Listings() {
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
       )}
     </>
-  );
+  )
 }

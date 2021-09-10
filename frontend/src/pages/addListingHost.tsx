@@ -1,12 +1,12 @@
-import React, { useState, useEffect, SyntheticEvent } from "react";
-import Facility from "../components/Facility";
-import { useHistory } from "react-router";
-import useStore from "../store";
+import React, { useState, useEffect, SyntheticEvent } from "react"
+import Facility from "../components/Facility"
+import { useHistory } from "react-router"
+import useStore from "../store"
 
 export default function AddListingHost() {
-  const currentUser = useStore((state) => state.currentUser);
-  const addNewListing = useStore((state) => state.addNewListing);
-  console.log("current", currentUser);
+  const currentUser = useStore(state => state.currentUser)
+  const addNewListing = useStore(state => state.addNewListing)
+  console.log("current", currentUser)
   const initialHouseData = {
     name: "",
     city: "",
@@ -15,7 +15,7 @@ export default function AddListingHost() {
     maxGuests: 1,
     facility: [],
     price: 0,
-  };
+  }
 
   const facilitiesList = {
     bedroom: "Bedroom",
@@ -32,50 +32,50 @@ export default function AddListingHost() {
     swimmingPool: "SwimmingPool",
     tv: "TV",
     wifi: "WiFi",
-  };
+  }
 
-  const [picturesArray, setPicturesArray] = useState([]);
-  const [newListing, setNewListing] = useState(initialHouseData);
-  const history = useHistory();
+  const [picturesArray, setPicturesArray] = useState([])
+  const [newListing, setNewListing] = useState(initialHouseData)
+  const history = useHistory()
 
   function handleChange(e) {
-    console.log("handlechange", e.target.value);
+    console.log("handlechange", e.target.value)
     setNewListing({
       ...newListing,
       [e.target.name]: e.target.value.toString(),
-    });
+    })
   }
 
   function handleChangeFacility(e) {
     const updatedArray = e.target.checked
       ? [...newListing[e.target.name], e.target.value]
       : newListing[e.target.name].filter(
-          (facility) => facility !== e.target.value
-        );
-    setNewListing({ ...newListing, [e.target.name]: updatedArray });
+          facility => facility !== e.target.value
+        )
+    setNewListing({ ...newListing, [e.target.name]: updatedArray })
     // console.log("facility change updatedArray", updatedArray)
     // console.log("facility change e.target.name", e.target.name)
     // console.log("facility change  e.target.value", e.target.value)
   }
 
   function handleChangePictures(e) {
-    console.log("e.target.files", e.target.files);
+    console.log("e.target.files", e.target.files)
 
-    const uploadedFiles = e.target.files;
-    setNewListing({ ...newListing, pictures: [...uploadedFiles] });
-    setPicturesArray([...uploadedFiles]);
+    const uploadedFiles = e.target.files
+    setNewListing({ ...newListing, pictures: [...uploadedFiles] })
+    setPicturesArray([...uploadedFiles])
 
-    console.log("setPicturesArray", [...uploadedFiles]);
+    console.log("setPicturesArray", [...uploadedFiles])
   }
 
   function handleSubmit(e: SyntheticEvent) {
-    e.preventDefault();
-    addNewListing(e, newListing);
+    e.preventDefault()
+    addNewListing(e, newListing)
   }
 
   function cancel(e) {
-    setNewListing(initialHouseData);
-    history.push("/host/dashboard");
+    setNewListing(initialHouseData)
+    history.push("/host/dashboard")
   }
 
   return (
@@ -111,7 +111,7 @@ export default function AddListingHost() {
             multiple
           />
           <ul className="uploadedFileNames">
-            {picturesArray.map((picture) => (
+            {picturesArray.map(picture => (
               <li key={picture.name}>
                 <p>{picture.name}</p>
                 {/* <button onClick={delPhoto}>✖</button> */}
@@ -160,14 +160,14 @@ export default function AddListingHost() {
           />
         </label>
         {/* <span className="validity"></span> adds tick to validate?? */}
-        <input className="submitBtn" type="submit" value="Add listing" />
+        <input className="book-btn" type="submit" value="Add listing" />
         <a className="cancelLink" onClick={cancel}>
           Cancel Listing
         </a>
         {/* <Link to="/host/dashboard"></Link> */}
       </form>
     </div>
-  );
+  )
 }
 
 // input:invalid+span:after {

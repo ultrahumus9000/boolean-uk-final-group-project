@@ -1,15 +1,15 @@
-import React, { SyntheticEvent } from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import useStore from "../store";
+import React, { SyntheticEvent } from "react"
+import TextField from "@material-ui/core/TextField"
+// import Button from "@material-ui/core/Button"
+import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom"
+import useStore from "../store"
 
 export default function LoginPage() {
-  const history = useHistory();
+  const history = useHistory()
 
-  const setCurrentUser = useStore((store) => store.setCurrentUser);
-  const currentUser = useStore((store) => store.currentUser);
+  const setCurrentUser = useStore(store => store.setCurrentUser)
+  const currentUser = useStore(store => store.currentUser)
 
   function loginUser(userCreds) {
     fetch("http://localhost:4000/login", {
@@ -20,26 +20,26 @@ export default function LoginPage() {
       body: JSON.stringify(userCreds),
       credentials: "include",
     })
-      .then((res) => {
-        return res.json();
+      .then(res => {
+        return res.json()
       })
-      .then((userFromServer) => {
-        setCurrentUser({ ...userFromServer });
-        history.push("/");
-      });
+      .then(userFromServer => {
+        setCurrentUser({ ...userFromServer })
+        history.push("/")
+      })
   }
 
   function handleSubmit(event: SyntheticEvent) {
-    event.preventDefault();
-    const { username, password } = event.target as HTMLFormElement;
+    event.preventDefault()
+    const { username, password } = event.target as HTMLFormElement
 
     const loginData = {
       username: username.value,
       password: password.value,
-    };
+    }
 
-    console.log("loginData", loginData);
-    loginUser(loginData);
+    console.log("loginData", loginData)
+    loginUser(loginData)
   }
 
   return (
@@ -79,16 +79,17 @@ export default function LoginPage() {
               </div>
             </div>
           </div> */}
-          <Button type="submit" color="secondary" variant="contained">
+
+          <button type="submit" className="book-btn">
             {" "}
             Log in
-          </Button>
+          </button>
 
-          <p>
-            Not registered? Sign up <Link to="/signup">here</Link>
-          </p>
+          <Link to="/signup">
+            <p>Not registered? Sign up here</p>
+          </Link>
         </form>
       </div>
     </main>
-  );
+  )
 }

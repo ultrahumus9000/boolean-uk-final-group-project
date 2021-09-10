@@ -1,16 +1,16 @@
-import { Button } from "@material-ui/core";
-import React from "react";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core"
+import React from "react"
+import { useHistory } from "react-router"
+import { Link } from "react-router-dom"
 
-import useStore from "../store";
+import useStore from "../store"
 
 export default function Nav() {
-  const currentUser = useStore((state) => state.currentUser);
-  const setCurrentUser = useStore((store) => store.setCurrentUser);
-  const history = useHistory();
+  const currentUser = useStore(state => state.currentUser)
+  const setCurrentUser = useStore(store => store.setCurrentUser)
+  const history = useHistory()
 
-  console.log(currentUser);
+  console.log(currentUser)
 
   function logout() {
     fetch("http://localhost:4000/logout", {
@@ -23,9 +23,9 @@ export default function Nav() {
         email: "",
         avatar: "",
         role: "",
-      });
-      history.push("/");
-    });
+      })
+      history.push("/")
+    })
   }
 
   return (
@@ -37,19 +37,16 @@ export default function Nav() {
       <div>
         {!currentUser.username && (
           <Link to="/login">
-            <Button variant="contained" color="secondary">
-              {" "}
-              Login
-            </Button>
+            <button className="logBtn"> Log in</button>
           </Link>
         )}
         {currentUser.username && (
-          <Button variant="contained" color="secondary" onClick={logout}>
+          <button className="logBtn" onClick={logout}>
             {" "}
             Log Out
-          </Button>
+          </button>
         )}
       </div>
     </div>
-  );
+  )
 }
