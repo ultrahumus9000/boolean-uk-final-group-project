@@ -69,7 +69,6 @@ export default function Filter() {
           Check In
           <input
             className="datefield"
-            id="checkInCal"
             type="date"
             name="checkIn"
             value={filterOptions.checkIn}

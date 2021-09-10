@@ -126,7 +126,7 @@ export default function HouseListingPage() {
         </button>
       )}
 
-      <p>Check our reviews</p>
+      <h2>Reviews</h2>
       <section className="review-section">
         {house.reviews.map(review => {
           return <SingleReview review={review} key={review.guestUsername} />

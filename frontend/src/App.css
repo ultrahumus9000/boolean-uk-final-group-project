@@ -114,14 +114,15 @@ p {
   justify-self: center;
 }
 
-.spinner {
+.doorHanger {
+  opacity: 10%;
   width: 100%;
-  transition: 0.2s;
-  animation: mymove 1s infinite;
+  margin-bottom: 20px;
+  animation: swing 0.3s infinite;
 }
-@keyframes mymove {
+@keyframes swing {
   50% {
-    transform: rotate(180deg);
+    transform: rotate(30deg);
   }
 }
 
@@ -526,10 +527,13 @@ p {
 
 .review-section .single-review {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr 130px;
+  gap: 20px;
   align-items: center;
-  border: 2px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  padding: 10px 0;
 }
+
 .guest-div {
   display: grid;
   grid-template-columns: 40px 1fr;
